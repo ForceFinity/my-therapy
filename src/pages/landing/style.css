@@ -10,10 +10,19 @@
 
 html, body { max-width: 100%; overflow-x: hidden; }
 
+
+a {
+    text-decoration: none;
+}
+
 span {
-    color: 000;
+    color: #000;
     font-family: "Inter", sans-serif;
-    font-size: 1.1rem;
+    font-size: 1.2rem;
+}
+
+.dotted {
+    text-decoration: underline dotted var(--accent);
 }
 
 .btn {
@@ -22,8 +31,8 @@ span {
     align-items: center;
     text-align: center;
 
-    height: 2.2rem;
-    width: 7rem;
+    height: 2.4rem;
+    width: 7.5rem;
 
     transition: opacity .8s ease-out;
 }
@@ -54,6 +63,7 @@ span {
 }
 
 .wrapper {
+    height: 92.5vh;
     margin-left: 9vw;
     margin-right: 9vw;
 }
@@ -79,20 +89,27 @@ header {
 }
 
 .content {
-    margin-top: 0vh;
+    margin-top: 0;
 }
 
 .title {
     font-family: "Inria Serif", serif;
-    font-size: 4rem;
+    font-size: 4.4rem;
     width: 60%;
-    margin-top: 13vh;
+    margin-top: 12vh;
+    line-height: 4.8rem;
+}
+
+.title > span {
+    font-family: inherit;
+    font-size: inherit;
 }
 
 .subtitle {
     margin-top: 3vh;
-    margin-bottom: 7vh;
+    margin-bottom: 9vh;
     width: 70%;
+    font-size: 1.45rem;
 }
 
 #video-call-img {
@@ -101,13 +118,17 @@ header {
 
 #learn-more-btn {
     width: 40%;
-    height: 8%;
+    height: 10%;
     font-weight: 600;
 }
 
-@media screen and (min-width: 1025px) and (max-width: 1200px) {
+#learn-more-btn > span {
+    color: white;
+}
+
+@media screen and (min-width: 1024px) and (max-width: 1200px) {
     span {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
 
     .logo > svg {
@@ -124,12 +145,13 @@ header {
         margin-right: 8vw;
     }
 
-    #video-call-img {
-        width: 35vw;
+    .signs {
+        width: 25%;
     }
 
-    .content {
-        margin-top: 0;
+    #video-call-img {
+        margin-top: 5vh;
+        width: 35vw;
     }
 
     .title {
@@ -138,8 +160,12 @@ header {
         width: 80%;
     }
 
+    .subtitle {
+        width: 80%;
+    }
+
     #learn-more-btn {
-        width: 30%;
+        width: 48%;
     }
 }
 
@@ -158,13 +184,14 @@ header {
     }
 
     .wrapper {
+        height: 96.5vh;
         margin-left: 8vw;
         margin-right: 8vw;
     }
 
     header {
         align-items: center;
-        margin-top: 3.5vh;
+        margin-top: 2vh;
     }
 
     .signs {
@@ -173,7 +200,7 @@ header {
         height: 15vw;
     }
 
-    .signs > div {
+    .signs > a {
         display: none;
     }
 
@@ -192,7 +219,7 @@ header {
         margin-top: 0;
         text-align: center;
         font-size: 3.5rem;
-        font-weight: 700;
+        font-weight: 600;
         width: 100%;
     }
 
@@ -204,10 +231,9 @@ header {
     }
 
     #learn-more-btn {
-        margin: auto;
         width: 60vw;
         height: 5vh;
-        margin-bottom: 8vh;
+        margin: auto auto 8vh;
     }
 
     #video-call-img {
@@ -217,6 +243,6 @@ header {
     #video-call-img__mobile {
         display: block !important;
         margin: auto;
-        width: 70vw;
+        width: 80vw;
     }
 }
