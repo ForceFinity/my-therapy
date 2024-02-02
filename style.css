@@ -20,6 +20,7 @@ span {
     display: flex;
     justify-content: center;
     align-items: center;
+    text-align: center;
 
     height: 2.2rem;
     width: 7rem;
@@ -34,7 +35,7 @@ span {
 
 .border {
     border: var(--accent) solid;
-    border-radius: 1.2rem;
+    border-radius: .8rem;
     border-width: .1rem;
 }
 
@@ -53,8 +54,8 @@ span {
 }
 
 .wrapper {
-    margin-left: 8vw;
-    margin-right: 8vw;
+    margin-left: 9vw;
+    margin-right: 9vw;
 }
 
 .logo > svg {
@@ -74,36 +75,37 @@ header {
     flex-direction: row;
     justify-content: space-between;
 
-    width: 25%;
+    width: 20%;
 }
 
 .content {
-    margin-top: 3.5vh;
+    margin-top: 0vh;
 }
 
 .title {
     font-family: "Inria Serif", serif;
     font-size: 4rem;
-
-    margin-top: 7.5vh;
+    width: 60%;
+    margin-top: 13vh;
 }
 
 .subtitle {
     margin-top: 3vh;
     margin-bottom: 7vh;
-    width: 80%;
+    width: 70%;
 }
 
 #video-call-img {
-    width: 40vw;
+    width: 36vw;
 }
 
 #learn-more-btn {
-    width: 35%;
+    width: 40%;
+    height: 8%;
     font-weight: 600;
 }
 
-@media screen and (min-width: 1025px) {
+@media screen and (min-width: 1025px) and (max-width: 1200px) {
     span {
         font-size: 1.3rem;
     }
@@ -117,6 +119,11 @@ header {
         width: 10vw;
     }
     
+    .wrapper {
+        margin-left: 8vw;
+        margin-right: 8vw;
+    }
+
     #video-call-img {
         width: 35vw;
     }
@@ -138,7 +145,7 @@ header {
 
 @media screen and (max-width: 480px) {
     span {
-        font-size: 1.6rem;
+        font-size: 1.3rem;
     }
 
     .btn {
@@ -147,12 +154,17 @@ header {
     }
 
     .btn > span {
-        font-size: 1.4rem;
+        font-size: 1.2rem;
+    }
+
+    .wrapper {
+        margin-left: 8vw;
+        margin-right: 8vw;
     }
 
     header {
         align-items: center;
-        margin-top: 5vh;
+        margin-top: 3.5vh;
     }
 
     .signs {
@@ -166,13 +178,14 @@ header {
     }
 
     .signs > img {
+        margin-top: .5vh;
         display: block;
-        width: inherit;
+        width: 12vw;
     }
 
     .content {
-        flex-direction: column;
-        margin-top: 5vh;
+        flex-direction: column-reverse;
+        margin-top: 3vh;
     }
 
     .title {
@@ -180,6 +193,7 @@ header {
         text-align: center;
         font-size: 3.5rem;
         font-weight: 700;
+        width: 100%;
     }
 
     .subtitle {
@@ -191,11 +205,17 @@ header {
 
     #learn-more-btn {
         margin: auto;
-        width: 50vw;
+        width: 60vw;
+        height: 5vh;
         margin-bottom: 8vh;
     }
 
     #video-call-img {
+        display: none;
+    }
+
+    #video-call-img__mobile {
+        display: block !important;
         margin: auto;
         width: 70vw;
     }
