@@ -1,0 +1,202 @@
+@import url('https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&family=Inter:wght@400;600&display=swap');
+
+:root {
+    --accent: #058270;
+}
+
+* {
+    margin: 0;
+}
+
+html, body { max-width: 100%; overflow-x: hidden; }
+
+span {
+    color: 000;
+    font-family: "Inter", sans-serif;
+    font-size: 1.1rem;
+}
+
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height: 2.2rem;
+    width: 7rem;
+
+    transition: opacity .8s ease-out;
+}
+
+.btn:hover {
+    opacity: 0.65;
+    cursor: pointer;
+}
+
+.border {
+    border: var(--accent) solid;
+    border-radius: 1.2rem;
+    border-width: .1rem;
+}
+
+.fill {
+    background-color: var(--accent);
+    color: #fff;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.hidden {
+    display: none;
+}
+
+.wrapper {
+    margin-left: 8vw;
+    margin-right: 8vw;
+}
+
+.logo > svg {
+    height: 2.5rem;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+
+    height: 10vh;
+    margin-top: 7.5vh;
+}
+
+.signs {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    width: 25%;
+}
+
+.content {
+    margin-top: 3.5vh;
+}
+
+.title {
+    font-family: "Inria Serif", serif;
+    font-size: 4rem;
+
+    margin-top: 7.5vh;
+}
+
+.subtitle {
+    margin-top: 3vh;
+    margin-bottom: 7vh;
+    width: 80%;
+}
+
+#video-call-img {
+    width: 40vw;
+}
+
+#learn-more-btn {
+    width: 35%;
+    font-weight: 600;
+}
+
+@media screen and (min-width: 1025px) {
+    span {
+        font-size: 1.3rem;
+    }
+
+    .logo > svg {
+        height: 5vh;
+    }
+
+    .btn {
+        height: 5vh;
+        width: 10vw;
+    }
+    
+    #video-call-img {
+        width: 35vw;
+    }
+
+    .content {
+        margin-top: 0;
+    }
+
+    .title {
+        margin-top: 10vh;
+        font-size: 4.5rem;
+        width: 80%;
+    }
+
+    #learn-more-btn {
+        width: 30%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    span {
+        font-size: 1.6rem;
+    }
+
+    .btn {
+        width: 45vw;
+        height: 4.5vh;
+    }
+
+    .btn > span {
+        font-size: 1.4rem;
+    }
+
+    header {
+        align-items: center;
+        margin-top: 5vh;
+    }
+
+    .signs {
+        display: block;
+        width: 15vw;
+        height: 15vw;
+    }
+
+    .signs > div {
+        display: none;
+    }
+
+    .signs > img {
+        display: block;
+        width: inherit;
+    }
+
+    .content {
+        flex-direction: column;
+        margin-top: 5vh;
+    }
+
+    .title {
+        margin-top: 0;
+        text-align: center;
+        font-size: 3.5rem;
+        font-weight: 700;
+    }
+
+    .subtitle {
+        width: 100%;
+        margin-top: 4vh;
+        margin-bottom: 5vh;
+        text-align: center;
+    }
+
+    #learn-more-btn {
+        margin: auto;
+        width: 50vw;
+        margin-bottom: 8vh;
+    }
+
+    #video-call-img {
+        margin: auto;
+        width: 70vw;
+    }
+}
