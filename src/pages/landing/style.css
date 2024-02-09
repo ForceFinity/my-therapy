@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inria+Serif:wght@400;700&family=Inter:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@400;500&display=swap');
 
 :root {
     --accent: #058270;
@@ -32,7 +32,9 @@ span {
     text-align: center;
 
     height: 2.4rem;
-    width: 7.5rem;
+    width: 6rem;
+
+    padding: 0 2rem;
 
     transition: opacity .8s ease-out;
 }
@@ -76,7 +78,7 @@ header {
     display: flex;
     justify-content: space-between;
 
-    height: 10vh;
+    height: 8vh;
     margin-top: 7.5vh;
 }
 
@@ -93,8 +95,8 @@ header {
 }
 
 .title {
-    font-family: "Inria Serif", serif;
-    font-size: 4.4rem;
+    font-family: "Playfair Display", serif;
+    font-size: 4.2rem;
     width: 60%;
     margin-top: 12vh;
     line-height: 4.8rem;
@@ -118,8 +120,9 @@ header {
 
 #learn-more-btn {
     width: 40%;
-    height: 10%;
+    height: 9%;
     font-weight: 600;
+    padding: 0;
 }
 
 #learn-more-btn > span {
@@ -157,7 +160,7 @@ header {
     .title {
         margin-top: 10vh;
         font-size: 4.5rem;
-        width: 80%;
+        width: 85%;
     }
 
     .subtitle {
@@ -180,7 +183,7 @@ header {
     }
 
     .btn > span {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
     }
 
     .wrapper {
@@ -211,37 +214,41 @@ header {
     }
 
     .content {
-        flex-direction: column-reverse;
-        margin-top: 3vh;
+        flex-direction: column;
+        margin-top: 4vh;
     }
 
     .title {
         margin-top: 0;
         text-align: center;
         font-size: 3.5rem;
-        font-weight: 600;
+        font-weight: 500;
         width: 100%;
     }
 
     .subtitle {
+        display: none;
+    }
+
+    .subtitle__mobile {
+        display: block !important;
         width: 100%;
         margin-top: 4vh;
         margin-bottom: 5vh;
         text-align: center;
     }
 
+    .subtitle__mobile > span {
+        font-size: 1.6rem;
+    }
+
     #learn-more-btn {
         width: 60vw;
         height: 5vh;
-        margin: auto auto 8vh;
+        margin: auto auto 4vh;
     }
 
     #video-call-img {
-        display: none;
-    }
-
-    #video-call-img__mobile {
-        display: block !important;
         margin: auto;
         width: 80vw;
     }

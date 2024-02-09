@@ -39,35 +39,35 @@ export const Landing = () => {
 
                 <div className="signs">
                     <Link to="/sign-up" className="btn border sign-up">
-                        <span>Sign Up</span>
+                        <span>Регистрация</span>
                     </Link>
                     <Link to="/sign-in" className="btn sign-in">
-                        <span>Sign In</span>
+                        <span>Вход</span>
                     </Link>
                     <img src={ Burger } alt="Menu" className="hidden"></img>
                 </div>
             </header>
             <div className="content flex-row">
                 <div className="container">
-                    <div className="title">Care for yourself</div>
-                    <img
-                        id="video-call-img__mobile"
-                        src={ VideoCallSvg }
-                        alt="Woman having an online therapy session"
-                        style={{display: "none"}}
-                    ></img>
+                    <div className="title">Погрижи се за себе си</div>
+
                     <div className="subtitle">
                     <span>
-                        Would you like to start a journey into deeper understanding of yourself?
-                        Let us light your way - <mark>try your first session with 90% off!</mark>
+                        Искате ли да започнете пътешествие към по-дълбоко разбиране на себе си?
+                        Нека осветим вашия път - <mark>опитайте първата си сесия с психотерапевт с 90% отстъпка.</mark>
+                    </span>
+                    </div>
+                    <div className="subtitle__mobile" style={{display: "none"}}>
+                    <span>
+                        Нека Ви помогнем да намерите <mark>точния</mark> терапевт
                     </span>
                     </div>
                     <Link to="/questionnaire" className="btn fill border" id="learn-more-btn">
-                        <span>Select your therapist!</span>
+                        <span>Намери специалист!</span>
                     </Link>
                 </div>
                 <img
-                    id="video-call-img" src={ VideoCallSvg }
+                    id="video-call-img" src={VideoCallSvg}
                     alt="Woman having an online therapy session"
                 ></img>
             </div>
