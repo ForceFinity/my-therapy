@@ -4,12 +4,21 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import { Landing } from './pages';
+
+import { Landing, Login, Logout } from './pages';
+import "./index.css"
 
 const router = createBrowserRouter([
     {
         path: "/",
         element: <Landing />,
+    },
+    {
+        path: "/sign-in",
+        element: <Login />,
+    },{
+        path: "/logout",
+        element: <Logout />,
     },
 ]);
 

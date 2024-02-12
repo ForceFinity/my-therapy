@@ -1,0 +1,16 @@
+.btn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+
+    height: 2.4rem;
+    width: 6rem;
+
+    transition: opacity .8s ease-out;
+}
+
+.btn:hover {
+    opacity: 0.65;
+    cursor: pointer;
+}

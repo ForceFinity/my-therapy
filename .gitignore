@@ -1,6 +1,9 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 /.idea
+/api/.idea
+/api/.venv
 /src/pages/landingENG
+/api/db.env
 
 # dependencies
 /node_modules

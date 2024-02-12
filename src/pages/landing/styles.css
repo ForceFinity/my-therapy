@@ -1,0 +1,108 @@
+.logo > svg {
+    height: 2.5rem;
+}
+
+.content {
+    display: flex;
+    margin-top: 0;
+    flex-direction: row;
+}
+
+.subtitle {
+    margin-top: 3vh;
+    margin-bottom: 9vh;
+    width: 75%;
+    font-size: 1.45rem;
+}
+
+#video-call-img {
+    width: 36vw;
+    margin-top: 2vh;
+}
+
+#learn-more-btn {
+    width: 40%;
+    height: 9%;
+    font-weight: 600;
+    padding: 0;
+}
+
+#learn-more-btn > span {
+    color: white;
+}
+
+@media (min-width: 1024px) and (max-width: 1200px) {
+    span {
+        font-size: 1.2rem;
+    }
+
+    .logo > svg {
+        height: 5vh;
+    }
+
+    .btn {
+        height: 5vh;
+        width: 10vw;
+    }
+
+    #video-call-img {
+        margin-top: 2vh;
+        width: 38vw;
+    }
+
+    .subtitle {
+        width: 85%;
+        margin-top: 5vh;
+    }
+
+    #learn-more-btn {
+        width: 48%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    span {
+        font-size: 1.3rem;
+    }
+
+    .btn {
+        width: 45vw;
+        height: 4.5vh;
+    }
+
+    .btn > span {
+        font-size: 1.3rem;
+    }
+
+    .content {
+        flex-direction: column !important;
+        margin-top: 4vh;
+    }
+
+    .subtitle {
+        display: none;
+    }
+
+    .subtitle__mobile {
+        display: block !important;
+        width: 100%;
+        margin-top: 4vh;
+        margin-bottom: 5vh;
+        text-align: center;
+    }
+
+    .subtitle__mobile > span {
+        font-size: 1.6rem;
+    }
+
+    #learn-more-btn {
+        width: 60vw;
+        height: 5vh;
+        margin: auto auto 4vh;
+    }
+
+    #video-call-img {
+        margin: auto;
+        width: 80vw;
+    }
+}

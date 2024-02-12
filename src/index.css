@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@400;500&display=swap');
+
+:root {
+    --accent: #058270;
+    --errorColor: #FF3737;
+    --highlight: #F9EF00;
+}
+
+* {
+    margin: 0;
+}
+
+html, body { max-width: 100%; overflow-x: hidden; }
+
+
+a {
+    text-decoration: none;
+}
+
+span {
+    color: #000;
+    font-family: "Inter", sans-serif;
+    font-size: 1.2rem;
+}
+
+mark {
+    background-color: var(--highlight);
+}
+
+.border {
+    border: var(--accent) solid !important;
+    border-radius: .6rem !important;
+    border-width: .1rem !important;
+}
+
+.fill {
+    background-color: var(--accent) !important;
+    color: #fff !important;
+}
