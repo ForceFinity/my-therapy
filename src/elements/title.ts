@@ -13,7 +13,6 @@ export const Title = styled.div`
     @media (min-width: 320px) and (max-width: 768px) {
         text-align: center;
         font-size: 3.5rem;
-        font-weight: 500;
         width: 100%;
     }
 `

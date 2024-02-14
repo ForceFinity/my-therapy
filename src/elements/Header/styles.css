@@ -17,11 +17,6 @@
 }
 
 @media screen and (max-width: 480px) {
-    header {
-        align-items: center;
-        margin-top: 2vh;
-    }
-
     .signs {
         display: block;
         width: 15vw;

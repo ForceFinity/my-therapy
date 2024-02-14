@@ -1,5 +1,5 @@
-from .models import UserORM
-from .schemas import UserPayload, UserSchema
+from .models import UserORM, RefereedORM
+from .schemas import UserPayload, UserSchema, Refereed
 from wrap.core.utils import crypto
 from wrap.core.bases import BaseCRUD
 
@@ -12,15 +12,15 @@ class UserCRUD(BaseCRUD):
         password_hash = crypto.get_password_hash(payload.password)
 
         hashed_payload = UserSchema(
-            username=payload.username,
+            **payload.copy(exclude={"password"}).model_dump(),
             password_hash=password_hash
         )
 
         return await super().create_by(hashed_payload)
 
     @classmethod
-    async def authenticate_user(cls, username: str, password: str) -> model | bool:
-        user = await cls.get_by(username=username)
+    async def authenticate_user(cls, email: str, password: str) -> model | bool:
+        user = await cls.get_by(email=email)
 
         if not user:
             return False
@@ -29,3 +29,7 @@ class UserCRUD(BaseCRUD):
             return False
 
         return user
+
+
+class RefereedCRUD(BaseCRUD):
+    model = RefereedORM

@@ -7,36 +7,47 @@ import { Button } from "../Button";
 import { User } from "../../api/account";
 
 import "./styles.css"
+import { useMedia } from "../../utils/mediaQueries";
 
 const HeaderStyled = styled.header`
     display: flex;
     justify-content: space-between;
 
     height: 8vh;
-`
+    
+    @media (min-width: 1024px) {
+        margin-top: 7vh;
+    }
+    
+    @media (max-width: 480px) {
+        align-items: center;
+        margin-top: 4vh;
+    }`
 
 const Profile = styled.div`
     display: flex;
-    justify-content: space-evenly;
+    gap: 2rem;
     width: 20%;
     
     img {
         height: 40%;
         filter: brightness(0) saturate(100%);
+        rotate: -90deg; 
     }
 `
 
 interface HeaderProps {
     className?: string
-    areSignsOn?: boolean
+    disableSigns?: boolean
     isLogged?: boolean
     user?: User
     loading?: boolean
 }
 
-export const Header = ({ className, areSignsOn, isLogged, user, loading }: HeaderProps) => {
-    if(areSignsOn === undefined) areSignsOn = true
+export const Header = ({ className, disableSigns, isLogged, user, loading }: HeaderProps) => {
+    const media = useMedia()
 
+    // noinspection TypeScriptValidateTypes
     return (
         <HeaderStyled className={className}>
             <Link to="/" className="logo">
@@ -69,22 +80,24 @@ export const Header = ({ className, areSignsOn, isLogged, user, loading }: Heade
             </Link>
 
             {
-                areSignsOn && !isLogged &&
-                <div className="signs">
-                    <Button to="/sign-up" className="border sign-up">Регистрация</Button>
-                    <Button to="/sign-in" className="sign-in">Вход</Button>
-                    <img src={Burger} alt="Menu" style={{display: "none"}}></img>
-                </div>
-            }
-            {
-                isLogged && (
-                    loading ? <span>Зарежда се...</span> :
-                        <Profile>
-                            <span>{user?.username}</span>
-                            <img src={ ArrowDownSvg } alt="Expand"/>
-                        </Profile>
-                )
-
+                disableSigns ?
+                    null :
+                    media.isLaptop ?
+                        (
+                            !isLogged ?
+                                <div className="signs">
+                                    <Button to="/questionnaire" className="border sign-up">Регистрация</Button>
+                                    <Button to="/sign-in" className="sign-in">Вход</Button>
+                                </div> :
+                                loading ? <span>Зарежда се...</span> :
+                                    <Profile>
+                                        <span>{user?.nickname}</span>
+                                        <img src={ArrowDownSvg} alt="Expand"/>
+                                    </Profile>
+                        ) :
+                        <div className="signs">
+                            <img src={Burger} alt="Menu"></img>
+                        </div>
             }
         </HeaderStyled>
     )

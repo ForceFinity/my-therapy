@@ -3,7 +3,7 @@ import os
 from pathlib import Path
 
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
+from starlette.middleware.cors import CORSMiddleware
 from tortoise.contrib.fastapi import register_tortoise
 
 from wrap.core import config, logger
@@ -59,7 +59,6 @@ def configure_middlewares(app: FastAPI):
     origins = [
         "http://localhost:5173",
         "http://localhost:3000",
-
     ]
 
     app.add_middleware(

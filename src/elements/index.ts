@@ -3,6 +3,7 @@ export { Button } from "./Button"
 export { Input } from "./input"
 export { Title } from "./title"
 export { Wrapper } from "./wrapper"
+export { TrueButton } from "./trueButton"
 
 export const size = {
     mobileS: '320px',

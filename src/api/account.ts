@@ -1,50 +1,81 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 
 export type User = {
-    id?: number
-    username?: string
+    id: number
+    email: string
+    nickname: string
+    birthDate: Date
+    isConfirmed?: boolean
+    isActive?: boolean
 }
 
 export type Session = {
-    sub?: string
-    exp?: number
+    email: string
+    exp: number
 }
 
-export type TokenResponse = {
-    accessToken?: string
-    success: boolean
+export type Token = {
+    access_token: string
 }
 
 interface ResponseData<T> {
-    data: T;
+    data?: T;
     status: string;
 }
 
-export const getToken = async (username: string, password: string): Promise<TokenResponse> => {
+export const post = async <T>(url: string, formData?: FormData, config?: AxiosRequestConfig): Promise<ResponseData<T>> => {
+    let data = undefined
+    let status = "200"
+
+    try {
+        const response = await axios.post<T>(url, formData, config)
+
+        data = response.data
+    } catch (e: any) {
+        status = e.response ? e.response.status.toString()  : "400"
+    }
+
+    return { data, status }
+}
+
+export const getToken = async (username: string, password: string): Promise<ResponseData<Token>> => {
+    const url = "http://localhost:8000/api/oauth2/";
+
     const formData = new FormData()
     formData.append("username", username)
     formData.append("password", password)
 
-    try {
-        const response = await axios.post<{accessToken: string}>(
-            'http://localhost:8000/api/oauth2/', formData
-        )
-
-        return {
-            success: true,
-            accessToken: response.data.accessToken
-        }
-    } catch (error: any) {
-        return {
-            success: false
-        }
-    }
+    return await post<Token>(url, formData)
 }
 
-const fetchLogged = async <T>(url: string, token: string, defaultData: T): Promise<ResponseData<T>> => {
+export const signUp = async (payload: Omit<User, "id"> & { password: string }, by_user_id?: string): Promise<ResponseData<Token>> => {
+    const url = "http://localhost:8000/api/oauth2/sign-up/?by_user_id=" + by_user_id
+
+    const formData = new FormData()
+    formData.append("nickname", payload.nickname)
+    formData.append("birth_date", payload.birthDate.toISOString())
+    formData.append("username", payload.email)
+    formData.append("password", payload.password)
+
+    return await post<Token>(url, formData)
+}
+
+export const sendConfirmationEmail = async (email: string, token: string) => {
+    const url = "http://localhost:8000/api/users/sendConfirmationEmail?email=" + email
+
+    return await post(url, undefined, {headers: {"Authorization": token}})
+}
+
+export const checkEmailOTP = async (otp: string, token: string) => {
+    const url = "http://localhost:8000/api/users/confirm?otp=" + otp
+
+    return await post<User>(url, undefined, {headers: {"Authorization": token}})
+}
+
+const fetchLogged = async <T>(url: string, token: string): Promise<ResponseData<T>> => {
     try {
         // noinspection JSAnnotator
         const response = await axios.get<T>(
@@ -62,22 +93,20 @@ const fetchLogged = async <T>(url: string, token: string, defaultData: T): Promi
 
         const status: string = error.response?.status.toString() || '500';
 
-        return { data: defaultData, status };
+        return { data: undefined, status };
     }
 };
 
-const getUser = async (username: string, token: string) => {
-    const url = `http://localhost:8000/api/users/?username=${username}`;
-    const defaultUser: User = { id: undefined, username: undefined };
+const getUser = async (email: string, token: string) => {
+    const url = `http://localhost:8000/api/users/?email=${email}`;
 
-    return await fetchLogged<User>(url, token, defaultUser);
+    return await fetchLogged<User>(url, token);
 };
 
 const verifyToken = async (token: string) => {
     const url = 'http://localhost:8000/api/oauth2/verify/';
-    const defaultSession: Session = { sub: undefined, exp: undefined };
 
-    return await fetchLogged<Session>(url, token, defaultSession);
+    return await fetchLogged<Session>(url, token);
 };
 
 export const useAuth = (isStrict: boolean = true): [User | undefined, boolean, () => void] => {
@@ -102,12 +131,12 @@ export const useAuth = (isStrict: boolean = true): [User | undefined, boolean, (
                 }
 
                 const resp = await verifyToken(token);
-                if (resp.status![0] === "4") {
+                if (resp.status![0] === "4" || resp.data === undefined) {
                     if (isStrict) navigate("/sign-in/");
                     return;
                 }
 
-                const userResp = await getUser(resp.data.sub!, token);
+                const userResp = await getUser(resp.data.email, token);
                 if (userResp.status![0] === "4") {
                     if (isStrict) navigate("/sign-in/");
                     return;

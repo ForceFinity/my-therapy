@@ -10,12 +10,12 @@ const LandingTitle = styled(Title)`
     margin-top: 12vh;
     
     @media (min-width: 320px) and (max-width: 768px) {
+        font-weight: 500;
         margin-top: 0;
     }
 `
 
 const LandingHeader = styled(Header)`
-    margin-top: 7vh;
 `
 
 export const Landing = () => {

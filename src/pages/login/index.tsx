@@ -1,12 +1,15 @@
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import styled from "styled-components"
+
 import googleSvg from "../../assets/google.svg"
 import { Header, Input, Title, Wrapper } from "../../elements";
-import { useEffect, useRef, useState } from "react";
-import styled from "styled-components"
-import { useCookies } from "react-cookie";
-import { getToken, TokenResponse, useAuth } from "../../api/account";
-import parseJWT from "../../utils/parseJWT";
+import { SubmitButton, FormInput } from "../../elements/form";
 import { ErrorText } from "../../elements/texts";
-import { useNavigate } from "react-router-dom";
+import { getToken, useAuth } from "../../api/account";
+import setAuthCookie from "../../utils/setAuthCookie";
+import { useMedia } from "../../utils/mediaQueries";
 
 const LoginWrapper = styled(Wrapper)`
     @media (min-width: 1025px) {
@@ -15,6 +18,31 @@ const LoginWrapper = styled(Wrapper)`
 
 const LoginHeader = styled(Header)`
     margin-top: 6vh;
+`
+
+const Content = styled.div`
+    display: flex;
+    margin-top: 2rem;
+    height: 80%;
+
+    @media (max-width: 480px) {
+        flex-direction: column;
+    }
+`
+
+const SignIn = styled.div`
+    width: 45%;
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+        margin-top: 4vh;
+    }
 `
 
 const FormTitle = styled(Title)`
@@ -27,48 +55,11 @@ const FormTitle = styled(Title)`
     @media (min-width: 1025px) {
         width: 75%;
     }
-`
 
-const SignUpTitle = styled(FormTitle)`
-    font-size: 2.5rem;
-    text-align: left;
-`
-
-const FormInput = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 70%;
-    margin-top: 1.2rem;
-
-    input {
-        height: 1.8rem;
+    @media (max-width: 480px) {
+        font-size: 3.2rem;
+        margin-bottom: 4vh;
     }
-
-    span {
-        margin-left: .8rem;
-        margin-bottom: .15rem;
-    }
-
-    @media (min-width: 1025px) {
-        width: 65%;
-    }
-`
-
-const SignIn = styled.div`
-    width: 45%;
-
-    form {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-`
-
-const Content = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-top: 2rem;
-    height: 80%;
 `
 
 const RememberMe = styled.div`
@@ -148,21 +139,27 @@ const GoogleSignIn = styled.a.attrs({
     width: 2.5rem;
 `
 
-const SubmitButton = styled(Input).attrs({
-    className: "fill"
-})`
-    margin-top: 1rem;
+const LoginSubmitButton = styled(SubmitButton)`
+    margin-top: 1.5rem;
     margin-bottom: 1rem;
-    height: 1.6rem;
     width: 38%;
-    text-align: center;
-    font-size: 1.15rem;
+
+    @media (max-width: 480px) {
+        width: 50%;
+        height: 1.8rem;
+    }
 `
 
 const Sep = styled.hr`
     margin-left: 5%;
     border: .05rem solid var(--accent);
     height: 80%;
+
+    @media (max-width: 480px) {
+        height: 0;
+        width: 60%;
+        margin: 3vh auto .5vh;
+    }
 `
 
 const SignUp = styled.div`
@@ -172,6 +169,33 @@ const SignUp = styled.div`
     margin-left: 10%;
     width: 45%;
     height: 80%;
+
+    @media (max-width: 480px) {
+        margin: 0;
+        align-items: center;
+        text-align: center;
+        width: 100%;
+        height: 10%;
+    }
+`
+
+const SignUpTitle = styled(FormTitle)`
+    font-size: 2.5rem;
+    text-align: left;
+`
+
+const SignUpTextMobile = styled.span`
+    font-size: 1.1rem;
+    p {
+        color: #626262;
+        font-size: inherit;
+    }
+    a {
+        all: unset;
+        font-weight: 600;
+        color: var(--accent);
+        font-size: inherit;
+    }
 `
 
 const RegisterButton = styled.a.attrs({
@@ -190,12 +214,13 @@ const RegisterButton = styled.a.attrs({
 export const Login = () => {
     const [email, setEmail] = useState<string>("")
     const [password, setPass] = useState<string>("")
+    const [doRemember, setDoRemember] = useState<boolean>(false)
     const [toggleBadCreds, setToggleBadCreds] = useState(false)
+    const media = useMedia()
     const navigate = useNavigate()
-    const tokenResp = useRef<TokenResponse>()
-    const [, setCookies] = useCookies()
+    const [, setCookie] = useCookies()
 
-    const [user,] = useAuth()
+    const [user,] = useAuth(false)
 
     useEffect(() => {
         if(user) navigate("/")
@@ -206,23 +231,12 @@ export const Login = () => {
 
         getToken(email, password)
             .then((resp) => {
-                tokenResp.current = resp
-
-                if(!tokenResp.current!.success) {
+                if(resp.status !== "200" || resp.data === undefined) {
                     setToggleBadCreds(true)
                 } else {
                     setToggleBadCreds(false)
-                    const session = parseJWT(tokenResp.current!.accessToken as string)
-                    const expires = new Date(session.exp! * 1000)
 
-                    setCookies(
-                        "Authorization",
-                        tokenResp.current?.accessToken,
-                        {
-                            path: '/',
-                            expires
-                        }
-                    )
+                    if(doRemember) setAuthCookie(resp.data.access_token, setCookie)
 
                     navigate("/")
                 }
@@ -230,14 +244,19 @@ export const Login = () => {
             })
     }
 
+    // noinspection TypeScriptValidateTypes
     return (
         <LoginWrapper>
-            <LoginHeader areSignsOn={false} />
+            <LoginHeader disableSigns={true} />
 
             <Content>
                 <SignIn>
                     <form onSubmit={handleSubmit}>
-                        <FormTitle className="title" >Влезте в своя акаунт</FormTitle>
+                        {
+                            media.isLaptop ?
+                                <FormTitle className="title" >Влезте в своя акаунт</FormTitle> :
+                                <FormTitle className="title" >Добре дошли!</FormTitle>
+                        }
                         <FormInput>
                             <span>Имейл</span>
                             <Input 
@@ -258,7 +277,11 @@ export const Login = () => {
                                 onChange={(e) => setPass(e.target.value)} 
                             />
                             <RememberMe>
-                                <input type="checkbox"></input>
+                                <input
+                                    type="checkbox"
+                                    defaultChecked={ doRemember }
+                                    onChange={() => setDoRemember(s => !s)}
+                                />
                                 <div className="checkmark"></div>
                                 <span>Запомни ме</span>
                             </RememberMe>
@@ -268,14 +291,25 @@ export const Login = () => {
                                 <LoginIcon src={ googleSvg } alt="Google Sign-In" />
                             </GoogleSignIn>
                         </Alternatives>
-                        <SubmitButton type="submit" value="Влез" />
+                        <LoginSubmitButton type="submit" value="Влез" />
                         { toggleBadCreds && <ErrorText>Грешен имейл или парола</ErrorText> }
                     </form>
                 </SignIn>
                 <Sep />
                 <SignUp>
-                    <SignUpTitle>Нямате акаунт? Започнете пътя си сега!</SignUpTitle>
-                    <RegisterButton><span>Регистрация</span></RegisterButton>
+                    {
+                        media.isLaptop ?
+                            <SignUpTitle> Нямате акаунт? Започнете пътя си сега! </SignUpTitle> :
+                            <SignUpTextMobile>
+                                <p>Нямате акаунт?</p>
+                                <Link to="/questionnaire">
+                                    Започнете { media.isLaptop && "пътя си " }сега!
+                                </Link>
+                            </SignUpTextMobile>
+                    }
+                    {
+                        media.isLaptop && <RegisterButton><span>Регистрация</span></RegisterButton>
+                    }
                 </SignUp>
             </Content>
         </LoginWrapper>

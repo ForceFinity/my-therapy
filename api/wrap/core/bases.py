@@ -1,3 +1,5 @@
+from typing import Union
+
 from tortoise import Model, fields
 from pydantic import BaseModel as PydanticModel
 from tortoise.exceptions import DoesNotExist
@@ -25,7 +27,7 @@ class BaseCRUD:
         return instance
 
     @classmethod
-    async def get_by(cls, **kwargs) -> "model":
+    async def get_by(cls, **kwargs) -> Union["model", None]:
         logger.debug(f"Getting `{cls.model.__name__}` by {kwargs}")
 
         return await cls.model.get_or_none(**kwargs)
@@ -47,12 +49,13 @@ class BaseCRUD:
             raise e
 
     @classmethod
-    async def update_by(cls, payload: PydanticModel, **kwargs) -> "model":
+    async def update_by(cls, payload: PydanticModel | dict, **kwargs) -> "model":
         instance = await cls.get_by(**kwargs)
+        as_dict = payload.items() if isinstance(payload, dict) else payload.model_dump().items()
 
         await instance.update_from_dict(
             {
-                key: value for key, value in payload.model_dump().items()
+                key: value for key, value in as_dict
                 if value is not None
             }
         ).save()

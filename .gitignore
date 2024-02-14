@@ -2,6 +2,7 @@
 /.idea
 /api/.idea
 /api/.venv
+/api/credentials.json
 /src/pages/landingENG
 /api/db.env
 
