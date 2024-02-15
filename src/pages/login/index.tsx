@@ -236,7 +236,7 @@ export const Login = () => {
                 } else {
                     setToggleBadCreds(false)
 
-                    if(doRemember) setAuthCookie(resp.data.access_token, setCookie)
+                    setAuthCookie(resp.data.access_token, setCookie, doRemember)
 
                     navigate("/")
                 }

@@ -116,7 +116,7 @@ export const CustomDatePicker = ({ birthDate, updateFields }: CustomDatePickerPr
             )}
             selected={birthDate}
             onChange={(date) => {
-                updateFields({birthDate: date as Date})
+                updateFields({birth_date: date as Date})
             }}
         />
     )

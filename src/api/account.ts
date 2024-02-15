@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig } from "axios";
+import _ from "lodash"
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
@@ -7,9 +8,9 @@ export type User = {
     id: number
     email: string
     nickname: string
-    birthDate: Date
-    isConfirmed?: boolean
-    isActive?: boolean
+    birth_date: Date
+    is_confirmed?: boolean
+    is_active?: boolean
 }
 
 export type Session = {
@@ -31,9 +32,11 @@ export const post = async <T>(url: string, formData?: FormData, config?: AxiosRe
     let status = "200"
 
     try {
-        const response = await axios.post<T>(url, formData, config)
+        const response = await axios.post(url, formData, config)
 
         data = response.data
+        // _.mapKeys(response.data, (v: any, k: any) => _.camelCase(k)) as T
+        // console.log(response.data)
     } catch (e: any) {
         status = e.response ? e.response.status.toString()  : "400"
     }
@@ -56,7 +59,7 @@ export const signUp = async (payload: Omit<User, "id"> & { password: string }, b
 
     const formData = new FormData()
     formData.append("nickname", payload.nickname)
-    formData.append("birth_date", payload.birthDate.toISOString())
+    formData.append("birth_date", payload.birth_date.toISOString())
     formData.append("username", payload.email)
     formData.append("password", payload.password)
 

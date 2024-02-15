@@ -150,7 +150,7 @@ const QuizErrorText = styled(ErrorText)`
 
 interface FormData {
     nickname: string
-    birthDate: Date
+    birth_date: Date
     email: string
     password: string
     emailOTP: string
@@ -158,7 +158,7 @@ interface FormData {
 }
 
 const INITIAL_DATA: FormData = {
-    birthDate: new Date(),
+    birth_date: new Date(),
     email: "",
     password: "",
     nickname: "",
@@ -183,7 +183,7 @@ export const Questionnaire = () => {
     const [user,,] = useAuth(false)
 
     useEffect(() => {
-        if(user && user.isConfirmed) navigate("/")
+        if(user && user.is_confirmed) navigate("/")
     })
 
     function updateFields(fields: Partial<FormData>) {

@@ -6,14 +6,14 @@ import { CustomDatePicker } from "../datepicker/datepicker";
 
 export interface AcquaintanceData {
     nickname: string,
-    birthDate: Date,
+    birth_date: Date,
 }
 
 interface AcquaintanceFormProps extends AcquaintanceData {
     updateFields: (fields: Partial<AcquaintanceData>) => void
 }
 
-export const Acquaintance = ({nickname, birthDate, updateFields}: AcquaintanceFormProps) => {
+export const Acquaintance = ({nickname, birth_date, updateFields}: AcquaintanceFormProps) => {
 
     return (
         <FormWrapper title="Нека се запознаем">
@@ -30,7 +30,7 @@ export const Acquaintance = ({nickname, birthDate, updateFields}: AcquaintanceFo
             </FormInput>
             <FormInput>
                 <span>Дата на раждане</span>
-                <CustomDatePicker birthDate={birthDate} updateFields={updateFields} />
+                <CustomDatePicker birthDate={birth_date} updateFields={updateFields} />
             </FormInput>
         </FormWrapper>
     )

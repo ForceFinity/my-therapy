@@ -87,4 +87,4 @@ async def verify_questionnaire_completion(
 
 @router.get("/")
 async def test():
-    return await RefereedCRUD.model.filter(user_id=1).all()
+    return await RefereedCRUD.model.filter(user_id=3).all()
