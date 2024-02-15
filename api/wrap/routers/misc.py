@@ -13,6 +13,7 @@ from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
 from wrap.applications.user import User, get_current_user, RefereedCRUD, UserCRUD
+from wrap.applications.user.schemas import Refereed
 
 SCOPES = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 ANSWERS_SPREADSHEET = "1ycxADvDRgkCHsuu74426eFsi6oEjxiSo6NH3vvF-Lz0"
@@ -88,3 +89,21 @@ async def verify_questionnaire_completion(
 @router.get("/")
 async def test():
     return await RefereedCRUD.model.filter(user_id=3).all()
+
+
+@router.get("/getRefereed")
+async def get_refereed(by_user_id: str = ""):
+    resp = []
+
+    if not by_user_id:
+        return None
+
+    for refereed in await RefereedCRUD.model.filter(user_id=str(by_user_id)).all():
+        refereed = refereed.refereed
+        resp.append({
+            "email": (await refereed).email,
+            "is_questionnaire_complete": (await refereed).is_questionnaire_complete,
+        })
+    print(resp)
+    return resp
+
