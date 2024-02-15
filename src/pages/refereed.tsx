@@ -26,13 +26,14 @@ const RefereedTable: React.FC<TableProps> = ({ headers, data }) => {
             </tr>
             </thead>
             <tbody>
-            {data && data.map((row, rowIndex) => (
-                <tr key={rowIndex}>
+            {data && data.map((row, rowIndex) => {
+                console.log(row)
+                return <tr key={rowIndex}>
                     {headers.map((header, cellIndex) => (
                         <td key={cellIndex}>{row[header.key]}</td>
                     ))}
                 </tr>
-            ))}
+            })}
             </tbody>
             <style>{`
         table {
