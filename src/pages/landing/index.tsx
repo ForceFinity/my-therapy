@@ -5,17 +5,46 @@ import { Link } from "react-router-dom";
 import styled from "styled-components"
 import { Header, Title, Wrapper } from "../../elements";
 import { useAuth } from "../../api/account";
+import { BannerReferral } from "../../elements/banner";
 
 const LandingTitle = styled(Title)`
     margin-top: 12vh;
     
     @media (min-width: 320px) and (max-width: 768px) {
         font-weight: 500;
-        margin-top: 0;
+        margin-top: -3vh;
     }
 `
 
 const LandingHeader = styled(Header)`
+`
+
+const LandingBanner = styled(BannerReferral)`
+    position: absolute;
+    top: 6vh;
+    left: 36vw;
+    
+    img {
+        width: 25vw;
+    }
+    
+    &:hover {
+        cursor: pointer;
+    }
+    
+    @media (max-width: 480px) {
+        position: unset;
+        display: flex;
+        justify-content: center;
+        
+        img {
+            width: 75vw;
+        }
+
+        ${LandingTitle} {
+            margin-top: -2vh;
+        }
+    }
 `
 
 export const Landing = () => {
@@ -24,6 +53,7 @@ export const Landing = () => {
     return (
         <Wrapper>
             <LandingHeader isLogged={!!user} user={user} loading={loading} />
+            <LandingBanner />
             <div className="content">
                 <div className="container">
                     <LandingTitle>Погрижи се за себе си</LandingTitle>

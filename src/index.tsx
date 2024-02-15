@@ -7,6 +7,8 @@ import {
 
 import { Landing, Login, Logout, Questionnaire } from './pages';
 import "./index.css"
+import { ReferralArticle } from "./pages/articles/referral";
+import { Refereed } from "./pages/refereed";
 
 const router = createBrowserRouter([
     {
@@ -25,6 +27,14 @@ const router = createBrowserRouter([
         path: "/questionnaire",
         element: <Questionnaire />,
     },
+    {
+        path: "/articles/referral",
+        element: <ReferralArticle />
+    },
+    {
+        path: "user/me/refereed",
+        element: <  Refereed />
+    }
 ]);
 
 ReactDOM.createRoot((document.getElementById("root")) as HTMLElement).render(
