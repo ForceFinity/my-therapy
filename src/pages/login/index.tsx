@@ -265,7 +265,7 @@ export const Login = () => {
                                 name="email"
                                 value={email} 
                                 placeholder="example@mail.com"
-                                onChange={(e) => setEmail(e.target.value)} 
+                                onChange={(e) => setEmail(e.target.value.toLowerCase())}
                             />
                         </FormInput>
                         <FormInput>
@@ -275,7 +275,7 @@ export const Login = () => {
                                 name="password"
                                 value={password} 
                                 placeholder="qwerty1234"
-                                onChange={(e) => setPass(e.target.value)} 
+                                onChange={(e) => setPass(e.target.value.toLowerCase())}
                             />
                             <RememberMe>
                                 <input

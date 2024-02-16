@@ -21,7 +21,7 @@ export const Credentials = ({email, password, updateFields}: BasicInfoFormProps)
                     value={email}
                     placeholder="example@mail.com"
                     required
-                    onChange={(e) => updateFields({email: e.target.value})}
+                    onChange={(e) => updateFields({email: e.target.value.toLowerCase()})}
                 />
             </FormInput>
             <FormInput>
