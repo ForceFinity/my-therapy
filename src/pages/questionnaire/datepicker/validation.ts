@@ -3,7 +3,7 @@ const passwordRegex = new RegExp(/^(?=.*[0-9])(?=.*[!"#$%&'()*+,-./]).{8,}$/)
 
 export const validateForm = <T extends object>(data: T): string | undefined => {
     if("email" in data) {
-        if (!emailRegex.test(data.email as string)) {
+        if (!emailRegex.test((data.email as string).toLowerCase())) {
             return "Неподходящ имейл"
         }
     }
