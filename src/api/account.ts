@@ -3,6 +3,7 @@ import _ from "lodash"
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
+import { API_BASE } from "./http";
 
 export type User = {
     id: number
@@ -45,7 +46,7 @@ export const post = async <T>(url: string, formData?: FormData, config?: AxiosRe
 }
 
 export const getToken = async (username: string, password: string): Promise<ResponseData<Token>> => {
-    const url = "http://localhost:8000/api/oauth2/";
+    const url = API_BASE + "/oauth2/";
 
     const formData = new FormData()
     formData.append("username", username)
@@ -55,7 +56,7 @@ export const getToken = async (username: string, password: string): Promise<Resp
 }
 
 export const signUp = async (payload: Omit<User, "id"> & { password: string }, by_user_id?: string): Promise<ResponseData<Token>> => {
-    const url = "http://localhost:8000/api/oauth2/sign-up/?by_user_id=" + by_user_id
+    const url = API_BASE + "/oauth2/sign-up/?by_user_id=" + by_user_id
 
     const formData = new FormData()
     formData.append("nickname", payload.nickname)
@@ -67,13 +68,13 @@ export const signUp = async (payload: Omit<User, "id"> & { password: string }, b
 }
 
 export const sendConfirmationEmail = async (email: string, token: string) => {
-    const url = "http://localhost:8000/api/users/sendConfirmationEmail?email=" + email
+    const url = API_BASE + "/users/sendConfirmationEmail?email=" + email
 
     return await post(url, undefined, {headers: {"Authorization": token}})
 }
 
 export const checkEmailOTP = async (otp: string, token: string) => {
-    const url = "http://localhost:8000/api/users/confirm?otp=" + otp
+    const url = API_BASE + "/users/confirm?otp=" + otp
 
     return await post<User>(url, undefined, {headers: {"Authorization": token}})
 }
@@ -101,13 +102,13 @@ const fetchLogged = async <T>(url: string, token: string): Promise<ResponseData<
 };
 
 const getUser = async (email: string, token: string) => {
-    const url = `http://localhost:8000/api/users/?email=${email}`;
+    const url = API_BASE + `/users/?email=${email}`;
 
     return await fetchLogged<User>(url, token);
 };
 
 const verifyToken = async (token: string) => {
-    const url = 'http://localhost:8000/api/oauth2/verify/';
+    const url = API_BASE + '/oauth2/verify/';
 
     return await fetchLogged<Session>(url, token);
 };
