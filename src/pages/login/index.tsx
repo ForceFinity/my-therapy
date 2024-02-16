@@ -128,7 +128,7 @@ const Alternatives = styled.div`
 `
 
 const GoogleSignIn = styled.a.attrs({
-    href: "/sign-in/google",
+    href: "#",
     className: "border"
 })`
     display: flex;
@@ -137,6 +137,7 @@ const GoogleSignIn = styled.a.attrs({
     border-width: .05rem !important;
     height: 2.5rem;
     width: 2.5rem;
+    
 `
 
 const LoginSubmitButton = styled(SubmitButton)`

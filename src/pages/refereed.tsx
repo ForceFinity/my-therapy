@@ -50,7 +50,6 @@ const RefereedTable: React.FC<TableProps> = ({ loading, headers, data, className
 };
 
 const RefereedTableStyled = styled(RefereedTable)`
-    margin: auto;
     border-collapse: collapse;
     width: 60%;
 
@@ -77,6 +76,14 @@ const RefereedTableStyled = styled(RefereedTable)`
 
 const RefereedWrapper = styled(Wrapper)`
     margin: 0 25vh;
+    
+    @media (max-width: 480px) {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        width: 90%;
+        margin: 0 4vw;
+    }
 `
 
 const RefereedTitle = styled(Title)`
@@ -86,6 +93,10 @@ const RefereedTitle = styled(Title)`
     margin-top: 8vh;
     margin-bottom: 5vh;
     text-align: center;
+    
+    @media (max-width: 480px) {
+        width: 90vw;
+    }
 `
 
 export const Refereed = () => {
