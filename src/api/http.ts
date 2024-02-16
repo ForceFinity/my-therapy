@@ -1,7 +1,7 @@
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
-export const API_BASE = "http://localhost:8000/api"
+export const API_BASE = "https://my-therapy-aaoikglfla-ez.a.run.app/api"
 
 export type GetRequest = AxiosRequestConfig
 

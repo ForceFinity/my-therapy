@@ -90,6 +90,10 @@ const ArticleButton = styled(TrueButton)`
 const FormCompletionStatus = styled.div`
     display: flex;
     align-items: center;
+    
+    @media (max-width: 480px) {
+        flex-direction: column;
+    }
 `
 
 const StatusBox = styled.div`
