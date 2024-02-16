@@ -23,6 +23,11 @@ export type Token = {
     access_token: string
 }
 
+export type RefereedTableProps = {
+    refereed_email: string
+    is_questionnaire_complete: boolean
+}
+
 interface ResponseData<T> {
     data?: T;
     status: string;
@@ -112,6 +117,18 @@ const verifyToken = async (token: string) => {
 
     return await fetchLogged<Session>(url, token);
 };
+
+export const getRefereed = async (token: string) => {
+    const url = API_BASE + "/misc/getRefereed"
+
+    return await fetchLogged<RefereedTableProps[]>(url, token)
+}
+
+export const verifyFormCompletion = async (token: string) => {
+    const url = API_BASE + "/misc/verifyQuestionnaireCompletion/"
+
+    return await fetchLogged<boolean>(url, token)
+}
 
 export const useAuth = (isStrict: boolean = true): [User | undefined, boolean, () => void] => {
     const [cookies, , removeCookies] = useCookies()
