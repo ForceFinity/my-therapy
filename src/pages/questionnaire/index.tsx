@@ -183,7 +183,11 @@ export const Questionnaire = () => {
     const [user,,] = useAuth(false)
 
     useEffect(() => {
-        if(user && user.is_confirmed) navigate("/")
+        if(user) {
+            if(user.is_confirmed) navigate("/")
+            setCurrentStepIndex(2)
+        }
+
     })
 
     function updateFields(fields: Partial<FormData>) {
@@ -212,7 +216,6 @@ export const Questionnaire = () => {
                         navigate("/")
                 }
                 else {
-
                     navigate("/")
                 }
             })
@@ -220,6 +223,11 @@ export const Questionnaire = () => {
 
     useEffect(() => {
         if(currentStepIndex !== 2) return
+
+        if(user && !user.is_confirmed) {
+            updateFields({email: user.email})
+            return next()
+        }
 
         const details = validateForm<FormData>(data)
         if(details) {

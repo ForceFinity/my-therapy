@@ -1,7 +1,11 @@
 import styled from "styled-components";
 import { Header, Title, TrueButton, Wrapper } from "../../elements";
+import Cross from "../../assets/cross.svg"
+import Tick from "../../assets/tick.svg"
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../api/account";
+import { useAuth, verifyFormCompletion } from "../../api/account";
+import { useEffect, useState } from "react";
+import { useCookies } from "react-cookie";
 
 const ArticleWrapper = styled(Wrapper)`
     display: flex;
@@ -62,11 +66,19 @@ const ArticleLI = styled.li`
 `
 
 const ArticleButton = styled(TrueButton)`
-    margin-top: 1vh;
-    margin-bottom: 2vh;
+    margin-top: 1.5vh;
+    margin-bottom: 2.5vh;
     
     span {
         color: white;
+    }
+    
+    @media (min-width: 1024px) {
+        width: 50%;
+    }
+
+    @media (min-width: 1440px) {
+        width: 40%;
     }
     
     @media (max-width: 480px) {
@@ -75,18 +87,52 @@ const ArticleButton = styled(TrueButton)`
     }
 `
 
+const FormCompletionStatus = styled.div`
+    display: flex;
+    align-items: center;
+`
+
+const StatusBox = styled.div`
+    margin-left: 4vw;
+    margin-bottom: .5rem;
+    
+    img {
+        width: 2rem;
+    }
+`
+
 export const ReferralArticle = () => {
     const [user,,] = useAuth(false)
     const navigate = useNavigate()
+    const [formStatus, setFormStatus] = useState(false)
+    const [isFSLoading, setFSLoading] = useState(true)
+    const [cookies,] = useCookies()
 
     const copyReferralLink = () => {
-        if(user) navigator.clipboard.writeText('mytherapy.vercel.app/questionnaire?by_user_id=' + user.id)
+        if(user) navigator.clipboard.writeText('my-therapy.vercel.app/questionnaire?by_user_id=' + user.id)
         else navigate("/sign-in")
     };
 
+    const checkFormCompletion = () => {
+        if(user) {
+            setFSLoading(true)
+            verifyFormCompletion(cookies["Authorization"])
+                .then(resp => {
+                    if(resp.data !== undefined) {
+                        setFSLoading(false)
+                        setFormStatus(resp.data)
+                    }
+                })
+        }
+    }
+
+    useEffect(() => {
+        checkFormCompletion()
+    }, []);
+
     return (
         <ArticleWrapper>
-            <ArticleHeader />
+            <ArticleHeader isLogged={!!user} user={user} />
             <Content>
                 <ArticleTitle>Томбола. Условия и награди</ArticleTitle>
                 <ArticleText>
@@ -111,8 +157,28 @@ export const ReferralArticle = () => {
                 </ArticleButton>
                 <ArticleText>
                     Колкото повече точки имате, толкова по-голям е шансът за спечелване на награда. Всеки регистрирал
-                    се потребител автоматично получава една точка.
+                    се потребител, който е попълнил <Link to="https://forms.gle/U3cujeX4PjwpRh2B7">формата </Link>
+                    автоматично получава една точка.
                 </ArticleText>
+                <FormCompletionStatus>
+                    <ArticleButton className="fill" onClick={
+                        () => {
+                            if(user) checkFormCompletion()
+                            else navigate("/sign-in")
+                        }
+                    }>
+                        <span>Провери дали попълнена</span>
+                    </ArticleButton>
+                    <StatusBox>
+                        {
+                            user ?
+                                isFSLoading ?
+                                    <span>Зарежда се...</span> :
+                                    <img src={formStatus ? Tick : Cross} alt="Статут"/>
+                                : <span>Нерегестриран</span>
+                        }
+                    </StatusBox>
+                </FormCompletionStatus>
                 <ArticleSubtitle>Награди</ArticleSubtitle>
                 <ArticleLI><span>Пакет от 2 безплатни сеанса с психотерапевт, на обща стойност 100лв.</span></ArticleLI>
                 <ArticleLI><span>Ваучер за безплатен сеанс с психотерапевт, на стойност 50лв.</span></ArticleLI>
@@ -121,6 +187,9 @@ export const ReferralArticle = () => {
                     Наградите, които предлагат безплатни сеансове могат да бъдат получени във брой, но само на половината
                     от своята стойност.
                 </ArticleText>
+                <ArticleButton className="fill" onClick={()=>navigate("/user/me/refereed")}>
+                    <span>Виж всички поканени</span>
+                </ArticleButton>
             </Content>
         </ArticleWrapper>
     )
