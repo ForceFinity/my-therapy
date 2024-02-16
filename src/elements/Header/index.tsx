@@ -97,7 +97,7 @@ export const Header = ({ className, disableSigns, isLogged, user, loading }: Hea
                                     </Profile>
                         ) :
                         <div className="signs">
-                            <img src={Burger} alt="Menu" onClick={()=>navigate("/questionnaire")}></img>
+                            <img src={Burger} alt="Menu" onClick={()=>navigate("/sign-in")}></img>
                         </div>
             }
         </HeaderStyled>

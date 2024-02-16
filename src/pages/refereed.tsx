@@ -75,12 +75,12 @@ const RefereedTableStyled = styled(RefereedTable)`
 `
 
 const RefereedWrapper = styled(Wrapper)`
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     margin: 0 25vh;
     
     @media (max-width: 480px) {
-        display: flex;
-        align-items: center;
-        flex-direction: column;
         width: 90%;
         margin: 0 4vw;
     }
@@ -97,6 +97,10 @@ const RefereedTitle = styled(Title)`
     @media (max-width: 480px) {
         width: 90vw;
     }
+`
+
+const RefereedHeader = styled(Header)`
+    width: 100%;
 `
 
 export const Refereed = () => {
@@ -125,7 +129,7 @@ export const Refereed = () => {
 
     return (
         <RefereedWrapper>
-            <Header isLogged={!!user} user={user} />
+            <RefereedHeader isLogged={!!user} user={user} />
             <RefereedTitle>Поканени потребители</RefereedTitle>
             <RefereedTableStyled loading={loading} headers={headers} data={data} />
         </RefereedWrapper>

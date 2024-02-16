@@ -82,7 +82,8 @@ const ArticleButton = styled(TrueButton)`
     }
     
     @media (max-width: 480px) {
-        width: 80%;
+        width: 85%;
+        height: 2.8rem;
         margin-left: 6vw;
     }
 `
