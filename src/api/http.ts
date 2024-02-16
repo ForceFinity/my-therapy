@@ -1,6 +1,8 @@
 import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
 import axios, { AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 
+export const API_BASE = "https://my-therapy-aaoikglfla-ez.a.run.app/api"
+
 export type GetRequest = AxiosRequestConfig
 
 interface Return<Data, Error>
@@ -24,7 +26,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
   request: GetRequest,
   { fallbackData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
-  request.baseURL = request.url != "" ? "http://localhost:8000/api" : ""
+  request.baseURL = request.url != "" ? API_BASE : ""
 
   const {
     data: response,
