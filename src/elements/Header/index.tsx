@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Burger from "../../assets/burger.svg";
@@ -46,6 +46,7 @@ interface HeaderProps {
 
 export const Header = ({ className, disableSigns, isLogged, user, loading }: HeaderProps) => {
     const media = useMedia()
+    const navigate = useNavigate()
 
     // noinspection TypeScriptValidateTypes
     return (
@@ -96,7 +97,7 @@ export const Header = ({ className, disableSigns, isLogged, user, loading }: Hea
                                     </Profile>
                         ) :
                         <div className="signs">
-                            <img src={Burger} alt="Menu"></img>
+                            <img src={Burger} alt="Menu" onClick={()=>navigate("/questionnaire")}></img>
                         </div>
             }
         </HeaderStyled>
