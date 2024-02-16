@@ -150,7 +150,9 @@ export const ReferralArticle = () => {
                 <ArticleSubtitle>Условия</ArticleSubtitle>
                 <ArticleLI><span>Регистрация на сайта</span></ArticleLI>
                 <ArticleText>
-                    За участието е достатъчна регистрацията, обаче има възможност да
+                    За участието е достатъчна регистрация и попълване на
+                    <Link to="https://forms.gle/U3cujeX4PjwpRh2B7"> тази </Link>форма,
+                    обаче има възможност да
                     <ArticleText className="bold"> повишите своите шансове.</ArticleText> За всеки поканен приятел,
                     който се е регистрирал на този сайт и попълнил
                     <Link to="https://forms.gle/U3cujeX4PjwpRh2B7"> нашата гугл форма</Link>,
