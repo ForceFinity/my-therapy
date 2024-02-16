@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Header, Title, TrueButton, Wrapper } from "../../elements";
 import Cross from "../../assets/cross.svg"
 import Tick from "../../assets/tick.svg"
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useAuth, verifyFormCompletion } from "../../api/account";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
@@ -132,7 +132,7 @@ export const ReferralArticle = () => {
 
     useEffect(() => {
         checkFormCompletion()
-    }, []);
+    }, [user]);
 
     return (
         <ArticleWrapper>
@@ -161,8 +161,14 @@ export const ReferralArticle = () => {
                 <ArticleButton onClick={copyReferralLink} className="fill">
                     <span>Копирай линк за покана</span>
                 </ArticleButton>
+                <ArticleButton
+                    style={{marginTop: "-1vh"}}
+                    onClick={()=>window.open("https://forms.gle/U3cujeX4PjwpRh2B7", "_blank")}
+                >
+                    <span style={{color: "black"}}>Виж формата</span>
+                </ArticleButton>
                 <ArticleText>
-                    Колкото повече точки имате, толкова по-голям е шансът за спечелване на награда. Всеки регистрирал
+                Колкото повече точки имате, толкова по-голям е шансът за спечелване на награда. Всеки регистрирал
                     се потребител, който е попълнил <Link to="https://forms.gle/U3cujeX4PjwpRh2B7">формата </Link>
                     автоматично получава една точка.
                 </ArticleText>
