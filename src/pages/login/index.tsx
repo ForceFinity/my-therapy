@@ -275,7 +275,7 @@ export const Login = () => {
                                 name="password"
                                 value={password} 
                                 placeholder="qwerty1234"
-                                onChange={(e) => setPass(e.target.value.toLowerCase())}
+                                onChange={(e) => setPass(e.target.value)}
                             />
                             <RememberMe>
                                 <input
