@@ -113,6 +113,11 @@ export const TOSArticle = () => {
                     <span>Използването на нашите сервиси от потребители под 18 години е възможно само под родителски контрол.</span>
                 </ArticleLIStyled>
             </ArticleText>
+            <ArticleSubtitle>Томболи и ваучери</ArticleSubtitle>
+            <ArticleText>
+                Ние си оставяме правото за анулиране на всяка провеждаща се томбола. Запазваме си правото да анулираме
+                всеки ваучер по всяко време.
+            </ArticleText>
             <ArticleSubtitle>8.	Свържете се с нас</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>

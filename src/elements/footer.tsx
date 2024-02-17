@@ -49,7 +49,6 @@ const Socials = styled.div`
     margin-left: .5rem;
 `
 
-
 export const Footer = ({style}: {style?: CSSProperties}) => {
     // noinspection TypeScriptValidateTypes
     return (
@@ -60,7 +59,6 @@ export const Footer = ({style}: {style?: CSSProperties}) => {
                 <span>2024</span>
             </Logo>
             <FooterContent>
-
                 <Link to="/articles/terms-of-service">
                     <span>Условия за ползване</span>
                 </Link>
