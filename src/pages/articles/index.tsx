@@ -6,7 +6,8 @@ import styled from "styled-components";
 import { Header, Title, TrueButton, Wrapper } from "../../elements";
 import { useAuth } from "../../api/account";
 import { Footer } from "../../elements/footer";
-import { PPolicyArticle } from "./pPolicy";
+import { PrivacyPolicyArticle } from "./pPolicy";
+import { CookiesPolicyArticle } from "./cPolicy";
 
 export const ArticleWrapper = styled(Wrapper)`
     display: flex;
@@ -101,7 +102,8 @@ export const Articles = () => {
     const articles: { [key: string]: ReactElement, } = {
         "referral": <ReferralArticle user={user} />,
         "terms-of-service": <TOSArticle />,
-        "privacy-policy": <PPolicyArticle />
+        "privacy-policy": <PrivacyPolicyArticle />,
+        "cookies-policy": <CookiesPolicyArticle />
     }
 
     return (

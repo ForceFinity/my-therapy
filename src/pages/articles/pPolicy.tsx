@@ -1,7 +1,7 @@
 import { User } from "../../api/account";
 import { ArticleContent, ArticleLI, ArticleSubtitle, ArticleText, ArticleTitle } from "./index";
 
-export const PPolicyArticle = () => {
+export const PrivacyPolicyArticle = () => {
     return (
         <ArticleContent>
             <ArticleTitle>Политика за поверителност</ArticleTitle>
