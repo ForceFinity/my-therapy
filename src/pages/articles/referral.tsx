@@ -1,11 +1,14 @@
+// noinspection TypeScriptValidateTypes
+
 import styled from "styled-components";
 import { Header, Title, TrueButton, Wrapper } from "../../elements";
 import Cross from "../../assets/cross.svg"
 import Tick from "../../assets/tick.svg"
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link,  useNavigate } from "react-router-dom";
 import { useAuth, verifyFormCompletion } from "../../api/account";
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
+import { Footer } from "../../elements/footer";
 
 const ArticleWrapper = styled(Wrapper)`
     display: flex;
@@ -68,6 +71,7 @@ const ArticleLI = styled.li`
 const ArticleButton = styled(TrueButton)`
     margin-top: 1.5vh;
     margin-bottom: 2.5vh;
+    width: 50%;
     
     span {
         color: white;
@@ -154,7 +158,10 @@ export const ReferralArticle = () => {
                     За участието е достатъчна регистрация и <ArticleText className="bold">попълване на
                     <Link to="https://forms.gle/U3cujeX4PjwpRh2B7"> тази </Link></ArticleText>форма,
                     обаче има възможност да
-                    <ArticleText className="bold"> повишите своите шансове.</ArticleText> За всеки поканен приятел,
+                    <ArticleText className="bold"> повишите своите шансове.</ArticleText>
+                </ArticleText>
+                <ArticleText>
+                    За всеки поканен приятел,
                     който се е регистрирал на този сайт и попълнил
                     <Link to="https://forms.gle/U3cujeX4PjwpRh2B7"> нашата гугл форма</Link>,
                     Вие получавате една точка.
@@ -169,18 +176,18 @@ export const ReferralArticle = () => {
                     <span style={{color: "black"}}>Виж формата</span>
                 </ArticleButton>
                 <ArticleText>
-                Колкото повече точки имате, толкова по-голям е шансът за спечелване на награда. Всеки регистрирал
-                    се потребител, който е попълнил <Link to="https://forms.gle/U3cujeX4PjwpRh2B7">формата </Link>
+                    Колкото повече точки имате, толкова по-голям е шансът за спечелване на награда. Всеки регистрирал
+                    се потребител, който е попълнил <Link to="https://forms.gle/U3cujeX4PjwpRh2B7">формата</Link>,
                     автоматично получава една точка.
                 </ArticleText>
                 <FormCompletionStatus>
-                    <ArticleButton className="fill" onClick={
+                    <ArticleButton style={{display: "block"}} className="fill" onClick={
                         () => {
                             if(user) checkFormCompletion()
                             else navigate("/sign-in")
                         }
                     }>
-                        <span>Провери дали попълнена</span>
+                        <span>Провери дали е попълнена</span>
                     </ArticleButton>
                     <StatusBox>
                         {
@@ -204,6 +211,7 @@ export const ReferralArticle = () => {
                     <span>Виж всички поканени</span>
                 </ArticleButton>
             </Content>
+            <Footer />
         </ArticleWrapper>
     )
 }
