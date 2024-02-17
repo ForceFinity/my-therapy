@@ -5,7 +5,7 @@ export const Wrapper = styled.div`
     margin-left: 9vw;
     margin-right: 9vw;
 
-    @media screen and (min-width: 1024px) and (max-width: 1200px) {
+    @media (min-width: 1024px) and (max-width: 1200px) {
         margin-left: 8vw;
         margin-right: 8vw;
     }

@@ -7,8 +7,8 @@ import {
 
 import { Landing, Login, Logout, Questionnaire } from './pages';
 import "./index.css"
-import { ReferralArticle } from "./pages/articles/referral";
 import { Refereed } from "./pages/refereed";
+import { Articles } from "./pages/articles";
 
 const router = createBrowserRouter([
     {
@@ -28,12 +28,12 @@ const router = createBrowserRouter([
         element: <Questionnaire />,
     },
     {
-        path: "/articles/referral",
-        element: <ReferralArticle />
+        path: "/articles/:name",
+        element: <Articles />
     },
     {
         path: "user/me/refereed",
-        element: <  Refereed />
+        element: <Refereed />
     }
 ]);
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, redirect } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import styled from "styled-components"
 
@@ -218,13 +218,12 @@ export const Login = () => {
     const [doRemember, setDoRemember] = useState<boolean>(false)
     const [toggleBadCreds, setToggleBadCreds] = useState(false)
     const media = useMedia()
-    const navigate = useNavigate()
     const [, setCookie] = useCookies()
 
     const [user,] = useAuth(false)
 
     useEffect(() => {
-        if(user) navigate("/")
+        if(user) redirect("/")
     })
 
     const handleSubmit = (e: any) => {
@@ -239,7 +238,7 @@ export const Login = () => {
 
                     setAuthCookie(resp.data.access_token, setCookie, doRemember)
 
-                    navigate("/")
+                    redirect("/")
                 }
                 return
             })

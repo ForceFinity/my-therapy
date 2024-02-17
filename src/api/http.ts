@@ -26,7 +26,7 @@ export default function useRequest<Data = unknown, Error = unknown>(
   request: GetRequest,
   { fallbackData, ...config }: Config<Data, Error> = {}
 ): Return<Data, Error> {
-  request.baseURL = request.url != "" ? API_BASE : ""
+  request.baseURL = request.url !== "" ? API_BASE : ""
 
   const {
     data: response,

@@ -4,7 +4,6 @@ import Leaf from "../assets/Leaf.svg"
 import GitHubSvg from "../assets/github.svg"
 import TelegramSvg from "../assets/telegram.svg"
 import { CSSProperties } from "react";
-import { useMedia } from "../utils/mediaQueries";
 
 const FooterWrap = styled.div`
     width: 80vw;
@@ -52,7 +51,6 @@ const Socials = styled.div`
 
 
 export const Footer = ({style}: {style?: CSSProperties}) => {
-    const media = useMedia()
     // noinspection TypeScriptValidateTypes
     return (
         <FooterWrap style={style}>
