@@ -5,3 +5,7 @@ export const ErrorText = styled.span`
     font-size: .9rem;
     text-align: center;
 `
+
+export const Bold = styled.span`
+    font-weight: 600;    
+`
