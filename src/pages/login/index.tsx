@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, redirect } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import styled from "styled-components"
 
@@ -144,6 +144,10 @@ const LoginSubmitButton = styled(SubmitButton)`
     margin-top: 1.5rem;
     margin-bottom: 1rem;
     width: 38%;
+    
+    &:hover {
+        cursor: pointer;
+    }
 
     @media (max-width: 480px) {
         width: 50%;
@@ -218,12 +222,13 @@ export const Login = () => {
     const [doRemember, setDoRemember] = useState<boolean>(false)
     const [toggleBadCreds, setToggleBadCreds] = useState(false)
     const media = useMedia()
+    const navigate = useNavigate()
     const [, setCookie] = useCookies()
 
     const [user,] = useAuth(false)
 
     useEffect(() => {
-        if(user) redirect("/")
+        if(user) navigate("/")
     })
 
     const handleSubmit = (e: any) => {
@@ -238,7 +243,7 @@ export const Login = () => {
 
                     setAuthCookie(resp.data.access_token, setCookie, doRemember)
 
-                    redirect("/")
+                    navigate("/")
                 }
                 return
             })
