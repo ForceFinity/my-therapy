@@ -12,6 +12,7 @@ import {
     ArticleText,
     ArticleTitle,
 } from "./index";
+import { Footer } from "../../elements/footer";
 
 const FormCompletionStatus = styled.div`
     display: flex;

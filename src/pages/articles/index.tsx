@@ -5,11 +5,15 @@ import React, { ReactElement } from "react";
 import styled from "styled-components";
 import { Header, Title, TrueButton, Wrapper } from "../../elements";
 import { useAuth } from "../../api/account";
+import { Footer } from "../../elements/footer";
+import { PrivacyPolicyArticle } from "./pPolicy";
+import { CookiesPolicyArticle } from "./cPolicy";
 
 export const ArticleWrapper = styled(Wrapper)`
     display: flex;
     flex-direction: column;
     align-items: center;
+
     
     @media (min-width: 1024px) {
         margin: 0 25vw;
@@ -55,6 +59,8 @@ export const ArticleText = styled.span`
 `
 
 export const ArticleLI = styled.li`
+    margin-left: 2vw;
+    margin-bottom: .5vh;
     @media (max-width: 480px) {
         margin-left: 6vw;
         margin-bottom: 1vh;
@@ -95,13 +101,16 @@ export const Articles = () => {
     console.log(name)
     const articles: { [key: string]: ReactElement, } = {
         "referral": <ReferralArticle user={user} />,
-        "terms-of-service": <TOSArticle user={user} />
+        "terms-of-service": <TOSArticle />,
+        "privacy-policy": <PrivacyPolicyArticle />,
+        "cookies-policy": <CookiesPolicyArticle />
     }
 
     return (
         <ArticleWrapper>
             <ArticleHeader isLogged={!!user} user={user} />
             { name && articles[name] }
+            <Footer />
         </ArticleWrapper>
     )
 }

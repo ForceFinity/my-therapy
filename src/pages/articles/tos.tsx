@@ -6,6 +6,8 @@ import { Footer } from "../../elements/footer";
 
 const ArticleLIStyled= styled.li`
     font-size: 1.2rem;
+    margin-left: 2vw;
+    margin-bottom: .5vh;
     
     @media (max-width: 480px) {
         margin-left: 6vw;
@@ -18,7 +20,7 @@ const ArticleLIStyled= styled.li`
     }
 `
 
-export const TOSArticle = ({user}: {user?: User}) => {
+export const TOSArticle = () => {
     return (
         <ArticleContent>
             <ArticleTitle>Условия за ползване</ArticleTitle>
@@ -148,7 +150,6 @@ export const TOSArticle = ({user}: {user?: User}) => {
             <ArticleText>
                 Благодарим ви, че избрахте MyTherapy за вашите онлайн сесии с психолози.
             </ArticleText>
-            <Footer />
         </ArticleContent>
     )
 }

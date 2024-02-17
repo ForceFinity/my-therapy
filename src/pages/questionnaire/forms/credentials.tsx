@@ -1,5 +1,6 @@
 import { FormWrapper, QuizInput } from "../index";
 import { FormInput } from "../../../elements/form";
+import { Link } from "react-router-dom";
 
 export interface BasicInfoData {
     email: string,
