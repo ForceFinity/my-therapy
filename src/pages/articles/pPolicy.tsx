@@ -1,5 +1,6 @@
 import { User } from "../../api/account";
 import { ArticleContent, ArticleLI, ArticleSubtitle, ArticleText, ArticleTitle } from "./index";
+import { Link } from "react-router-dom";
 
 export const PrivacyPolicyArticle = () => {
     return (
@@ -51,17 +52,22 @@ export const PrivacyPolicyArticle = () => {
                 Ние прилагаме подходящи мерки за сигурност, за да предпазим вашата лична информация от загуба,
                 злоупотреба или неоторизиран достъп.
             </ArticleText>
-            <ArticleSubtitle>5.	Промени в политиката за поверителност</ArticleSubtitle>
+            <ArticleSubtitle>5. Бисквитки</ArticleSubtitle>
+            <ArticleText>
+                Като приемате тази Политика за поверителност, Вие приемате и нашата
+                <Link to="/articles/cookies-policy"> Политика за бисквитки</Link>.
+            </ArticleText>
+            <ArticleSubtitle>6.	Промени в политиката за поверителност</ArticleSubtitle>
             <ArticleText>
                 MyTherapy може да актуализира настоящата Политика за поверителност от време на време.
                 Всяка промяна ще бъде публикувана на тази страница.
             </ArticleText>
-            <ArticleSubtitle>6.	Съгласие с условията</ArticleSubtitle>
+            <ArticleSubtitle>7.	Съгласие с условията</ArticleSubtitle>
             <ArticleText>
                 С използването на нашия уебсайт вие се съгласявате с настоящата Политика за поверителност.
                 Ако не се съгласявате с тези условия, моля, не използвайте нашия уебсайт.
                 За повече информация относно нашата Политика за поверителност, моля,
-                свържете се с нас на mytherapy.sender@gmail.com.
+                свържете се с нас на contact.mytherapy@gmail.com.
             </ArticleText>
             <ArticleText>
                 Благодарим ви, че използвате MyTherapy.

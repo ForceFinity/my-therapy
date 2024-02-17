@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import { ReferralArticle } from "./referral";
-import { TOSArticle } from "./tos";
 import React, { ReactElement } from "react";
 import styled from "styled-components";
 import { Header, Title, TrueButton, Wrapper } from "../../elements";
@@ -8,6 +7,7 @@ import { useAuth } from "../../api/account";
 import { Footer } from "../../elements/footer";
 import { PrivacyPolicyArticle } from "./pPolicy";
 import { CookiesPolicyArticle } from "./cPolicy";
+import { TOSArticle } from "./tos";
 
 export const ArticleWrapper = styled(Wrapper)`
     display: flex;
