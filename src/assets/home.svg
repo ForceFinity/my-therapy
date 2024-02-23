@@ -1,10 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M22 22L2 22" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M2 11L10.1259 4.49931C11.2216 3.62279 12.7784 3.62279 13.8741 4.49931L22 11" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M15.5 5.5V3.5C15.5 3.22386 15.7239 3 16 3H18.5C18.7761 3 19 3.22386 19 3.5V8.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M4 22V9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M20 22V9.5" stroke="#1C274C" stroke-width="1.5" stroke-linecap="round"/>
-<path d="M15 22V17C15 15.5858 15 14.8787 14.5607 14.4393C14.1213 14 13.4142 14 12 14C10.5858 14 9.87868 14 9.43934 14.4393C9 14.8787 9 15.5858 9 17V22" stroke="#1C274C" stroke-width="1.5"/>
-<path d="M14 9.5C14 10.6046 13.1046 11.5 12 11.5C10.8954 11.5 10 10.6046 10 9.5C10 8.39543 10.8954 7.5 12 7.5C13.1046 7.5 14 8.39543 14 9.5Z" stroke="#1C274C" stroke-width="1.5"/>
+<svg width="46" height="44" viewBox="0 0 46 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M43.6667 41.5833H2" stroke="black" stroke-width="3" stroke-linecap="round"/>
+<path d="M2 18.6666L18.929 5.12347C21.2117 3.29739 24.455 3.29739 26.7377 5.12347L43.6667 18.6666" stroke="black" stroke-width="3" stroke-linecap="round"/>
+<path d="M30.125 7.20833V3.04167C30.125 2.46637 30.5915 2 31.1667 2H36.375C36.9502 2 37.4167 2.46637 37.4167 3.04167V13.4583" stroke="black" stroke-width="3" stroke-linecap="round"/>
+<path d="M6.16699 41.5834V15.5417" stroke="black" stroke-width="3" stroke-linecap="round"/>
+<path d="M39.5 41.5834V15.5417" stroke="black" stroke-width="3" stroke-linecap="round"/>
+<path d="M29.0835 41.5834V31.1667C29.0835 28.2205 29.0835 26.7474 28.1683 25.832C27.2529 24.9167 25.7797 24.9167 22.8335 24.9167C19.8872 24.9167 18.4141 24.9167 17.4988 25.832C16.5835 26.7474 16.5835 28.2205 16.5835 31.1667V41.5834" stroke="black" stroke-width="3"/>
+<path d="M27.0003 15.5417C27.0003 17.8429 25.1349 19.7083 22.8337 19.7083C20.5324 19.7083 18.667 17.8429 18.667 15.5417C18.667 13.2405 20.5324 11.375 22.8337 11.375C25.1349 11.375 27.0003 13.2405 27.0003 15.5417Z" stroke="black" stroke-width="3"/>
 </svg>

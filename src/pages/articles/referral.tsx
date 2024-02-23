@@ -13,6 +13,7 @@ import {
     ArticleTitle,
 } from "./index";
 import { Footer } from "../../elements/footer";
+import { Href } from "../../elements/href";
 
 const FormCompletionStatus = styled.div`
     display: flex;
@@ -69,21 +70,21 @@ export const ReferralArticle = ({user}: {user?: User}) => {
                 за участие в томболата.
             </ArticleText>
             <ArticleText>
-                Сроковете на събитието са до 22.02.2024г, като резултатите ще бъдат пратени
+                Сроковете на събитието са до 29.02.2024г, като резултатите ще бъдат пратени
                 на следващия ден. Подробности за получаване на наградата ще бъдат пратени на пощата, посочена в профила.
             </ArticleText>
             <ArticleSubtitle>Условия</ArticleSubtitle>
             <ArticleLI><span>Регистрация на сайта</span></ArticleLI>
             <ArticleText>
                 За участието е достатъчна регистрация и <ArticleText className="bold">попълване на
-                <Link to="https://forms.gle/U3cujeX4PjwpRh2B7"> тази </Link></ArticleText>форма,
+                <Href to="https://forms.gle/U3cujeX4PjwpRh2B7"> тази </Href></ArticleText>форма,
                 обаче има възможност да
                 <ArticleText className="bold"> повишите своите шансове.</ArticleText> За всеки поканен приятел,
                 който се е регистрирал на този сайт и попълнил
-                <Link to="https://forms.gle/U3cujeX4PjwpRh2B7"> нашата гугл форма</Link>,
+                <Href to="https://forms.gle/U3cujeX4PjwpRh2B7"> нашата гугл форма</Href>,
                 Вие получавате една точка.
             </ArticleText>
-            <ArticleButton onClick={copyReferralLink} className="fill">
+            <ArticleButton isFilled={true} onClick={copyReferralLink} >
                 <span>Копирай линк за покана</span>
             </ArticleButton>
             <ArticleButton
@@ -94,11 +95,11 @@ export const ReferralArticle = ({user}: {user?: User}) => {
             </ArticleButton>
             <ArticleText>
                 Колкото повече точки имате, толкова по-голям е шансът за спечелване на награда. Всеки регистрирал
-                се потребител, който е попълнил <Link to="https://forms.gle/U3cujeX4PjwpRh2B7">формата </Link>
+                се потребител, който е попълнил <Href to="https://forms.gle/U3cujeX4PjwpRh2B7">формата </Href>
                 автоматично получава една точка.
             </ArticleText>
             <FormCompletionStatus>
-                <ArticleButton className="fill" onClick={
+                <ArticleButton isFilled={true} onClick={
                     () => {
                         if(user) checkFormCompletion()
                         else navigate("/sign-in")
@@ -124,7 +125,7 @@ export const ReferralArticle = ({user}: {user?: User}) => {
                 Наградите, които предлагат безплатни сеансове могат да бъдат получени във брой, но само на половината
                 от своята стойност.
             </ArticleText>
-            <ArticleButton className="fill" onClick={()=>navigate("/user/me/refereed")}>
+            <ArticleButton isFilled={true} onClick={()=>navigate("/user/me/refereed")}>
                 <span>Виж всички поканени</span>
             </ArticleButton>
         </ArticleContent>

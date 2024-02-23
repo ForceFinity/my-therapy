@@ -4,6 +4,7 @@ import Leaf from "../assets/Leaf.svg"
 import GitHubSvg from "../assets/github.svg"
 import TelegramSvg from "../assets/telegram.svg"
 import { CSSProperties } from "react";
+import { Href } from "./href";
 
 const FooterWrap = styled.div`
     width: 80vw;
@@ -38,6 +39,10 @@ const FooterContent = styled.div`
     margin-bottom: 2vh;
     flex-direction: row-reverse;
     
+    span {
+        color: black;
+    }
+    
     @media (max-width: 480px) {
         flex-direction: row;
     }
@@ -59,15 +64,15 @@ export const Footer = ({style}: {style?: CSSProperties}) => {
                 <span>2024</span>
             </Logo>
             <FooterContent>
-                <Link to="/articles/terms-of-service">
+                <Href to="/articles/terms-of-service">
                     <span>Условия за ползване</span>
-                </Link>
-                <Link to="/articles/privacy-policy">
+                </Href>
+                <Href to="/articles/privacy-policy">
                     <span>Политика за поверителност</span>
-                </Link>
-                <Link to="/articles/cookies-policy">
+                </Href>
+                <Href to="/articles/cookies-policy">
                     <span>Политика за бисквитки</span>
-                </Link>
+                </Href>
                 <Socials>
                     <Link to="https://github.com/ForceFinity/my-therapy">
                         <img src={GitHubSvg} alt="Check out our github!"/>

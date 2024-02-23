@@ -9,6 +9,7 @@ import { Landing, Login, Logout, Questionnaire } from './pages';
 import "./index.css"
 import { Refereed } from "./pages/refereed";
 import { Articles } from "./pages/articles";
+import { ChooseTherapist } from "./pages/chooseTherapist";
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     {
         path: "/questionnaire",
         element: <Questionnaire />,
+    },
+    {
+        path: "/choose-therapist",
+        element: <ChooseTherapist />
     },
     {
         path: "/articles/:name",

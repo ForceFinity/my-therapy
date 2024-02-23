@@ -1,5 +1,5 @@
-export { Header } from "./Header"
-export { Button } from "./Button"
+export { Header } from "./header"
+export { Button } from "./button"
 export { Input } from "./input"
 export { Title } from "./title"
 export { Wrapper } from "./wrapper"

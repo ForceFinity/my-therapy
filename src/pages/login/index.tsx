@@ -4,14 +4,14 @@ import { useCookies } from "react-cookie";
 import styled from "styled-components"
 
 import googleSvg from "../../assets/google.svg"
-import { Header, Input, Title, Wrapper } from "../../elements";
+import { Header, Input, Title, TrueButton, Wrapper } from "../../elements";
 import { SubmitButton, FormInput } from "../../elements/form";
 import { ErrorText } from "../../elements/texts";
 import { getToken, useAuth } from "../../api/account";
 import setAuthCookie from "../../utils/setAuthCookie";
 import { useMedia } from "../../utils/mediaQueries";
 
-const LoginWrapper = styled(Wrapper)`
+const LoginWrapper = styled(Wrapper)`s
     @media (min-width: 1025px) {
         margin: 0 7vw;
     }`
@@ -22,7 +22,7 @@ const LoginHeader = styled(Header)`
 
 const Content = styled.div`
     display: flex;
-    margin-top: 2rem;
+    margin-top: 4rem;
     height: 80%;
 
     @media (max-width: 480px) {
@@ -203,10 +203,7 @@ const SignUpTextMobile = styled.span`
     }
 `
 
-const RegisterButton = styled.a.attrs({
-    href: "/questionnaire",
-    className: "border btn"
-})`
+const RegisterButton = styled(TrueButton)`
     width: 50%;
     height: 2.4rem;
     margin-top: 2rem;
@@ -313,7 +310,10 @@ export const Login = () => {
                             </SignUpTextMobile>
                     }
                     {
-                        media.isLaptop && <RegisterButton><span>Регистрация</span></RegisterButton>
+                        media.isLaptop &&
+                        <RegisterButton onClick={() => navigate("/questionnaire")}>
+                            <span>Регистрация</span>
+                        </RegisterButton>
                     }
                 </SignUp>
             </Content>

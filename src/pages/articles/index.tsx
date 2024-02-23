@@ -39,7 +39,6 @@ export const ArticleTitle = styled(Title)`
     font-size: 3.2rem;
     width: 100%;
     text-align: left;
-    font-family: "Inter", "serif";
 
 `
 

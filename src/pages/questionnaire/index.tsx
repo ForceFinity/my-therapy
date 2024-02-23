@@ -290,11 +290,11 @@ export const Questionnaire = () => {
 
                         {
                             currentStepIndex < steps.length - 1 ?
-                                <NextButton className="fill">
+                                <NextButton isFilled={true}>
                                     <span>Напред</span>
                                     <img src={ Chevron } alt="Go Next"/>
                                 </NextButton> :
-                                <NextButton className="fill">
+                                <NextButton isFilled={true}>
                                     <span style={{margin: 0}}>Готово</span>
                                 </NextButton>
                         }

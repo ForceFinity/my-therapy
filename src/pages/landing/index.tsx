@@ -1,18 +1,19 @@
 import VideoCallSvg from "../../assets/video-call.svg";
 import "./styles.css"
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components"
-import { Header, Title, Wrapper } from "../../elements";
+import { Button, Header, Title, TrueButton, Wrapper } from "../../elements";
 import { useAuth } from "../../api/account";
 import { BannerReferral } from "../../elements/banner";
+import { Href } from "../../elements/href";
 
 const LandingTitle = styled(Title)`
     margin-top: 12vh;
     
     @media (min-width: 320px) and (max-width: 768px) {
-        font-weight: 500;
-        margin-top: -3vh;
+        font-weight: 400;
+        margin-top: -2vh;
     }
 `
 
@@ -47,16 +48,38 @@ const LandingBanner = styled(BannerReferral)`
     }
 `
 
+const ChooseTherapistButton = styled(TrueButton)`
+    width: 40%;
+    
+    @media (max-width: 480px) {
+        width: 80%;  
+        height: 5vh;
+        
+        & > span {
+            font-size: 1.4rem;
+        }
+    }
+`
+
+const Container = styled.div`
+    @media (max-width: 480px) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+`
+
 export const Landing = () => {
     const [user, loading,] = useAuth(false)
+    const navigate = useNavigate()
 
     return (
         <Wrapper>
             <LandingHeader isLogged={!!user} user={user} loading={loading} />
             <LandingBanner />
             <div className="content">
-                <div className="container">
-                    <LandingTitle>Погрижи се за себе си</LandingTitle>
+                <Container>
+                    <LandingTitle><p>Погрижи се за себе си</p></LandingTitle>
 
                     <div className="subtitle">
                     <span>
@@ -69,10 +92,10 @@ export const Landing = () => {
                         Нека Ви помогнем да намерите <mark>точния</mark> терапевт
                     </span>
                     </div>
-                    <Link to="/questionnaire" className="btn fill border" id="learn-more-btn">
+                    <ChooseTherapistButton isFilled={true} onClick={() => navigate("/questionnaire")} >
                         <span>Намери специалист!</span>
-                    </Link>
-                </div>
+                    </ChooseTherapistButton>
+                </Container>
                 <img
                     id="video-call-img" src={VideoCallSvg}
                     alt="Woman having an online therapy session"
