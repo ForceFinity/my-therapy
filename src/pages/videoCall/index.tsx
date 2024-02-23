@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { doc, collection, onSnapshot, updateDoc, addDoc, setDoc, getDoc } from "firebase/firestore";
 import { Header, Input, TrueButton, Wrapper } from "../../elements";
 
@@ -39,8 +39,9 @@ export const VideoCall = () => {
     const webcamRef = useRef<HTMLVideoElement>(null)
     const remoteRef = useRef<HTMLVideoElement>(null)
     const callBtnRef = useRef<HTMLButtonElement>(null)
-    const [callID, setCallId] = useState("")
     const answerBtnRef = useRef<HTMLButtonElement>(null)
+    const [callID, setCallId] = useState("")
+    const remoteStream = useMemo(() => new MediaStream(), [])
 
     const servers = {
         iceServers: [
@@ -52,7 +53,6 @@ export const VideoCall = () => {
     };
 
     const pc = new RTCPeerConnection(servers);
-    let remoteStream: MediaStream = new MediaStream()
 
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
@@ -63,16 +63,19 @@ export const VideoCall = () => {
                 if(webcamRef.current)
                     webcamRef.current.srcObject = stream;
             })
+
     }, [webcamRef]);
 
     pc.ontrack = event => {
         event.streams[0].getTracks().forEach(track => {
             remoteStream.addTrack(track)
         })
+
+        if(remoteRef.current)
+            remoteRef.current.srcObject = remoteStream;
     }
 
-    if(remoteRef.current)
-        remoteRef.current.srcObject = remoteStream;
+
 
     const handleCreateCall = async () => {
         const callDoc = await addDoc(collection(firestore, 'calls'), {});
@@ -161,8 +164,8 @@ export const VideoCall = () => {
         <VideoCallWrapper>
             <Header />
             <VideoBox>
-                <TherapistVideo ref={webcamRef} autoPlay ></TherapistVideo>
-                <ClientVideo ref={remoteRef} autoPlay ></ClientVideo>
+                <TherapistVideo ref={remoteRef} autoPlay ></TherapistVideo>
+                <ClientVideo ref={webcamRef} autoPlay ></ClientVideo>
             </VideoBox>
             <TrueButton ref={callBtnRef} onClick={handleCreateCall}>
                 <span>Create call</span>
