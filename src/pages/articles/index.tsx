@@ -21,10 +21,7 @@ export const ArticleWrapper = styled(Wrapper)`
 `
 
 export const ArticleHeader = styled(Header)`
-    width: 100%;
-    @media (min-width: 1024px) {
-        width: 160%;
-    }
+    
 `
 
 export const ArticleContent = styled.div`

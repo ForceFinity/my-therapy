@@ -79,7 +79,7 @@ export const Landing = () => {
             <LandingBanner />
             <div className="content">
                 <Container>
-                    <LandingTitle><p>Погрижи се за себе си</p></LandingTitle>
+                    <LandingTitle>Погрижи се за себе си</LandingTitle>
 
                     <div className="subtitle">
                     <span>

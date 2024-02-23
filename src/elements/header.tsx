@@ -12,6 +12,7 @@ import { Href } from "./href";
 const HeaderStyled = styled.header`
     display: flex;
     justify-content: space-between;
+    width: 80vw;
 
     height: 8vh;
     

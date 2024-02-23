@@ -26,6 +26,8 @@ const Content = styled.div`
 `
 
 const QuizTitle = styled(Title)`
+    justify-content: center;
+    display: flex;
     text-align: center;
     width: 80%;
     font-size: 3.2rem;

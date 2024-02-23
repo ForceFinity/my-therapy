@@ -10,6 +10,8 @@ import "./index.css"
 import { Refereed } from "./pages/refereed";
 import { Articles } from "./pages/articles";
 import { ChooseTherapist } from "./pages/chooseTherapist";
+import { VideoCall } from "./pages/videoCall";
+import { SocketProvider } from "./pages/videoCall/socket";
 
 const router = createBrowserRouter([
     {
@@ -37,8 +39,12 @@ const router = createBrowserRouter([
         element: <Articles />
     },
     {
-        path: "user/me/refereed",
+        path: "/user/me/refereed",
         element: <Refereed />
+    },
+    {
+        path: "/video-call",
+        element: <SocketProvider><VideoCall /></SocketProvider>
     }
 ]);
 

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, redirect, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import styled from "styled-components"
 
@@ -11,7 +11,7 @@ import { getToken, useAuth } from "../../api/account";
 import setAuthCookie from "../../utils/setAuthCookie";
 import { useMedia } from "../../utils/mediaQueries";
 
-const LoginWrapper = styled(Wrapper)`s
+const LoginWrapper = styled(Wrapper)`
     @media (min-width: 1025px) {
         margin: 0 7vw;
     }`
