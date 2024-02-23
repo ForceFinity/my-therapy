@@ -57,11 +57,13 @@ export const VideoCall = () => {
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then(stream => {
+                console.log(stream)
                 stream.getTracks().forEach((track) => {
                     pc.addTrack(track, stream);
                 })
                 if(webcamRef.current)
                     webcamRef.current.srcObject = stream;
+                console.log(webcamRef.current.srcObject)
             })
 
     }, [webcamRef]);
