@@ -4,6 +4,7 @@ import { doc, collection, onSnapshot, updateDoc, addDoc, setDoc, getDoc } from "
 import { Header, Input, TrueButton, Wrapper } from "../../elements";
 
 import { firestore } from "./firebase";
+import { ErrorText } from "../../elements/texts";
 
 const VideoCallWrapper = styled(Wrapper)`
     display: flex;
@@ -41,6 +42,7 @@ export const VideoCall = () => {
     const callBtnRef = useRef<HTMLButtonElement>(null)
     const answerBtnRef = useRef<HTMLButtonElement>(null)
     const [callID, setCallId] = useState("")
+    const [error, setError] = useState("")
     const remoteStream = useMemo(() => new MediaStream(), [])
 
     const servers = {
@@ -57,14 +59,14 @@ export const VideoCall = () => {
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({ video: true, audio: true })
             .then(stream => {
-                console.log(stream)
+                setError(stream)
                 stream.getTracks().forEach((track) => {
                     pc.addTrack(track, stream);
                 })
                 if(webcamRef.current){
 
                     webcamRef.current.srcObject = stream;
-                    console.log(webcamRef.current.srcObject)
+                    setError(error + "\n" + webcamRef.current.srcObject)
                 }
             })
 
@@ -178,6 +180,7 @@ export const VideoCall = () => {
             <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
                 <span>Answer call</span>
             </TrueButton>
+            <ErrorText>{error}</ErrorText>
         </VideoCallWrapper>
     )
 }
