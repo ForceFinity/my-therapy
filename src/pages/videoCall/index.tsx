@@ -82,7 +82,7 @@ export const VideoCall = () => {
         const offerCandidates = collection(firestore, "calls", callDoc.id, 'offerCandidates');
         const answerCandidates = collection(firestore, "calls", callDoc.id, 'answerCandidates');
 
-        console.log("Call ID: " + callDoc.id)
+        setCallId(callDoc.id)
 
         // Get candidates for caller, save to db
         pc.onicecandidate = event => {
