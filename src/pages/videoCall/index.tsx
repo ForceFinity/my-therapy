@@ -61,9 +61,11 @@ export const VideoCall = () => {
                 stream.getTracks().forEach((track) => {
                     pc.addTrack(track, stream);
                 })
-                if(webcamRef.current)
+                if(webcamRef.current){
+
                     webcamRef.current.srcObject = stream;
-                console.log(webcamRef.current.srcObject)
+                    console.log(webcamRef.current.srcObject)
+                }
             })
 
     }, [webcamRef]);
