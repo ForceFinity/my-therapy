@@ -82,7 +82,7 @@ export const VideoCall = () => {
                 }
             })
             .catch(reason => {
-                setError(reason)
+                setError(reason.toString())
             })
 
     }, [webcamRef]);
