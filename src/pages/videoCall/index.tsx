@@ -7,20 +7,23 @@ import { Header, Input, TrueButton, Wrapper } from "../../elements";
 
 import { firestore } from "./firebase";
 import { ErrorText } from "../../elements/texts";
+import hangUpSvg from "../../assets/phone-xmark.svg"
+import { useMedia } from "../../utils/mediaQueries";
 
-const VideoCallWrapper = styled(Wrapper)`
+const VideoCallWrapper = styled(Wrapper)<{isPortrait: boolean}>`
     display: flex;
     flex-direction: column;
     align-items: center;
+    margin: ${({ isPortrait }) => isPortrait ? "0" : {}};
 `
 
-const VideoBox = styled.div`
-    margin-top: 5vh;
+const VideoBox = styled.div<{isPortrait: boolean}>`
+    margin-top: ${props => props.isPortrait ? 0 : "5vh"};
     position: relative;
-    width: 80%;
+    width: ${props => props.isPortrait ? "100%" : "80%"};
     
     video {
-        aspect-ratio: 16 / 9;
+        aspect-ratio: ${props => props.isPortrait ? "9 / 16" : "16 / 9"};
         object-fit: cover;
     }
 `
@@ -28,14 +31,57 @@ const VideoBox = styled.div`
 const TherapistVideo = styled.video`
     border-radius: 1rem;
     width: 100%;
+    
+    @media (max-width: 480px) {
+        height: 100vh;   
+    }
 `
 
-const ClientVideo = styled.video`
+const ClientVideo = styled.video<{isPortrait: boolean}>`
     position: absolute;
-    bottom: 1rem;
+    ${props => props.isPortrait ? "top: 1rem" : "bottom: 1rem"};
     right: 1.5rem;
     border-radius: .6rem;
     width: 30%;
+`
+
+const ControlsBox = styled.div`
+    display: flex;
+    gap: .5rem;
+    flex-direction: column;
+    width: 20vw;
+    margin-right: 62vw;
+`
+
+const CloseCallButton = styled(TrueButton)`
+    position: absolute;
+    bottom: -4rem;
+    border-color: #FF0000;
+    border-radius: 7.5vw;
+    background-color: white;
+    
+    right: 31vw;
+    width: 4vw;
+    height: 4vw;
+
+    img {
+        margin-top: .3rem;
+        margin-right: .1rem;
+        width: 2vw;
+    }
+    
+    @media (max-width: 480px) {
+        right: 42.5vw;
+        width: 15vw;
+        height: 15vw;
+        bottom: 1rem;
+        
+        img {
+            margin-top: .3rem;
+            margin-right: .1rem;
+            width: 8vw;
+        }
+    }
 `
 
 export const VideoCall = () => {
@@ -45,6 +91,7 @@ export const VideoCall = () => {
     const answerBtnRef = useRef<HTMLButtonElement>(null)
     const [callID, setCallId] = useState("")
     const remoteStream = useMemo(() => new MediaStream(), [])
+    const media = useMedia()
     const [localStream, setLocalStream] = useState<MediaStream>()
     const [error, setError] = useState<string>()
 
@@ -57,14 +104,13 @@ export const VideoCall = () => {
         iceCandidatePoolSize: 10,
     };
 
-    const pc = new RTCPeerConnection(servers);
+    let pc = new RTCPeerConnection(servers);
 
     useEffect(() => {
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: 'user',
-                height: {ideal:1080},
-                width: {ideal: 1920},
+                aspectRatio: media.isLaptop ? 16/9 : 9/16
             },
             audio: true
         })
@@ -129,7 +175,6 @@ export const VideoCall = () => {
         onSnapshot(answerCandidates, snapshot => {
             snapshot.docChanges().forEach((change) => {
                 if (change.type === 'added') {
-                    console.log("REMOTE CANDIDATE")
                     pc.addIceCandidate(change.doc.data());
                 }
             });
@@ -138,9 +183,18 @@ export const VideoCall = () => {
 
     const handleAnswerCall = async () => {
         const callId = callID;
+        if(!callId) {
+            setError("Зарежда се...")
+            return
+        }
         const callDoc = doc(firestore, 'calls', callId);
         const offerCandidates = collection(firestore, "calls", callId, 'offerCandidates');
         const answerCandidates = collection(firestore, "calls", callId, 'answerCandidates');
+
+        if(webcamRef.current && !webcamRef.current.srcObject) {
+            setError("Зарежда се...")
+            return
+        }
 
         pc.onicecandidate = event => {
             event.candidate && addDoc(answerCandidates, event.candidate.toJSON());
@@ -149,7 +203,10 @@ export const VideoCall = () => {
         // Fetch data, then set the offer & answer
         const callData = (await getDoc(callDoc)).data();
 
-        if(!callData) return
+        if(!callData || !callData.offer) {
+            setError("Зарежда се...")
+            return
+        }
 
         const offerDescription = callData.offer;
         await pc.setRemoteDescription(new RTCSessionDescription(offerDescription));
@@ -171,7 +228,7 @@ export const VideoCall = () => {
         // Listen to offer candidates
         onSnapshot(offerCandidates, (snapshot) => {
             snapshot.docChanges().forEach((change) => {
-                if (change.type === 'added') {
+                if (change.type === 'added' && pc.signalingState != "closed") {
                     let data = change.doc.data();
                     pc.addIceCandidate(new RTCIceCandidate(data));
                 }
@@ -180,19 +237,29 @@ export const VideoCall = () => {
     }
 
     return (
-        <VideoCallWrapper>
-            <Header />
-            <VideoBox>
+        <VideoCallWrapper isPortrait={media.isMobile}>
+            { media.isLaptop && <Header /> }
+            <VideoBox isPortrait={media.isMobile}>
                 <TherapistVideo ref={remoteRef} autoPlay ></TherapistVideo>
-                <ClientVideo ref={webcamRef} autoPlay ></ClientVideo>
+                <ClientVideo isPortrait={media.isMobile} ref={webcamRef} autoPlay ></ClientVideo>
+                <CloseCallButton onClick={ () => {
+                    remoteRef.current!.srcObject = null
+                    webcamRef.current!.srcObject = null
+                    pc.close()
+                } }>
+                    <img src={ hangUpSvg } alt="Затвори"/>
+                </CloseCallButton>
             </VideoBox>
-            <TrueButton ref={callBtnRef} onClick={handleCreateCall}>
-                <span>Create call</span>
-            </TrueButton>
-            <Input value={callID} onChange={(e) => setCallId(e.target.value)} />
-            <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
-                <span>Answer call</span>
-            </TrueButton>
+
+            <ControlsBox>
+                <TrueButton ref={callBtnRef} onClick={handleCreateCall}>
+                    <span>Create call</span>
+                </TrueButton>
+                <Input value={callID} onChange={(e) => setCallId(e.target.value)} />
+                <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
+                    <span>Answer call</span>
+                </TrueButton>
+            </ControlsBox>
             <ErrorText>{ error }</ErrorText>
         </VideoCallWrapper>
     )
