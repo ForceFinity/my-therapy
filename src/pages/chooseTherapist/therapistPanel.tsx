@@ -8,6 +8,7 @@ import { ThemeCard } from "./themeCard";
 import { ExpandableBox } from "../../elements/expandableBox";
 import { useRef, useState } from "react";
 import dayjs from "dayjs";
+import { useNavigate } from "react-router-dom";
 
 const Content = styled.div`
     margin-left: 12vw;
@@ -195,6 +196,7 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
     const [chosenHour, setChosenHour] = useState<string>()
     const maxDescHeightRem = 6
     const bookRef = useRef<HTMLDivElement>(null)
+    const navigate = useNavigate()
     
     return (
         <Content>
@@ -290,6 +292,7 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
             <BookButton
                 disabled={!(chosenHour && chosenHour.startsWith(therapist.id.toString()))}
                 isFilled={true}
+                onClick={()=>navigate("/video-call")}
             >
                 <span>Запази час</span>
             </BookButton>
