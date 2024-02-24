@@ -1,3 +1,5 @@
+// noinspection TypeScriptValidateTypes
+
 import styled from "styled-components";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { doc, collection, onSnapshot, updateDoc, addDoc, setDoc, getDoc } from "firebase/firestore";
@@ -42,8 +44,8 @@ export const VideoCall = () => {
     const callBtnRef = useRef<HTMLButtonElement>(null)
     const answerBtnRef = useRef<HTMLButtonElement>(null)
     const [callID, setCallId] = useState("")
-    const [error, setError] = useState("")
     const remoteStream = useMemo(() => new MediaStream(), [])
+    const [localStream, setLocalStream] = useState<MediaStream>()
 
     const servers = {
         iceServers: [
@@ -57,28 +59,37 @@ export const VideoCall = () => {
     const pc = new RTCPeerConnection(servers);
 
     useEffect(() => {
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+        navigator.mediaDevices.getUserMedia({
+            video: {
+                facingMode: 'user',
+                height: {ideal:1080},
+                width: {ideal: 1920},
+            },
+            audio: true
+        })
             .then(stream => {
-                setError(stream)
+                console.log(stream)
                 stream.getTracks().forEach((track) => {
                     pc.addTrack(track, stream);
                 })
-                if(webcamRef.current){
 
+                if(webcamRef.current){
+                    setLocalStream(stream)
                     webcamRef.current.srcObject = stream;
-                    setError(error + "\n" + webcamRef.current.srcObject)
                 }
             })
 
     }, [webcamRef]);
 
     pc.ontrack = event => {
+        console.log(event)
         event.streams[0].getTracks().forEach(track => {
             remoteStream.addTrack(track)
         })
 
-        if(remoteRef.current)
-            remoteRef.current.srcObject = remoteStream;
+        if(remoteRef.current){
+            console.log(remoteStream)
+            remoteRef.current.srcObject = remoteStream;}
     }
 
 
@@ -145,6 +156,7 @@ export const VideoCall = () => {
 
         const answerDescription = await pc.createAnswer();
         await pc.setLocalDescription(answerDescription);
+        console.log(pc)
 
         const answer = {
             type: answerDescription.type,
@@ -157,7 +169,6 @@ export const VideoCall = () => {
 
         onSnapshot(offerCandidates, (snapshot) => {
             snapshot.docChanges().forEach((change) => {
-                console.log(change)
                 if (change.type === 'added') {
                     let data = change.doc.data();
                     pc.addIceCandidate(new RTCIceCandidate(data));
@@ -180,7 +191,7 @@ export const VideoCall = () => {
             <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
                 <span>Answer call</span>
             </TrueButton>
-            <ErrorText>{error}</ErrorText>
+            <ErrorText>{ localStream && localStream.getVideoTracks().map(v=><span>{v.getConstraints().height?.toString()}</span>) }</ErrorText>
         </VideoCallWrapper>
     )
 }
