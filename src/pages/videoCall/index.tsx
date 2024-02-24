@@ -156,7 +156,10 @@ export const VideoCall = () => {
         const answerDescription = await pc.createAnswer();
         await pc.setLocalDescription(answerDescription);
         console.log("Answer pc: ", pc)
-
+        if(pc.connectionState == "failed") {
+            console.log("Restarting ice")
+            pc.restartIce()
+        }
         const answer = {
             type: answerDescription.type,
             sdp: answerDescription.sdp,
