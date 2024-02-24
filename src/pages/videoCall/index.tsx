@@ -46,6 +46,7 @@ export const VideoCall = () => {
     const [callID, setCallId] = useState("")
     const remoteStream = useMemo(() => new MediaStream(), [])
     const [localStream, setLocalStream] = useState<MediaStream>()
+    const [error, setError] = useState("")
 
     const servers = {
         iceServers: [
@@ -69,12 +70,14 @@ export const VideoCall = () => {
         })
             .then(stream => {
                 console.log(stream)
+                setError("Got " + stream.getVideoTracks().length)
                 stream.getTracks().forEach((track) => {
                     pc.addTrack(track, stream);
                 })
 
                 if(webcamRef.current){
                     setLocalStream(stream)
+                    setError(prevState => prevState + "\nin webcam")
                     webcamRef.current.srcObject = stream;
                 }
             })
@@ -192,6 +195,7 @@ export const VideoCall = () => {
                 <span>Answer call</span>
             </TrueButton>
             <ErrorText>{ localStream && localStream.getVideoTracks().map(v=><span>{v.getConstraints().height?.toString()}</span>) }</ErrorText>
+            <ErrorText>{ error }</ErrorText>
         </VideoCallWrapper>
     )
 }
