@@ -115,7 +115,7 @@ export const VideoCall = () => {
         };
 
         await setDoc(callDoc, { offer });
-        console.log(pc)
+
         // Listen for remote answer
         onSnapshot(callDoc, (snapshot) => {
             const data = snapshot.data();
@@ -129,6 +129,7 @@ export const VideoCall = () => {
         onSnapshot(answerCandidates, snapshot => {
             snapshot.docChanges().forEach((change) => {
                 if (change.type === 'added') {
+                    console.log("REMOTE CANDIDATE")
                     pc.addIceCandidate(change.doc.data());
                 }
             });
