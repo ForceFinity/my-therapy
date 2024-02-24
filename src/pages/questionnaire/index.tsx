@@ -186,7 +186,7 @@ export const Questionnaire = () => {
 
     useEffect(() => {
         if(user) {
-            if(user.is_confirmed) navigate("/")
+            if(user.is_confirmed) navigate("/choose-therapist")
             setCurrentStepIndex(2)
         }
 
