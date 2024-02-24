@@ -74,7 +74,7 @@ const CloseCallButton = styled(TrueButton)`
         right: 42.5vw;
         width: 15vw;
         height: 15vw;
-        bottom: 1rem;
+        bottom: 4rem;
         
         img {
             margin-top: .3rem;
@@ -110,6 +110,8 @@ export const VideoCall = () => {
         navigator.mediaDevices.getUserMedia({
             video: {
                 facingMode: 'user',
+                width: { ideal: 1920 },
+                height: { ideal: 1080 },
                 aspectRatio: media.isLaptop ? 16/9 : 9/16
             },
             audio: true
