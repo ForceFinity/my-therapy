@@ -22,7 +22,7 @@ const LoginHeader = styled(Header)`
 
 const Content = styled.div`
     display: flex;
-    margin-top: 4rem;
+    margin-top: 1.5rem;
     height: 80%;
 
     @media (max-width: 480px) {
