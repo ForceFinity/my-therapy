@@ -46,12 +46,12 @@ export const VideoCall = () => {
     const [callID, setCallId] = useState("")
     const remoteStream = useMemo(() => new MediaStream(), [])
     const [localStream, setLocalStream] = useState<MediaStream>()
-    const [error, setError] = useState("gay")
+    const [error, setError] = useState<string>()
 
     const servers = {
         iceServers: [
             {
-                urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302'],
+                urls: ['stun:stun1.l.google.com:19302', 'stun:stun2.l.google.com:19302', 'stun:stun3.l.google.com:19302'],
             },
         ],
         iceCandidatePoolSize: 10,
@@ -69,15 +69,11 @@ export const VideoCall = () => {
             audio: true
         })
             .then(stream => {
-                console.log(stream)
-                setError("Got " + stream.getVideoTracks().length)
                 stream.getTracks().forEach((track) => {
                     pc.addTrack(track, stream);
                 })
 
                 if(webcamRef.current){
-                    setLocalStream(stream)
-                    setError(prevState => prevState + "\nin webcam")
                     webcamRef.current.srcObject = stream;
                 }
             })
@@ -90,15 +86,14 @@ export const VideoCall = () => {
     pc.ontrack = event => {
         console.log(event)
         event.streams[0].getTracks().forEach(track => {
+            console.log("Remote track", track)
             remoteStream.addTrack(track)
         })
 
         if(remoteRef.current){
-            console.log(remoteStream)
+            console.log("Remote stream: " + remoteStream)
             remoteRef.current.srcObject = remoteStream;}
     }
-
-
 
     const handleCreateCall = async () => {
         const callDoc = await addDoc(collection(firestore, 'calls'), {});
@@ -106,12 +101,10 @@ export const VideoCall = () => {
         const answerCandidates = collection(firestore, "calls", callDoc.id, 'answerCandidates');
 
         setCallId(callDoc.id)
-
         // Get candidates for caller, save to db
         pc.onicecandidate = event => {
             event.candidate && addDoc(offerCandidates, event.candidate.toJSON());
         };
-
         // Create offer
         const offerDescription = await pc.createOffer();
         await pc.setLocalDescription(offerDescription);
@@ -122,10 +115,11 @@ export const VideoCall = () => {
         };
 
         await setDoc(callDoc, { offer });
-
+        console.log(pc)
         // Listen for remote answer
         onSnapshot(callDoc, (snapshot) => {
             const data = snapshot.data();
+            console.log(data)
             if (!pc.currentRemoteDescription && data?.answer) {
                 pc.setRemoteDescription(new RTCSessionDescription(data.answer));
             }
@@ -135,7 +129,7 @@ export const VideoCall = () => {
         onSnapshot(answerCandidates, snapshot => {
             snapshot.docChanges().forEach((change) => {
                 if (change.type === 'added') {
-                    pc.addIceCandidate(change.doc.data() as RTCIceCandidate);
+                    pc.addIceCandidate(change.doc.data());
                 }
             });
         });
@@ -152,7 +146,6 @@ export const VideoCall = () => {
         };
 
         // Fetch data, then set the offer & answer
-
         const callData = (await getDoc(callDoc)).data();
 
         if(!callData) return
@@ -162,7 +155,7 @@ export const VideoCall = () => {
 
         const answerDescription = await pc.createAnswer();
         await pc.setLocalDescription(answerDescription);
-        console.log(pc)
+        console.log("Answer pc: ", pc)
 
         const answer = {
             type: answerDescription.type,
@@ -172,7 +165,6 @@ export const VideoCall = () => {
         await updateDoc(callDoc, { answer });
 
         // Listen to offer candidates
-
         onSnapshot(offerCandidates, (snapshot) => {
             snapshot.docChanges().forEach((change) => {
                 if (change.type === 'added') {
@@ -197,7 +189,6 @@ export const VideoCall = () => {
             <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
                 <span>Answer call</span>
             </TrueButton>
-            <ErrorText>{ localStream && localStream.getVideoTracks().map(v=><span>{v.getConstraints().height?.toString()}</span>) }</ErrorText>
             <ErrorText>{ error }</ErrorText>
         </VideoCallWrapper>
     )
