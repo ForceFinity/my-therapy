@@ -46,7 +46,7 @@ export const VideoCall = () => {
     const [callID, setCallId] = useState("")
     const remoteStream = useMemo(() => new MediaStream(), [])
     const [localStream, setLocalStream] = useState<MediaStream>()
-    const [error, setError] = useState("")
+    const [error, setError] = useState("gay")
 
     const servers = {
         iceServers: [
@@ -80,6 +80,9 @@ export const VideoCall = () => {
                     setError(prevState => prevState + "\nin webcam")
                     webcamRef.current.srcObject = stream;
                 }
+            })
+            .catch(reason => {
+                setError(reason)
             })
 
     }, [webcamRef]);
