@@ -6,6 +6,7 @@ import { TherapistPanel } from "./therapistPanel";
 import { Footer } from "../../elements/footer";
 import * as dayjs from 'dayjs'
 import "dayjs/locale/bg"
+import { useAuth } from "../../api/account";
 
 const ChooseTherapistWrapper = styled(Wrapper)`
     display: flex;
@@ -75,6 +76,7 @@ const getTherapistsMagically = (): { [key: number]: Therapist } => ({
 })
 
 export const ChooseTherapist = () => {
+    const [user,,] = useAuth()
     let therapists: { [key: number]: Therapist } = getTherapistsMagically()
     const [currTherapist, setCurrTherapist] = useState(1)
 
@@ -86,7 +88,7 @@ export const ChooseTherapist = () => {
 
     return (
         <ChooseTherapistWrapper>
-            <Header />
+            <Header user={user} isLogged={!!user} />
             <Content>
                 <SidePanel data={therapists} curr={currTherapist} setCurr={setCurrTherapist} />
                 <TherapistPanel therapist={therapists[currTherapist]} />

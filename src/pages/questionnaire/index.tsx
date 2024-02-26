@@ -12,6 +12,8 @@ import { checkEmailOTP, sendConfirmationEmail, signUp, useAuth } from "../../api
 import { useCookies } from "react-cookie";
 import setAuthCookie from "../../utils/setAuthCookie";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import getAge from "./getAge";
+import { TeenHelp } from "./teenHelp";
 
 const QuizHeader = styled(Header)`
 `
@@ -171,6 +173,7 @@ const INITIAL_DATA: FormData = {
 export const Questionnaire = () => {
     const [error, setError] = useState<string>()
     const [data, setData] = useState(INITIAL_DATA)
+    const [toggleHelp, setToggleHelp] = useState(false)
     const [doEmailSent, setDoEmailSent] = useState(false)
     const [searchParams,] = useSearchParams();
     const [cookies, setCookie] = useCookies()
@@ -183,14 +186,6 @@ export const Questionnaire = () => {
     const by_user_id = searchParams.get("by_user_id")
 
     const [user,,] = useAuth(false)
-
-    useEffect(() => {
-        if(user) {
-            if(user.is_confirmed) navigate("/choose-therapist")
-            setCurrentStepIndex(2)
-        }
-
-    })
 
     function updateFields(fields: Partial<FormData>) {
         setData(prev => {
@@ -224,6 +219,23 @@ export const Questionnaire = () => {
     }
 
     useEffect(() => {
+        if(user) {
+            if(user.is_confirmed) navigate("/choose-therapist")
+            setCurrentStepIndex(2)
+        }
+
+    })
+
+    useEffect(() => {
+        if(currentStepIndex !== 1) return
+
+        if(getAge(data.birth_date) < 18) {
+            setToggleHelp(true)
+            return
+        }
+    }, [currentStepIndex]);
+
+    useEffect(() => {
         if(currentStepIndex !== 2) return
 
         if(user && !user.is_confirmed) {
@@ -233,7 +245,7 @@ export const Questionnaire = () => {
 
         const details = validateForm<FormData>(data)
         if(details) {
-            setError(details)
+            setError(details.message)
             setCurrentStepIndex(currentStepIndex-1)
             return
         }
@@ -308,6 +320,10 @@ export const Questionnaire = () => {
                     }
                 </QuizForm>
             </Content>
+            {
+                toggleHelp &&
+                <TeenHelp />
+            }
         </Wrapper>
     )
 }

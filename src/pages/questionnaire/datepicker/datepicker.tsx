@@ -47,7 +47,7 @@ export const CustomDatePicker = ({ birthDate, updateFields }: CustomDatePickerPr
     const range = (start: number, end: number) => Array.from({length: (end - start)}, (v, k) => k + start);
 
     const currYear = (new Date()).getFullYear()
-    const years = range(1970, currYear + 1);
+    const years = range(1900, currYear + 1);
     const months = [
         "January",
         "February",
