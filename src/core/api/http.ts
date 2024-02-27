@@ -1,5 +1,4 @@
-import useSWR, { SWRConfiguration, SWRResponse } from 'swr'
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 
 export const API_BASE = "https://my-therapy-aaoikglfla-ez.a.run.app/api"
 

@@ -1,4 +1,4 @@
-import { Session } from "../api/users";
+import { Session } from "../schemas/auth";
 
 export default function parseJWT(token: string): Session {
     const base64Url = token.split('.')[1];

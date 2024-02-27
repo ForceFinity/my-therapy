@@ -1,6 +1,6 @@
 import parseJWT from "./parseJWT";
 
-export default function setAuthCookie(token: string, setCookie: any, doRemember?: boolean) {
+export function setAuthCookie(token: string, setCookie: any, doRemember?: boolean) {
     const session = parseJWT(token)
     const expires = new Date(session.exp! * 1000)
 

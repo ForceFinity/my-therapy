@@ -1,5 +1,6 @@
 import { API_BASE, post } from "./http";
-import { User } from "./users";
+
+import { User } from "@core/schemas/user";
 
 export const sendConfirmationEmail = async (email: string, token: string) => {
     const url = API_BASE + "/users/sendConfirmationEmail?email=" + email
