@@ -30,3 +30,8 @@ export const verifyFormCompletion = async (token: string) => {
     return await fetchLogged<boolean>(url, token)
 }
 
+export const getPFP = async (token: string) => {
+    const url = "http://localhost:8000/api" + "/users/pfp/"
+
+    return await fetchLogged<string>(url, token)
+}

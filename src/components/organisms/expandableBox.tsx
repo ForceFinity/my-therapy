@@ -2,6 +2,7 @@ import styled from "styled-components";
 import { useRef, useState } from "react";
 import ChevronGreenSvg from "@assets/chevron-green.svg";
 import { Href } from "../atoms/href";
+import { Text } from "@components/atoms/texts";
 
 const EBWrapper = styled.div`
 `
@@ -53,9 +54,9 @@ export const ExpandableBox = ({children, maxHeightRem}: ExpandableTextProps) => 
             </Content>
 
             <Expand onClick={() => setIsFolded(!isFolded)} >
-                <Href to={"javascript:;"}><span>
+                <Href to={"javascript:;"}><Text>
                     { isFolded ? "Разтвори" : "Затвори" }
-                </span></Href>
+                </Text></Href>
                 <img src={ ChevronGreenSvg } style={ !isFolded ? {rotate: "180deg"} : {} } alt="Разтвори"/>
             </Expand>
         </EBWrapper>

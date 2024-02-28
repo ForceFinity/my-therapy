@@ -216,6 +216,7 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                         <Text>Опит 5 години</Text>
                     </ExperienceBox>
                     <BookButton
+                        isBordered={true}
                         onClick={()=>bookRef.current?.scrollIntoView({ behavior: 'smooth' })}
                         isFilled={true}
                     >
@@ -277,6 +278,7 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                                     {
                                         therapist.workDays[keyName].map((hour, j) => (
                                             <Hour
+                                                isBordered={true}
                                                 isFilled={ chosenHour === therapist.id + j + keyName}
                                                 onClick={() => setChosenHour(therapist.id + j + keyName)}
                                                 key={therapist.id + j + keyName}
@@ -292,6 +294,7 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                 </ExpandableBox>
             </InfoBox>
             <BookButton
+                isBordered={true}
                 disabled={!(chosenHour && chosenHour.startsWith(therapist.id.toString()))}
                 isFilled={true}
                 onClick={()=>navigate("/video-call")}

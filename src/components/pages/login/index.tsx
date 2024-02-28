@@ -15,7 +15,7 @@ import { ErrorText, Text } from "@components/atoms/texts";
 
 const LoginWrapper = styled(Wrapper)`
     @media (min-width: 1025px) {
-        margin: 0 7vw;
+        margin: 0 10vw;
     }`
 
 const LoginHeader = styled(Header)`
@@ -24,7 +24,7 @@ const LoginHeader = styled(Header)`
 
 const Content = styled.div`
     display: flex;
-    margin-top: 1.5rem;
+    margin-top: 3rem;
     height: 80%;
 
     @media (max-width: 480px) {
@@ -224,7 +224,7 @@ export const Login = () => {
     const navigate = useNavigate()
     const [, setCookie] = useCookies()
 
-    const [user,] = useAuth(false)
+    const { user } = useAuth(false)
 
     useEffect(() => {
         if(user) navigate("/")
@@ -263,20 +263,20 @@ export const Login = () => {
                         }
                         <FormInput>
                             <Text>Имейл</Text>
-                            <Input 
+                            <Input
                                 type="text"
                                 name="email"
-                                value={email} 
+                                value={email}
                                 placeholder="example@mail.com"
                                 onChange={(e) => setEmail(e.target.value.toLowerCase())}
                             />
                         </FormInput>
                         <FormInput>
                             <Text>Парола</Text>
-                            <Input 
+                            <Input
                                 type="password"
                                 name="password"
-                                value={password} 
+                                value={password}
                                 placeholder="qwerty1234"
                                 onChange={(e) => setPass(e.target.value)}
                             />
@@ -313,7 +313,7 @@ export const Login = () => {
                     }
                     {
                         media.isLaptop &&
-                        <RegisterButton onClick={() => navigate("/questionnaire")}>
+                        <RegisterButton isBordered={true} onClick={() => navigate("/questionnaire")}>
                             <Text>Регистрация</Text>
                         </RegisterButton>
                     }

@@ -72,7 +72,7 @@ const Container = styled.div`
 `
 
 export const Landing = () => {
-    const [user, loading,] = useAuth(false)
+    const { user, loading } = useAuth(false)
     const navigate = useNavigate()
 
     return (
@@ -94,7 +94,8 @@ export const Landing = () => {
                         Нека Ви помогнем да намерите <mark>точния</mark> терапевт
                     </Text>
                     </div>
-                    <ChooseTherapistButton isFilled={true} onClick={() => navigate("/questionnaire")} >
+                    <ChooseTherapistButton
+                        isBordered={true} isFilled={true} onClick={() => navigate("/questionnaire")} >
                         <Text>Намери специалист!</Text>
                     </ChooseTherapistButton>
                 </Container>

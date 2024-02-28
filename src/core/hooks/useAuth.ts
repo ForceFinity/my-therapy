@@ -4,11 +4,13 @@ import { useNavigate } from "react-router-dom";
 import { API_BASE, fetchLogged } from "@core/api/http";
 import { User } from "@core/schemas/user";
 import { Session } from "@core/schemas/auth";
+import { Simulate } from "react-dom/test-utils";
+import load = Simulate.load;
 
 export const useAuth = (
     isStrict: boolean = true,
     needUser: boolean = true
-): [User | undefined, boolean, () => void] => {
+): { user: User | undefined, loading: boolean, logout: () => void } => {
     const [cookies, , removeCookies] = useCookies()
     const [user, setUser] = useState<User>()
     const [loading, setLoading] = useState(true);
@@ -41,7 +43,7 @@ export const useAuth = (
                         if (isStrict) navigate("/sign-in/");
                         return;
                     }
-                    setUser(prevUser => userResp.data as User);
+                    setUser(prevUser => ({...userResp.data, token} as User));
                 }
             } catch (error) {
                 console.error("Error fetching user data:", error);
@@ -54,7 +56,11 @@ export const useAuth = (
         auth();
     }, [cookies, isStrict, navigate, token]);
 
-    return [user, loading, logout]
+    return {
+        user: user,
+        loading: loading,
+        logout: logout
+    }
 }
 
 const getUser = async (email: string, token: string) => {

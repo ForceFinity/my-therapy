@@ -16,11 +16,6 @@ export const ArticleWrapper = styled(Wrapper)`
     display: flex;
     flex-direction: column;
     align-items: center;
-
-    
-    @media (min-width: 1024px) {
-        margin: 0 25vw;
-    }
 `
 
 export const ArticleHeader = styled(Header)`
@@ -96,9 +91,9 @@ export const ArticleButton = styled(TrueButton)`
 
 export const Articles = () => {
     const { name } = useParams();
-    const [user,,] = useAuth(false)
-    console.log(name)
-    const articles: { [key: string]: ReactElement, } = {
+    const { user } = useAuth(false)
+
+    const articles: { [key: string]: ReactElement } = {
         "referral": <ReferralArticle user={user} />,
         "terms-of-service": <TOSArticle />,
         "privacy-policy": <PrivacyPolicyArticle />,
@@ -106,7 +101,7 @@ export const Articles = () => {
     }
 
     return (
-        <ArticleWrapper>
+        <ArticleWrapper isThin={true}>
             <ArticleHeader isLogged={!!user} user={user} />
             { name && articles[name] }
             <Footer />

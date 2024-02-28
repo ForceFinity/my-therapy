@@ -7,6 +7,7 @@ import { Footer } from "@components/templates/footer";
 import { Header } from "@components/templates";
 import * as dayjs from 'dayjs'
 import "dayjs/locale/bg"
+import { useAuth } from "@core/hooks/useAuth";
 
 const ChooseTherapistWrapper = styled(Wrapper)`
     display: flex;
@@ -76,6 +77,7 @@ const getTherapistsMagically = (): { [key: number]: Therapist } => ({
 })
 
 export const ChooseTherapist = () => {
+    const { user } = useAuth()
     let therapists: { [key: number]: Therapist } = getTherapistsMagically()
     const [currTherapist, setCurrTherapist] = useState(1)
 

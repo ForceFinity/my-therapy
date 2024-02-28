@@ -10,6 +10,7 @@ import { Href } from "../atoms/href";
 import { User } from "@core/schemas/user";
 import { ErrorText, Text } from "@components/atoms/texts";
 import { useState } from "react";
+import { Dropdown } from "@components/organisms/dropdown";
 
 const HeaderStyled = styled.header`
     display: flex;
@@ -61,9 +62,7 @@ const Signs = styled.div`
 `
 
 const SignUpButton = styled(Button)`
-    padding: 0 2rem;
-
-    border: .1rem var(--accent) solid;
+    width: 8vw;
     border-radius: .6rem;
 `
 
@@ -84,8 +83,6 @@ interface HeaderProps {
 }
 
 export const Header = ({ className, disableSigns, isLogged, user, loading }: HeaderProps) => {
-    const [value, setValue] = useState("")
-    const [isOpen, setIsOpen] = useState(false)
     const media = useMedia()
     const navigate = useNavigate()
 
@@ -121,7 +118,7 @@ export const Header = ({ className, disableSigns, isLogged, user, loading }: Hea
                 </svg>
             </Logo>
 
-            <div onClick={() => setIsOpen(!isOpen)}>
+            <div>
                 {
                     disableSigns ?
                         null :
@@ -129,14 +126,27 @@ export const Header = ({ className, disableSigns, isLogged, user, loading }: Hea
                             (
                                 !isLogged ?
                                     <Signs>
-                                        <SignUpButton to="/questionnaire">Регистрация</SignUpButton>
+                                        <SignUpButton isBordered to="/questionnaire">
+                                            Регистрация
+                                        </SignUpButton>
                                         <Button to="/sign-in">Вход</Button>
                                     </Signs> :
                                     loading ? <Text>Зарежда се...</Text> :
-                                        <Profile>
-                                            <Text>{user?.nickname}</Text>
-                                            <img src={ArrowDownSvg} alt="Разтвори" style={ isOpen ? {rotate: "180deg"} : {}}/>
-                                        </Profile>
+                                        <Dropdown>
+                                            <Dropdown.Button>
+                                                <Text>{user?.nickname}</Text>
+                                            </Dropdown.Button>
+                                            <Dropdown.Content>
+                                                <Dropdown.List>
+                                                    <Dropdown.Item to="/users/@me">
+                                                        <Text>Профил</Text>
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item to="/logout">
+                                                        <Text style={{color: "#FF3737"}}>Излез</Text>
+                                                    </Dropdown.Item>
+                                                </Dropdown.List>
+                                            </Dropdown.Content>
+                                        </Dropdown>
                             ) :
                             <Signs>
                                 <img src={Burger} alt="Меню" onClick={()=>navigate("/sign-in")}></img>

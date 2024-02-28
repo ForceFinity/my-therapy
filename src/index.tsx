@@ -17,6 +17,7 @@ import {
 } from '@components/pages';
 
 import "./index.css"
+import { Users } from "@components/pages/users";
 
 
 const router = createBrowserRouter([
@@ -45,7 +46,11 @@ const router = createBrowserRouter([
         element: <Articles />
     },
     {
-        path: "/user/me/refereed",
+        path: "/users/:id",
+        element: <Users />
+    },
+    {
+        path: "/users/:id/refereed",
         element: <Refereed />
     },
     {

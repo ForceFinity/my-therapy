@@ -244,7 +244,7 @@ export const VideoCall = () => {
             <VideoBox isPortrait={media.isMobile}>
                 <TherapistVideo ref={remoteRef} autoPlay ></TherapistVideo>
                 <ClientVideo isPortrait={media.isMobile} ref={webcamRef} autoPlay ></ClientVideo>
-                <CloseCallButton onClick={ () => {
+                <CloseCallButton isBordered={true} onClick={ () => {
                     remoteRef.current!.srcObject = null
                     webcamRef.current!.srcObject = null
                     pc.close()

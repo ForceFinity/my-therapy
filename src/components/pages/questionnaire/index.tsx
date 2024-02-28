@@ -189,7 +189,7 @@ export const Questionnaire = () => {
     ])
     const by_user_id = searchParams.get("by_user_id")
 
-    const [user,,] = useAuth(false)
+    const { user } = useAuth(false)
 
     useEffect(() => {
         if(user) {
@@ -286,8 +286,9 @@ export const Questionnaire = () => {
                     { step }
                     <Navigation>
                         <PrevButton
+                            isBordered={true}
                             style={
-                            isFirstStep ? { opacity: 0.6 } : undefined
+                                isFirstStep ? { opacity: 0.6 } : undefined
                             }
                             type="button"
                             onClick={() => {
@@ -299,11 +300,11 @@ export const Questionnaire = () => {
 
                         {
                             currentStepIndex < steps.length - 1 ?
-                                <NextButton isFilled={true}>
+                                <NextButton isBordered={true} isFilled={true}>
                                     <Text>Напред</Text>
                                     <img src={ Chevron } alt="Go Next"/>
                                 </NextButton> :
-                                <NextButton isFilled={true}>
+                                <NextButton isBordered={true} isFilled={true}>
                                     <Text style={{margin: 0}}>Готово</Text>
                                 </NextButton>
                         }

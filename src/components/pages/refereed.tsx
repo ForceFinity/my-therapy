@@ -109,7 +109,7 @@ const RefereedHeader = styled(Header)`
 `
 
 export const Refereed = () => {
-    const [user,,] = useAuth()
+    const { user } = useAuth()
     const [cookies,] = useCookies()
     const [data, setData] = useState<RefereedTableProps[]>()
     const [loading, setLoading] = useState<boolean>(true)

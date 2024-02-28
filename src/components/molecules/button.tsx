@@ -1,37 +1,44 @@
 import { Href } from "../atoms/href";
 import styled from "styled-components";
 import { Text } from "@components/atoms/texts";
+import { border, fill } from "@components/atoms/primitives";
 
-const StyledHref = styled(Href)`
+const StyledHref = styled(Href)<{isBordered?: boolean, isFilled?: boolean}>`
+    all: unset;
+    
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
+    
+    ${props => props.isBordered ? border : ""};
+    ${props => props.isFilled ? fill : ""};
 
-    height: 2.4rem;
-    width: 6rem;
+    padding: .6rem 2rem;
 
-    transition: opacity .8s ease-out;
+    transition: opacity .2s ease-out;
 
     &:hover {
-        opacity: 0.65;
+        opacity: .65;
         cursor: pointer;
     }
 
-    span {
-        color: black;
+    &:disabled {
+        opacity: .5;
+        cursor: default;
     }
 `
 
 interface ButtonProps {
     to: string
     children: any
-    className?: string
+    isBordered?: boolean
+    isFilled?: boolean
 }
 
-export const Button = ({to, children, className}: ButtonProps) => {
+export const Button = ({to, children, isBordered, isFilled}: ButtonProps) => {
     return (
-        <StyledHref to={to} className={`btn ${className}`}>
+        <StyledHref to={to} isBordered={isBordered} isFilled={isFilled}>
             <Text>{children}</Text>
         </StyledHref>
     )
