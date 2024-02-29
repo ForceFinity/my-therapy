@@ -8,6 +8,7 @@ export type Weekdays = {
 
 export const Upcoming = () => {
     const [data, setData] = useState<Weekdays[]>(getMonthData)
+    const [chosen, setChosen] = useState<string>("")
 
-    return <CalendarTable data={data} />
+    return <CalendarTable data={data} chosen={chosen} setChosen={setChosen} />
 }

@@ -37,7 +37,7 @@ const CalendarTableStyled = styled(TableStyled)`
     }
 `
 
-const CalendarTableDay = styled(Text)<{ isFromAnotherMonth: boolean }>`
+const CalendarTableDay = styled(Text)<{ isFromAnotherMonth: boolean, isChosen: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -48,16 +48,23 @@ const CalendarTableDay = styled(Text)<{ isFromAnotherMonth: boolean }>`
     aspect-ratio: 1 / 1;
     margin: auto;
 
+    border-radius: .5rem;
     ${props => !props.isFromAnotherMonth && css`
         &:hover {
             cursor: pointer;
             background-color: rgba(5, 130, 112, .5);
-            border-radius: .5rem;      
         }`
     }
-`
+    
+    ${props => props.isChosen && css`background-color: rgba(5, 130, 112, .5);`}`
 
-export const CalendarTable = ({data}: {data: Weekdays[]}) => {
+interface CalendarTableProps {
+    data: Weekdays[],
+    chosen: string,
+    setChosen: any
+}
+
+export const CalendarTable = ({data, chosen, setChosen}: CalendarTableProps) => {
     const columnHelper = createColumnHelper<Weekdays>()
     const columns = [
         ...dayjs.weekdaysShort().map(value => (
@@ -65,12 +72,17 @@ export const CalendarTable = ({data}: {data: Weekdays[]}) => {
                 id: value,
                 header: value[0].toUpperCase() + value.slice(1),
                 cell: info => {
+                    const value = info.getValue()
                     const isFromAnotherMonth = (
-                        info.row.index == 0 && parseInt(info.getValue()) > 7
-                        || info.row.index == data.length - 1 && parseInt(info.getValue()) < 7
+                        info.row.index == 0 && parseInt(value) > 7
+                        || info.row.index == data.length - 1 && parseInt(value) < 7
                     )
-                    return <CalendarTableDay isFromAnotherMonth={isFromAnotherMonth}>
-                        {info.getValue()}
+                    return <CalendarTableDay
+                        isFromAnotherMonth={isFromAnotherMonth}
+                        isChosen={value == chosen && !isFromAnotherMonth}
+                        onClick={() => setChosen(value)}
+                    >
+                        {value}
                     </CalendarTableDay>
                 },
                 footer: info => info.column.id,
