@@ -5,8 +5,6 @@ import { SidePanel } from "./sidePanel";
 import { TherapistPanel } from "./therapistPanel";
 import { Footer } from "@components/templates/footer";
 import { Header } from "@components/templates";
-import * as dayjs from 'dayjs'
-import "dayjs/locale/bg"
 import { useAuth } from "@core/hooks/useAuth";
 
 const ChooseTherapistWrapper = styled(Wrapper)`
@@ -80,8 +78,6 @@ export const ChooseTherapist = () => {
     const { user } = useAuth()
     let therapists: { [key: number]: Therapist } = getTherapistsMagically()
     const [currTherapist, setCurrTherapist] = useState(1)
-
-    dayjs.locale('bg')
 
     // useEffect(() => {
     //     therapists = getTherapistsMagically()

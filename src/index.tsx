@@ -4,6 +4,9 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import * as dayjs from "dayjs";
+import localeData from 'dayjs/plugin/localeData';
+import "dayjs/locale/bg"
 
 import {
     Articles,
@@ -18,6 +21,7 @@ import {
 
 import "./index.css"
 import { Users } from "@components/pages/users";
+import { Upcoming } from "@components/pages/users/upcoming/upcoming";
 
 
 const router = createBrowserRouter([
@@ -54,11 +58,20 @@ const router = createBrowserRouter([
         element: <Refereed />
     },
     {
+        path: "/users/:id/upcoming",
+        element: <Upcoming />
+    },
+    {
         path: "/video-call",
         // element: <SocketProvider><VideoCall /></SocketProvider>
         element: <VideoCall />
     }
 ]);
+
+dayjs.extend(localeData)
+dayjs.localeData()
+dayjs.locale('bg')
+dayjs.weekdays()
 
 ReactDOM.createRoot((document.getElementById("root")) as HTMLElement).render(
     <React.StrictMode>
