@@ -6,7 +6,7 @@ export type User = {
     account_type: AccountType
     is_confirmed?: boolean
     is_active?: boolean
-    token?: string
+    token: string
 }
 
 export enum AccountType {

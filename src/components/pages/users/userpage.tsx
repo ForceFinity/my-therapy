@@ -1,7 +1,7 @@
 import penSvg from "@assets/pen.svg"
 import { TrueButton, Wrapper } from "@components/atoms";
 import { Header } from "@components/templates";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 import { TypeToRole, User } from "@core/schemas/user";
 import { Card, Title } from "@components/molecules";
 import styled from "styled-components";
@@ -38,17 +38,18 @@ const NameAndRole = styled.div`
     display: flex;
     flex-direction: column;
 `
-const Name = styled(Text)`
+const Name = styled(BaseText)`
     font-size: 2.2rem;
 `
-const Role = styled(Text)``
+const Role = styled(BaseText)``
 const Cards = styled.div`
     display: flex;
     flex-direction: column;
     gap: 5vh;
     margin-top: 10vh;
 `
-export const UserPage = ({user}: {user: User}) => {
+export const UserPage = ({user, logout}: {user: User, logout: () => void}) => {
+    const [pfpLoading, setPfpLoading] = useState(true)
     const [pfpUrl, setPfpUrl] = useState<string>()
 
     useEffect(() => {
@@ -56,18 +57,23 @@ export const UserPage = ({user}: {user: User}) => {
 
         getPFP(user.token as string)
             .then(resp => {
-                console.log(123)
                 setPfpUrl(resp.data)
+            })
+            .finally(() => {
+                setPfpLoading(false)
             })
     }, [user]);
 
     return (
         <UPWrapper isThin={true}>
-            <Header disableSigns={true} />
+            <Header disableSigns={true} logout={logout} />
             <Content>
                 <Head>
                     <Container>
-                        <PFP src={ pfpUrl } alt={ user.nickname } />
+                        { pfpLoading ?
+                            <BaseText>Зарежда се...</BaseText> :
+                            <PFP src={ pfpUrl } alt={ user.nickname } />
+                        }
                         <NameAndRole>
                             <Name>{user.nickname}</Name>
                             <Role>{TypeToRole[user.account_type.toString()]}</Role>

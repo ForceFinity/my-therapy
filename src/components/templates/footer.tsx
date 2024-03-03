@@ -5,7 +5,7 @@ import GitHubSvg from "@assets/github.svg"
 import TelegramSvg from "@assets/telegram.svg"
 import { CSSProperties } from "react";
 import { Href } from "../atoms/href";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 const FooterWrap = styled.div`
     width: 80vw;
@@ -62,17 +62,17 @@ export const Footer = ({style}: {style?: CSSProperties}) => {
             <Sep/>
             <Logo>
                 <img src={Leaf} alt="MyTherapy"/>
-                <Text>2024</Text>
+                <BaseText>2024</BaseText>
             </Logo>
             <FooterContent>
                 <Href to="/articles/terms-of-service">
-                    <Text>Условия за ползване</Text>
+                    <BaseText>Условия за ползване</BaseText>
                 </Href>
                 <Href to="/articles/privacy-policy">
-                    <Text>Политика за поверителност</Text>
+                    <BaseText>Политика за поверителност</BaseText>
                 </Href>
                 <Href to="/articles/cookies-policy">
-                    <Text>Политика за бисквитки</Text>
+                    <BaseText>Политика за бисквитки</BaseText>
                 </Href>
                 <Socials>
                     <Link to="https://github.com/ForceFinity/my-therapy">

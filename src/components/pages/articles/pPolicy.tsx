@@ -1,6 +1,6 @@
 import { ArticleContent, ArticleLI, ArticleSubtitle, ArticleText, ArticleTitle } from "./index";
 import { Link } from "react-router-dom";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 export const PrivacyPolicyArticle = () => {
     return (
@@ -28,24 +28,24 @@ export const PrivacyPolicyArticle = () => {
             <ArticleText style={{marginBottom: "1vh"}}>
                 Личната информация, която ние събираме от потребителите, може да се използва за следните цели:
             </ArticleText>
-            <ArticleLI><Text>За предоставяне на нашите услуги и поддръжка на потребителите</Text></ArticleLI>
-            <ArticleLI><Text>За обработка на плащания и изпълнение на поръчки.</Text></ArticleLI>
-            <ArticleLI><Text>За изпращане на информация, свързана с нашата услуга.</Text></ArticleLI>
-            <ArticleLI><Text>За подобряване на нашия уебсайт и персонализиране на потребителския опит.</Text></ArticleLI>
-            <ArticleLI><Text>За анализиране на трафика и поведението на потребителите на уебсайта.</Text></ArticleLI>
+            <ArticleLI><BaseText>За предоставяне на нашите услуги и поддръжка на потребителите</BaseText></ArticleLI>
+            <ArticleLI><BaseText>За обработка на плащания и изпълнение на поръчки.</BaseText></ArticleLI>
+            <ArticleLI><BaseText>За изпращане на информация, свързана с нашата услуга.</BaseText></ArticleLI>
+            <ArticleLI><BaseText>За подобряване на нашия уебсайт и персонализиране на потребителския опит.</BaseText></ArticleLI>
+            <ArticleLI><BaseText>За анализиране на трафика и поведението на потребителите на уебсайта.</BaseText></ArticleLI>
             <ArticleSubtitle>3.	Разкриване на информацията</ArticleSubtitle>
             <ArticleText>
                 Ние можем да разкрием личната информация на потребителите
                 на нашия уебсайт на следните условия:
             </ArticleText>
             <ArticleLI>
-                <Text>Ако това е необходимо за изпълнение на нашите услуги и задачи като обработка на плащания.</Text>
+                <BaseText>Ако това е необходимо за изпълнение на нашите услуги и задачи като обработка на плащания.</BaseText>
             </ArticleLI>
             <ArticleLI>
-                <Text>С вашето съгласие или по ваша инициатива, когато предоставите информацията за определена цел.</Text>
+                <BaseText>С вашето съгласие или по ваша инициатива, когато предоставите информацията за определена цел.</BaseText>
             </ArticleLI>
             <ArticleLI>
-                <Text>Ако сме законно задължени да го направим спрямо приложимите закони и регулации.</Text>
+                <BaseText>Ако сме законно задължени да го направим спрямо приложимите закони и регулации.</BaseText>
             </ArticleLI>
             <ArticleSubtitle>4.	Защита на информацията</ArticleSubtitle>
             <ArticleText>

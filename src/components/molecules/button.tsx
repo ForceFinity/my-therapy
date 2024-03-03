@@ -1,6 +1,6 @@
 import { Href } from "../atoms/href";
 import styled from "styled-components";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 import { border, fill } from "@components/atoms/primitives";
 
 const StyledHref = styled(Href)<{isBordered?: boolean, isFilled?: boolean}>`
@@ -39,7 +39,7 @@ interface ButtonProps {
 export const Button = ({to, children, isBordered, isFilled}: ButtonProps) => {
     return (
         <StyledHref to={to} isBordered={isBordered} isFilled={isFilled}>
-            <Text>{children}</Text>
+            <BaseText>{children}</BaseText>
         </StyledHref>
     )
 }

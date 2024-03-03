@@ -4,7 +4,7 @@ import CalendarSvg from "@assets/calendar.svg"
 import { DateInput } from "@components/atoms/form";
 import styled from "styled-components";
 import { AcquaintanceData } from "../forms/acquaintance";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 import { border } from "@components/atoms/primitives";
 
 interface DateInputRefProps {
@@ -41,7 +41,7 @@ export const CustomDatePicker = ({ birthDate, updateFields }: CustomDatePickerPr
     const CustomDateInputRef = forwardRef<HTMLButtonElement, DateInputRefProps>((props, ref) => (
         <CustomDateInput type="button" onClick={props.onClick} ref={ref}>
             <img src={ CalendarSvg } alt="Pick a date"/>
-            <Text>{props.value}</Text>
+            <BaseText>{props.value}</BaseText>
         </CustomDateInput>
     ))
 

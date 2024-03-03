@@ -1,7 +1,7 @@
 import { ArticleContent, ArticleSubtitle, ArticleText, ArticleTitle } from "./index";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 const ArticleLIStyled= styled.li`
     font-size: 1.2rem;
@@ -30,41 +30,41 @@ export const TOSArticle = () => {
             </ArticleText>
             <ArticleSubtitle>1. Събиране на лична информация</ArticleSubtitle>
             <ArticleLIStyled>
-                <Text>Ние събираме лична информация като Име/потребителско име, имейл адрес, номера на дебитни/кредитни карти, парола и възраст.</Text>
+                <BaseText>Ние събираме лична информация като Име/потребителско име, имейл адрес, номера на дебитни/кредитни карти, парола и възраст.</BaseText>
             </ArticleLIStyled>
             <ArticleLIStyled>
-                <Text>Можем да използваме тази информация, за да предоставим нашите услуги, да обработваме плащания и да комуникираме с вас.</Text>
+                <BaseText>Можем да използваме тази информация, за да предоставим нашите услуги, да обработваме плащания и да комуникираме с вас.</BaseText>
             </ArticleLIStyled>
             <ArticleLIStyled>
-                <Text>
+                <BaseText>
                     Вашата поверителност и сигурност са важни за нас. Обработваме вашата
                     лична информация в съответствие с нашата <Link to="/articles/privacy-policy">Политика за поверителност</Link>.
-                </Text>
+                </BaseText>
             </ArticleLIStyled>
             <ArticleSubtitle>2. Имейл комуникация</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         С използването на нашия уебсайт вие давате съгласието си да получавате имейли от нас относно
                         вашия акаунт, транзакции и промоционални оферти.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Можете да се откажете от промоционалните имейли по всяко време, следвайки инструкциите за
                         отписване, включени в имейлите.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleSubtitle>3.	Проследяване на данни</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Не показваме реклами и не използваме Facebook Pixel на нашия уебсайт.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
                 <ArticleLIStyled>
-                    <Text>Използваме проследяване с цел ретаргетинг за маркетингови цели.</Text>
+                    <BaseText>Използваме проследяване с цел ретаргетинг за маркетингови цели.</BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleSubtitle>4.	Основание за събиране на Вашите лични данни</ArticleSubtitle>
@@ -80,36 +80,36 @@ export const TOSArticle = () => {
             <ArticleSubtitle>5. Технологии за проследяване</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Нашият уебсайт използва бисквитки и сесии, за да проследи и подобри потребителския опит.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
                 <ArticleLIStyled>
-                    <Text>Бисквитките се използват в съответствие с нашата
-                        <Link to="/articles/cookies-policy"> политика за бисквитки</Link></Text>
+                    <BaseText>Бисквитките се използват в съответствие с нашата
+                        <Link to="/articles/cookies-policy"> политика за бисквитки</Link></BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleSubtitle>6.	Вход чрез Google</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Предлагаме вход чрез Google като удобство за потребителите, за да достъпват нашия уебсайт.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
                 <ArticleLIStyled>
-                    <Text>Вашето използване на входа чрез Google е предмет на Условията за ползване и
-                        Политиката за поверителност на Google.</Text>
+                    <BaseText>Вашето използване на входа чрез Google е предмет на Условията за ползване и
+                        Политиката за поверителност на Google.</BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleSubtitle>7.	Ограничение на възрастта</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Нашият уебсайт не се предлага на потребители под 13 години.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
                 <ArticleLIStyled>
-                    <Text>Използването на нашите сервиси от потребители под 18 години е възможно само под родителски контрол.</Text>
+                    <BaseText>Използването на нашите сервиси от потребители под 18 години е възможно само под родителски контрол.</BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleSubtitle>Томболи и ваучери</ArticleSubtitle>
@@ -120,31 +120,31 @@ export const TOSArticle = () => {
             <ArticleSubtitle>8.	Свържете се с нас</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>Потребителите могат да се свържат с нас като изпратят имейл на contact.mytherapy@gmail.com.</Text>
+                    <BaseText>Потребителите могат да се свържат с нас като изпратят имейл на contact.mytherapy@gmail.com.</BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleSubtitle>9.	Достъп до видео и аудио устройства</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Нашият уебсайт може да изисква достъп до вашите устройства за определени функции,
                         като видео-сесии с психолози.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleSubtitle>10. Онлайн плащания</ArticleSubtitle>
             <ArticleText>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Нашият уебсайт приема онлайн плащания и може да взема еднократни и/или
                         редовни плащания за предоставени услуги.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
                 <ArticleLIStyled>
-                    <Text>
+                    <BaseText>
                         Обработката на плащанията се извършва сигурно чрез нашия обработващ партньор.
                         Не съхраняваме данни за кредитни карти на нашите сървъри.
-                    </Text>
+                    </BaseText>
                 </ArticleLIStyled>
             </ArticleText>
             <ArticleText style={{marginTop: "5vh"}}>

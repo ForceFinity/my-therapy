@@ -8,7 +8,7 @@ import { TrueButton, Wrapper } from "@components/atoms";
 import { BannerReferral } from "@components/organisms/banner";
 import { Title } from "@components/molecules";
 import { Header } from "@components/templates";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 const LandingTitle = styled(Title)`
     margin-top: 12vh;
@@ -72,31 +72,31 @@ const Container = styled.div`
 `
 
 export const Landing = () => {
-    const { user, loading } = useAuth(false)
+    const { user, loading, logout } = useAuth(false)
     const navigate = useNavigate()
 
     return (
         <Wrapper>
-            <LandingHeader isLogged={!!user} user={user} loading={loading} />
+            <LandingHeader isLogged={!!user} user={user} loading={loading} logout={logout} />
             <LandingBanner />
             <div className="content">
                 <Container>
                     <LandingTitle>Погрижи се за себе си</LandingTitle>
 
                     <div className="subtitle">
-                    <Text>
+                    <BaseText>
                         Искате ли да започнете пътешествие към по-дълбоко разбиране на себе си?
                         Нека осветим вашия път - <mark>опитайте първата си сесия с психотерапевт с 90% отстъпка.</mark>
-                    </Text>
+                    </BaseText>
                     </div>
                     <div className="subtitle__mobile" style={{display: "none"}}>
-                    <Text>
+                    <BaseText>
                         Нека Ви помогнем да намерите <mark>точния</mark> терапевт
-                    </Text>
+                    </BaseText>
                     </div>
                     <ChooseTherapistButton
                         isBordered={true} isFilled={true} onClick={() => navigate("/questionnaire")} >
-                        <Text>Намери специалист!</Text>
+                        <BaseText>Намери специалист!</BaseText>
                     </ChooseTherapistButton>
                 </Container>
                 <img

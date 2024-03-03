@@ -1,10 +1,10 @@
 import { FormWrapper, QuizInput } from "../index";
 import { FormInput } from "@components/atoms/form";
 import styled from "styled-components";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 
-const FormSubtitle = styled(Text)`
+const FormSubtitle = styled(BaseText)`
     width: 70%;
     text-align: center;
     margin: 2vh 0;
@@ -27,10 +27,10 @@ export const ConfirmEmail = ({email, emailOTP, updateFields}: BasicInfoFormProps
     return (
         <FormWrapper title="Потвърди имейла">
             <FormSubtitle>
-                За да потвърдите имейла си, въведете кода, пратен на <Text className="bold">{email}</Text>
+                За да потвърдите имейла си, въведете кода, пратен на <BaseText className="bold">{email}</BaseText>
             </FormSubtitle>
             <FormInput>
-                <Text>Код</Text>
+                <BaseText>Код</BaseText>
                 <QuizInput
                     type="text"
                     name="password"

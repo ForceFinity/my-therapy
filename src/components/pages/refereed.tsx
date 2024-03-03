@@ -9,7 +9,7 @@ import { useAuth } from "@core/hooks/useAuth";
 import { Wrapper } from "@components/atoms";
 import { Header } from "@components/templates";
 import { Title } from "@components/molecules";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 interface TableColumn {
     key: string;
@@ -30,13 +30,13 @@ const RefereedTable: React.FC<TableProps> = ({ loading, headers, data, className
             <thead>
             <tr>
                 {headers.map((header, index) => (
-                    <th key={index}><Text>{header.label}</Text></th>
+                    <th key={index}><BaseText>{header.label}</BaseText></th>
                 ))}
             </tr>
             </thead>
             <tbody>
             {loading ?
-                <Text>Loading...</Text> :
+                <BaseText>Loading...</BaseText> :
                 data && data.map((row, rowIndex) => {
                 // noinspection TypeScriptValidateTypes
                     return <tr key={rowIndex}>
@@ -44,7 +44,7 @@ const RefereedTable: React.FC<TableProps> = ({ loading, headers, data, className
                         <td key={cellIndex}>{
                             typeof row[header.key] == "boolean" ?
                                 <img src={ row[header.key] ? Tick : Cross } alt="Запълнил формата"/> :
-                                <Text>{row[header.key]}</Text>
+                                <BaseText>{row[header.key]}</BaseText>
                         }</td>
                     ))}
                 </tr>
@@ -109,7 +109,7 @@ const RefereedHeader = styled(Header)`
 `
 
 export const Refereed = () => {
-    const { user } = useAuth()
+    const { user, logout } = useAuth()
     const [cookies,] = useCookies()
     const [data, setData] = useState<RefereedTableProps[]>()
     const [loading, setLoading] = useState<boolean>(true)
@@ -134,7 +134,7 @@ export const Refereed = () => {
 
     return (
         <RefereedWrapper>
-            <RefereedHeader isLogged={!!user} user={user} />
+            <RefereedHeader isLogged={!!user} user={user} logout={logout} />
             <RefereedTitle>Поканени потребители</RefereedTitle>
             <RefereedTableStyled loading={loading} headers={headers} data={data} />
         </RefereedWrapper>

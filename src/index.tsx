@@ -4,6 +4,7 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import Modal from 'react-modal';
 import * as dayjs from "dayjs";
 import localeData from 'dayjs/plugin/localeData';
 import "dayjs/locale/bg"
@@ -13,7 +14,6 @@ import {
     ChooseTherapist,
     Landing,
     Login,
-    Logout,
     Questionnaire,
     Refereed,
     VideoCall
@@ -32,10 +32,6 @@ const router = createBrowserRouter([
     {
         path: "/sign-in",
         element: <Login />,
-    },
-    {
-        path: "/logout",
-        element: <Logout />,
     },
     {
         path: "/questionnaire",
@@ -72,6 +68,8 @@ dayjs.extend(localeData)
 dayjs.localeData()
 dayjs.locale('bg')
 dayjs.weekdays()
+
+Modal.setAppElement("#root")
 
 ReactDOM.createRoot((document.getElementById("root")) as HTMLElement).render(
     <React.StrictMode>

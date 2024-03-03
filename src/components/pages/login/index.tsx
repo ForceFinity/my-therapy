@@ -10,7 +10,7 @@ import { Header } from "@components/templates";
 import { Title } from "@components/molecules";
 import { Input, TrueButton, Wrapper } from "@components/atoms";
 import { SubmitButton, FormInput } from "@components/atoms/form";
-import { ErrorText, Text } from "@components/atoms/texts";
+import { ErrorText, BaseText } from "@components/atoms/texts";
 
 
 const LoginWrapper = styled(Wrapper)`
@@ -191,7 +191,7 @@ const SignUpTitle = styled(FormTitle)`
     text-align: left;
 `
 
-const SignUpTextMobile = styled(Text)`
+const SignUpTextMobile = styled(BaseText)`
     font-size: 1.1rem;
     p {
         color: #626262;
@@ -262,7 +262,7 @@ export const Login = () => {
                                 <FormTitle className="title" >Добре дошли!</FormTitle>
                         }
                         <FormInput>
-                            <Text>Имейл</Text>
+                            <BaseText>Имейл</BaseText>
                             <Input
                                 type="text"
                                 name="email"
@@ -272,7 +272,7 @@ export const Login = () => {
                             />
                         </FormInput>
                         <FormInput>
-                            <Text>Парола</Text>
+                            <BaseText>Парола</BaseText>
                             <Input
                                 type="password"
                                 name="password"
@@ -287,7 +287,7 @@ export const Login = () => {
                                     onChange={() => setDoRemember(s => !s)}
                                 />
                                 <div className="checkmark"></div>
-                                <Text>Запомни ме</Text>
+                                <BaseText>Запомни ме</BaseText>
                             </RememberMe>
                         </FormInput>
                         <Alternatives>
@@ -314,7 +314,7 @@ export const Login = () => {
                     {
                         media.isLaptop &&
                         <RegisterButton isBordered={true} onClick={() => navigate("/questionnaire")}>
-                            <Text>Регистрация</Text>
+                            <BaseText>Регистрация</BaseText>
                         </RegisterButton>
                     }
                 </SignUp>

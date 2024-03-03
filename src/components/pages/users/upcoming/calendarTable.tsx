@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { TableStyled } from "@components/atoms/table";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 import dayjs from "dayjs";
 import { useState } from "react";
 import {
@@ -14,9 +14,10 @@ import { Weekdays } from "@components/pages/users/upcoming/upcoming";
 
 const CalendarTableStyled = styled(TableStyled)`
     border-radius: 0 .6rem .6rem 0;
+    box-shadow: 0 0 0 .05rem rgba(5, 130, 112, 1);
     
     tr {
-        height: 3.5rem;
+        height: 4rem;
     }
 
     thead > tr {
@@ -24,7 +25,7 @@ const CalendarTableStyled = styled(TableStyled)`
     }
     
     th {
-        width: 4.2vw;
+        width: 5vw;
         
         span {
             font-size: .8rem;
@@ -37,7 +38,7 @@ const CalendarTableStyled = styled(TableStyled)`
     }
 `
 
-const CalendarTableDay = styled(Text)<{ isFromAnotherMonth: boolean, isChosen: boolean }>`
+const CalendarTableDay = styled(BaseText)<{ isFromAnotherMonth: boolean, isChosen: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -74,13 +75,13 @@ export const CalendarTable = ({data, chosen, setChosen}: CalendarTableProps) => 
                 cell: info => {
                     const value = info.getValue()
                     const isFromAnotherMonth = (
-                        info.row.index == 0 && parseInt(value) > 7
-                        || info.row.index == data.length - 1 && parseInt(value) < 7
+                        (info.row.index === 0 && parseInt(value) > 7)
+                        || (info.row.index === data.length - 1 && parseInt(value) < 7)
                     )
                     return <CalendarTableDay
                         isFromAnotherMonth={isFromAnotherMonth}
-                        isChosen={value == chosen && !isFromAnotherMonth}
-                        onClick={() => setChosen(value)}
+                        isChosen={value === chosen && !isFromAnotherMonth}
+                        onClick={!isFromAnotherMonth ? () => setChosen(value) : undefined}
                     >
                         {value}
                     </CalendarTableDay>
@@ -106,12 +107,12 @@ export const CalendarTable = ({data, chosen, setChosen}: CalendarTableProps) => 
                         <th key={header.id}>
                             {header.isPlaceholder ?
                                 null :
-                                <Text>{
+                                <BaseText>{
                                     flexRender(
                                         header.column.columnDef.header,
                                         header.getContext()
                                     )
-                                }</Text>
+                                }</BaseText>
                             }
                         </th>
                     ))}

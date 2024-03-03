@@ -12,7 +12,11 @@ export const getToken = async (username: string, password: string): Promise<Resp
     return await post<Token>(url, formData)
 }
 
-export const signUp = async (payload: Omit<User, "id"> & { password: string }, by_user_id?: string): Promise<ResponseData<Token>> => {
+export const signUp = async (
+    payload: Omit<Omit<User, "id">, "token"> & { password: string },
+    by_user_id?: string
+): Promise<ResponseData<Token>> => {
+
     const url = API_BASE + "/oauth2/sign-up/?by_user_id=" + by_user_id
 
     const formData = new FormData()

@@ -10,7 +10,7 @@ import { TOSArticle } from "./tos";
 import { useAuth } from "@core/hooks/useAuth";
 import { Header } from "@components/templates";
 import { Title } from "@components/molecules";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 export const ArticleWrapper = styled(Wrapper)`
     display: flex;
@@ -44,7 +44,7 @@ export const ArticleSubtitle = styled(ArticleTitle)`
     line-height: 2.8rem;
 `
 
-export const ArticleText = styled(Text)`
+export const ArticleText = styled(BaseText)`
     margin-top: 1vh;
     
     @media (max-width: 480px) {
@@ -91,7 +91,7 @@ export const ArticleButton = styled(TrueButton)`
 
 export const Articles = () => {
     const { name } = useParams();
-    const { user } = useAuth(false)
+    const { user, logout } = useAuth(false)
 
     const articles: { [key: string]: ReactElement } = {
         "referral": <ReferralArticle user={user} />,
@@ -102,7 +102,7 @@ export const Articles = () => {
 
     return (
         <ArticleWrapper isThin={true}>
-            <ArticleHeader isLogged={!!user} user={user} />
+            <ArticleHeader isLogged={!!user} user={user} logout={logout} />
             { name && articles[name] }
             <Footer />
         </ArticleWrapper>

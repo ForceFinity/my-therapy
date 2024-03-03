@@ -1,6 +1,6 @@
 import { FormWrapper, QuizInput } from "../index";
 import { FormInput } from "@components/atoms/form";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 export interface BasicInfoData {
     email: string,
@@ -15,7 +15,7 @@ export const Credentials = ({email, password, updateFields}: BasicInfoFormProps)
     return (
         <FormWrapper title="Основна информация">
             <FormInput>
-                <Text>Имейл</Text>
+                <BaseText>Имейл</BaseText>
                 <QuizInput
                     type="text"
                     name="email"
@@ -26,7 +26,7 @@ export const Credentials = ({email, password, updateFields}: BasicInfoFormProps)
                 />
             </FormInput>
             <FormInput>
-                <Text>Парола</Text>
+                <BaseText>Парола</BaseText>
                 <QuizInput
                     type="password"
                     name="password"

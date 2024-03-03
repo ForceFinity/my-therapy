@@ -1,5 +1,5 @@
 import { ArticleContent, ArticleLI, ArticleSubtitle, ArticleText, ArticleTitle } from "./index";
-import { Bold, Text } from "@components/atoms/texts";
+import { Bold, BaseText } from "@components/atoms/texts";
 import { Link } from "react-router-dom";
 
 export const CookiesPolicyArticle = () => {
@@ -20,26 +20,26 @@ export const CookiesPolicyArticle = () => {
             </ArticleText>
             <ArticleSubtitle>2.	Видове бисквитки</ArticleSubtitle>
             <ArticleLI>
-                <Text>
+                <BaseText>
                     <Bold>Стриктно необходими бисквитки</Bold>: Тези бисквитки са необходими за правилното функциониране на
                     уебсайта и не могат да бъдат изключени в нашата система. Те обикновено се задават само
                     в отговор на действия, извършени от вас, които водят до заявка за услуги, като например настройка
                     на предпочитанията за поверителност, вход в системата или попълване на форми.
-                </Text>
+                </BaseText>
             </ArticleLI>
             <ArticleLI>
-                <Text>
+                <BaseText>
                     <Bold>Аналитични бисквитки</Bold>: Тези бисквитки ни позволяват да проследим броя насрещани посетители и
                     да видим как те се движат по уебсайта, като например кои страници посещават и кои функции използват.
                     Тази информация ни помага да подобрим уебсайта и вашето преживяване като потребител.
-                </Text>
+                </BaseText>
             </ArticleLI>
             <ArticleLI>
-                <Text>
+                <BaseText>
                     <Bold>Функционални бисквитки</Bold>: Тези бисквитки позволяват на уебсайта да предоставя подобрени
                     функционалности и персонализирани функции. Те могат да бъдат зададени от нас или от трети страни,
                     чиито услуги сме добавили към нашите страници.
-                </Text>
+                </BaseText>
             </ArticleLI>
             <ArticleSubtitle>3.	Контрол на бисквитките </ArticleSubtitle>
             <ArticleText>

@@ -3,7 +3,7 @@ import caseSvg from "@assets/case.svg"
 import homeSvg from "@assets/home.svg"
 import clockSvg from "@assets/clock-lines.svg"
 import cloudBoltSvg from "@assets/cloud-bolt.svg"
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 const Content = styled.div`
     display: flex;
@@ -30,7 +30,7 @@ export const ThemeCard = ({type, text}: { type: number, text: string }) => {
     return (
         <Content>
             <img src={types[type]} alt={text}/>
-            <Text>{text}</Text>
+            <BaseText>{text}</BaseText>
         </Content>
     )
 }

@@ -8,7 +8,7 @@ import { firestore } from "./firebase";
 import hangUpSvg from "@assets/phone-xmark.svg"
 import { useMedia } from "@core/utils/mediaQueries";
 import { Input, TrueButton, Wrapper } from "@components/atoms";
-import { ErrorText, Text } from "@components/atoms/texts";
+import { ErrorText, BaseText } from "@components/atoms/texts";
 import { Header } from "@components/templates";
 
 const VideoCallWrapper = styled(Wrapper)<{isPortrait: boolean}>`
@@ -240,7 +240,7 @@ export const VideoCall = () => {
 
     return (
         <VideoCallWrapper isPortrait={media.isMobile}>
-            { media.isLaptop && <Header /> }
+            {/*{ media.isLaptop && <Header /> }*/}
             <VideoBox isPortrait={media.isMobile}>
                 <TherapistVideo ref={remoteRef} autoPlay ></TherapistVideo>
                 <ClientVideo isPortrait={media.isMobile} ref={webcamRef} autoPlay ></ClientVideo>
@@ -255,11 +255,11 @@ export const VideoCall = () => {
 
             <ControlsBox>
                 <TrueButton ref={callBtnRef} onClick={handleCreateCall}>
-                    <Text>Create call</Text>
+                    <BaseText>Create call</BaseText>
                 </TrueButton>
                 <Input value={callID} onChange={(e) => setCallId(e.target.value)} />
                 <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
-                    <Text>Answer call</Text>
+                    <BaseText>Answer call</BaseText>
                 </TrueButton>
             </ControlsBox>
             <ErrorText>{ error }</ErrorText>

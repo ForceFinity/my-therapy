@@ -14,7 +14,7 @@ import {
 } from "./index";
 import { Href } from "@components/atoms/href";
 import { User } from "@core/schemas/user";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 const FormCompletionStatus = styled.div`
     display: flex;
@@ -75,7 +75,7 @@ export const ReferralArticle = ({user}: {user?: User}) => {
                 на следващия ден. Подробности за получаване на наградата ще бъдат пратени на пощата, посочена в профила.
             </ArticleText>
             <ArticleSubtitle>Условия</ArticleSubtitle>
-            <ArticleLI><Text>Регистрация на сайта</Text></ArticleLI>
+            <ArticleLI><BaseText>Регистрация на сайта</BaseText></ArticleLI>
             <ArticleText>
                 За участието е достатъчна регистрация и <ArticleText className="bold">попълване на
                 <Href to="https://forms.gle/U3cujeX4PjwpRh2B7"> тази </Href></ArticleText>форма,
@@ -86,14 +86,14 @@ export const ReferralArticle = ({user}: {user?: User}) => {
                 Вие получавате една точка.
             </ArticleText>
             <ArticleButton isBordered={true} isFilled={true} onClick={copyReferralLink} >
-                <Text>Копирай линк за покана</Text>
+                <BaseText>Копирай линк за покана</BaseText>
             </ArticleButton>
             <ArticleButton
                 isBordered={true}
                 style={{marginTop: "-1vh"}}
                 onClick={()=>window.open("https://forms.gle/U3cujeX4PjwpRh2B7", "_blank")}
             >
-                <Text style={{color: "black"}}>Виж формата</Text>
+                <BaseText style={{color: "black"}}>Виж формата</BaseText>
             </ArticleButton>
             <ArticleText>
                 Колкото повече точки имате, толкова по-голям е шансът за спечелване на награда. Всеки регистрирал
@@ -110,28 +110,28 @@ export const ReferralArticle = ({user}: {user?: User}) => {
                         else navigate("/sign-in")
                     }
                 }>
-                    <Text>Провери дали попълнена</Text>
+                    <BaseText>Провери дали попълнена</BaseText>
                 </ArticleButton>
                 <StatusBox>
                     {
                         user ?
                             isFSLoading ?
-                                <Text>Зарежда се...</Text> :
+                                <BaseText>Зарежда се...</BaseText> :
                                 <img src={formStatus ? Tick : Cross} alt="Статут"/>
-                            : <Text>Нерегестриран</Text>
+                            : <BaseText>Нерегестриран</BaseText>
                     }
                 </StatusBox>
             </FormCompletionStatus>
             <ArticleSubtitle>Награди</ArticleSubtitle>
-            <ArticleLI><Text>Пакет от 2 безплатни сеанса с психотерапевт, на обща стойност 100лв.</Text></ArticleLI>
-            <ArticleLI><Text>Ваучер за безплатен сеанс с психотерапевт, на стойност 50лв.</Text></ArticleLI>
-            <ArticleLI><Text>Ваучер за отстъпка в размер на 80%</Text></ArticleLI>
+            <ArticleLI><BaseText>Пакет от 2 безплатни сеанса с психотерапевт, на обща стойност 100лв.</BaseText></ArticleLI>
+            <ArticleLI><BaseText>Ваучер за безплатен сеанс с психотерапевт, на стойност 50лв.</BaseText></ArticleLI>
+            <ArticleLI><BaseText>Ваучер за отстъпка в размер на 80%</BaseText></ArticleLI>
             <ArticleText>
                 Наградите, които предлагат безплатни сеансове могат да бъдат получени във брой, но само на половината
                 от своята стойност.
             </ArticleText>
             <ArticleButton isBordered={true}  isFilled={true} onClick={()=>navigate("/users/@me/refereed")}>
-                <Text>Виж всички поканени</Text>
+                <BaseText>Виж всички поканени</BaseText>
             </ArticleButton>
         </ArticleContent>
     )

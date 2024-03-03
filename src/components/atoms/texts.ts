@@ -1,18 +1,18 @@
 import styled from "styled-components";
 
-export const Text = styled.span`
+export const BaseText = styled.span`
     color: inherit;
     font-family: "Inter", sans-serif;
     font-size: 1.2rem;
 `
 
-export const ErrorText = styled(Text)`
+export const ErrorText = styled(BaseText)`
     color: var(--errorColor);
     font-size: .9rem;
     text-align: center;
 `
 
-export const Bold = styled(Text)`
+export const Bold = styled(BaseText)`
     font-weight: 500;    
 `
 

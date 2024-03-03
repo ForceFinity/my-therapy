@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Input, TrueButton, Wrapper } from "@components/atoms";
 import { Acquaintance, Credentials, ConfirmEmail } from "./forms";
 import Chevron from "@assets/chevron.svg";
-import { ErrorText, Text } from "@components/atoms/texts";
+import { ErrorText, BaseText } from "@components/atoms/texts";
 import { Form, FormInput } from "@components/atoms/form";
 import { useMultiStepForm } from "./useMultiStepForm";
 import { validateForm } from "./datepicker/validation";
@@ -301,11 +301,11 @@ export const Questionnaire = () => {
                         {
                             currentStepIndex < steps.length - 1 ?
                                 <NextButton isBordered={true} isFilled={true}>
-                                    <Text>Напред</Text>
+                                    <BaseText>Напред</BaseText>
                                     <img src={ Chevron } alt="Go Next"/>
                                 </NextButton> :
                                 <NextButton isBordered={true} isFilled={true}>
-                                    <Text style={{margin: 0}}>Готово</Text>
+                                    <BaseText style={{margin: 0}}>Готово</BaseText>
                                 </NextButton>
                         }
 

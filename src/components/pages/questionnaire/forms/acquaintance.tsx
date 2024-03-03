@@ -5,7 +5,7 @@ import { FormWrapper, QuizInput } from "../index";
 import { CustomDatePicker } from "../datepicker/datepicker";
 import { Link } from "react-router-dom";
 import { useMedia } from "@core/utils/mediaQueries";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 export interface AcquaintanceData {
     nickname: string,
@@ -22,7 +22,7 @@ export const Acquaintance = ({nickname, birth_date, updateFields}: AcquaintanceF
     return (
         <FormWrapper title="Нека се запознаем">
             <FormInput>
-                <Text>Име (или псевдоним)</Text>
+                <BaseText>Име (или псевдоним)</BaseText>
                 <QuizInput
                     type="text"
                     name="name"
@@ -33,10 +33,10 @@ export const Acquaintance = ({nickname, birth_date, updateFields}: AcquaintanceF
                 />
             </FormInput>
             <FormInput>
-                <Text>Дата на раждане</Text>
+                <BaseText>Дата на раждане</BaseText>
                 <CustomDatePicker birthDate={birth_date} updateFields={updateFields}/>
             </FormInput>
-            <Text style={{
+            <BaseText style={{
                 fontSize: media.isLaptop ? ".7rem" : ".9rem",
                 textAlign: "center",
                 width: media.isLaptop ? "60%" : "80%",
@@ -46,7 +46,7 @@ export const Acquaintance = ({nickname, birth_date, updateFields}: AcquaintanceF
                 Създавайки акаунт, вие се съгласявате с нашите
                 <Link to="/articles/privacy-policy"> Политика за поверителност </Link> и
                 <Link to="/articles/terms-of-service"> Условия за ползване</Link>
-            </Text>
+            </BaseText>
         </FormWrapper>
     )
 }

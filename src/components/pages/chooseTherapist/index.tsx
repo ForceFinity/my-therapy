@@ -75,7 +75,7 @@ const getTherapistsMagically = (): { [key: number]: Therapist } => ({
 })
 
 export const ChooseTherapist = () => {
-    const { user } = useAuth()
+    const { user, logout } = useAuth()
     let therapists: { [key: number]: Therapist } = getTherapistsMagically()
     const [currTherapist, setCurrTherapist] = useState(1)
 
@@ -85,7 +85,7 @@ export const ChooseTherapist = () => {
 
     return (
         <ChooseTherapistWrapper>
-            <Header />
+            <Header logout={logout} />
             <Content>
                 <SidePanel data={therapists} curr={currTherapist} setCurr={setCurrTherapist} />
                 <TherapistPanel therapist={therapists[currTherapist]} />

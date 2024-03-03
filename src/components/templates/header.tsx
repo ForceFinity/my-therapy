@@ -8,7 +8,7 @@ import { Button } from "../molecules/button";
 import { useMedia } from "@core/utils/mediaQueries";
 import { Href } from "../atoms/href";
 import { User } from "@core/schemas/user";
-import { ErrorText, Text } from "@components/atoms/texts";
+import { ErrorText, BaseText } from "@components/atoms/texts";
 import { useState } from "react";
 import { Dropdown } from "@components/organisms/dropdown";
 
@@ -74,15 +74,34 @@ const Select = styled.select``
 
 const Option = styled.option``
 
+const HeaderDropdown = ({user, logout}: {user: User, logout?: () => void}) => (
+    <Dropdown>
+        <Dropdown.Button>
+            <BaseText>{user?.nickname}</BaseText>
+        </Dropdown.Button>
+        <Dropdown.Content>
+            <Dropdown.List>
+                <Dropdown.Item to="/users/@me">
+                    <BaseText>Профил</BaseText>
+                </Dropdown.Item>
+                <Dropdown.Item to="#">
+                    <BaseText style={{color: "#FF3737"}} onClick={logout}>Излез</BaseText>
+                </Dropdown.Item>
+            </Dropdown.List>
+        </Dropdown.Content>
+    </Dropdown>
+)
+
 interface HeaderProps {
     className?: string
     disableSigns?: boolean
     isLogged?: boolean
     user?: User
     loading?: boolean
+    logout?: () => void
 }
 
-export const Header = ({ className, disableSigns, isLogged, user, loading }: HeaderProps) => {
+export const Header = ({ className, disableSigns, isLogged, user, loading, logout }: HeaderProps) => {
     const media = useMedia()
     const navigate = useNavigate()
 
@@ -124,29 +143,16 @@ export const Header = ({ className, disableSigns, isLogged, user, loading }: Hea
                         null :
                         media.isLaptop ?
                             (
-                                !isLogged ?
-                                    <Signs>
-                                        <SignUpButton isBordered to="/questionnaire">
-                                            Регистрация
-                                        </SignUpButton>
-                                        <Button to="/sign-in">Вход</Button>
-                                    </Signs> :
-                                    loading ? <Text>Зарежда се...</Text> :
-                                        <Dropdown>
-                                            <Dropdown.Button>
-                                                <Text>{user?.nickname}</Text>
-                                            </Dropdown.Button>
-                                            <Dropdown.Content>
-                                                <Dropdown.List>
-                                                    <Dropdown.Item to="/users/@me">
-                                                        <Text>Профил</Text>
-                                                    </Dropdown.Item>
-                                                    <Dropdown.Item to="/logout">
-                                                        <Text style={{color: "#FF3737"}}>Излез</Text>
-                                                    </Dropdown.Item>
-                                                </Dropdown.List>
-                                            </Dropdown.Content>
-                                        </Dropdown>
+                                !loading && !isLogged ?
+                                <Signs>
+                                    <SignUpButton isBordered to="/questionnaire">
+                                        Регистрация
+                                    </SignUpButton>
+                                    <Button to="/sign-in">Вход</Button>
+                                </Signs> :
+                                loading ?
+                                    <BaseText>Зарежда се...</BaseText> :
+                                    <HeaderDropdown user={user as User} logout={logout} />
                             ) :
                             <Signs>
                                 <img src={Burger} alt="Меню" onClick={()=>navigate("/sign-in")}></img>

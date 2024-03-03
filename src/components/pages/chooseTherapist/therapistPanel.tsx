@@ -10,7 +10,7 @@ import { useRef, useState } from "react";
 import dayjs from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { Title } from "@components/molecules";
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 
 const Content = styled.div`
     margin-left: 12vw;
@@ -69,7 +69,7 @@ const Description = styled.div`
     }
 `
 
-const Offer = styled(Text)`
+const Offer = styled(BaseText)`
     font-size: 1rem;
     margin-bottom: 1.5vh;
     
@@ -81,7 +81,7 @@ const OfferSum = styled(Offer)`
     color: var(--accent)
 `
 
-const Name = styled(Text)`
+const Name = styled(BaseText)`
     font-size: 2.8rem;
 `
 
@@ -140,7 +140,7 @@ const InfoTitle = styled(Title)`
     }
 `
 
-const InfoText = styled(Text)`
+const InfoText = styled(BaseText)`
     font-size: 1.1rem;
 `
 
@@ -213,14 +213,14 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                 <ExperienceAndBook>
                     <ExperienceBox>
                         <img src={ handshakeSvg } alt="Опит"/>
-                        <Text>Опит 5 години</Text>
+                        <BaseText>Опит 5 години</BaseText>
                     </ExperienceBox>
                     <BookButton
                         isBordered={true}
                         onClick={()=>bookRef.current?.scrollIntoView({ behavior: 'smooth' })}
                         isFilled={true}
                     >
-                        <Text>Запази час</Text>
+                        <BaseText>Запази час</BaseText>
                     </BookButton>
                 </ExperienceAndBook>
             </PanelHeader>
@@ -271,9 +271,9 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                     {
                         Object.keys(therapist.workDays).map((keyName, i) => (
                             <WorkDay key={i}>
-                                <Text className="bold">{
+                                <BaseText className="bold">{
                                     dayjs(keyName, "YYYY-MM-DD").format("D MMMM, dddd")
-                                }</Text>
+                                }</BaseText>
                                 <Hours>
                                     {
                                         therapist.workDays[keyName].map((hour, j) => (
@@ -283,7 +283,7 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                                                 onClick={() => setChosenHour(therapist.id + j + keyName)}
                                                 key={therapist.id + j + keyName}
                                             >
-                                                <Text>{hour}</Text>
+                                                <BaseText>{hour}</BaseText>
                                             </Hour>
                                         ))
                                     }
@@ -299,7 +299,7 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                 isFilled={true}
                 onClick={()=>navigate("/video-call")}
             >
-                <Text>Запази час</Text>
+                <BaseText>Запази час</BaseText>
             </BookButton>
         </Content>
     )

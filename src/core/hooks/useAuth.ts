@@ -19,7 +19,8 @@ export const useAuth = (
 
     const logout = () => {
         removeCookies("Authorization")
-        navigate("/")
+        navigate("/?")
+        window.location.reload()
     }
 
     useEffect(() => {

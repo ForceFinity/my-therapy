@@ -1,4 +1,4 @@
-import { Text } from "@components/atoms/texts";
+import { BaseText } from "@components/atoms/texts";
 import styled from "styled-components";
 import { TrueButton } from "@components/atoms";
 import { Button } from "@components/molecules/button";
@@ -21,11 +21,11 @@ const Content = styled.div`
     gap: .6rem;
 `
 
-const CardTitle = styled(Text)`
+const CardTitle = styled(BaseText)`
     font-size: 1.8rem;
 `
 
-const CardDesc = styled(Text)`
+const CardDesc = styled(BaseText)`
     font-size: 1.2rem;
 `
 
@@ -47,7 +47,7 @@ export const Card = ({title, description, to, style}: CardProps) => {
                 <CardDesc>{description}</CardDesc>
             </Content>
             <CardButton isBordered isFilled to={to}>
-                <Text>Виж</Text>
+                <BaseText>Виж</BaseText>
             </CardButton>
         </CardWrap>
     )
