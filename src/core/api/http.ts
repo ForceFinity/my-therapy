@@ -31,7 +31,7 @@ export const fetchLogged = async <T>(url: string, token: string): Promise<Respon
         url,
         {
           headers: {
-            "Authorization": token
+            Authorization: `${token}`
           }
         }
     );

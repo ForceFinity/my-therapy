@@ -43,6 +43,7 @@ export const useAuth = (
                         if (isStrict) navigate("/sign-in/");
                         return;
                     }
+
                     setUser(prevUser => ({...userResp.data, token} as User));
                 }
             } catch (error) {

@@ -35,7 +35,7 @@ export const verifyFormCompletion = async (token: string) => {
 }
 
 export const getPFP = async (token: string) => {
-    const url = API_BASE + "/users/pfp/"
+    const url = API_BASE + "/users/pfp"
 
     return await fetchLogged<string>(url, token)
 }
