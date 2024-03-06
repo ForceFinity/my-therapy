@@ -31,19 +31,19 @@ export const createSession = async (
 }
 
 export const getNoteContent = async (token: string, clientId: number) => {
-    const url = "http://localhost:8000/api" + `/users/therapistData/notes?client_id=` + clientId
+    const url = API_BASE + `/users/therapistData/notes?client_id=` + clientId
 
     return await fetchLogged<{content: string}>(url, token)
 }
 
 export const getTherapistInfoFull = async (token: string, therapistId: number) => {
-    const url = "http://localhost:8000/api" + "/users/therapistInfo/full?therapist_id=" + therapistId
+    const url = API_BASE + "/users/therapistInfo/full?therapist_id=" + therapistId
 
     return await fetchLogged<TherapistFull>(url, token)
 }
 
 export const getAllTherapists = async (token: string) => {
-    const url = "http://localhost:8000/api" + "/users?is_therapist=true"
+    const url = API_BASE + "/users?is_therapist=true"
 
     return await fetchLogged<User[]>(url, token)
 }

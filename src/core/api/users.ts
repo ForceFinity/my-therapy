@@ -35,13 +35,13 @@ export const verifyFormCompletion = async (token: string) => {
 }
 
 export const getPFP = async (token: string) => {
-    const url = "http://localhost:8000/api" + "/users/pfp/"
+    const url = API_BASE + "/users/pfp/"
 
     return await fetchLogged<string>(url, token)
 }
 
 export const getUserById = async (token: string, id: number) => {
-    const url = "http://localhost:8000/api" + "/users?id=" + id
+    const url = API_BASE + "/users?id=" + id
 
     return await fetchLogged<User>(url, token)
 }
