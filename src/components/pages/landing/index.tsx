@@ -78,7 +78,7 @@ export const Landing = () => {
     return (
         <Wrapper>
             <LandingHeader isLogged={!!user} user={user} loading={loading} logout={logout} />
-            {/*<LandingBanner />*/}
+            <LandingBanner />
             <div className="content">
                 <Container>
                     <LandingTitle>Погрижи се за себе си</LandingTitle>
