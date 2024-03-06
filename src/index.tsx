@@ -16,11 +16,11 @@ import {
     Login,
     Questionnaire,
     Refereed,
-    VideoCall
+    Users,
+    Sessions
 } from '@components/pages';
 
 import "./index.css"
-import { Users } from "@components/pages/users";
 import { Upcoming } from "@components/pages/users/upcoming/upcoming";
 
 
@@ -58,9 +58,8 @@ const router = createBrowserRouter([
         element: <Upcoming />
     },
     {
-        path: "/video-call",
-        // element: <SocketProvider><VideoCall /></SocketProvider>
-        element: <VideoCall />
+        path: "/sessions/:id",
+        element: <Sessions />
     }
 ]);
 

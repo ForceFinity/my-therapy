@@ -85,11 +85,11 @@ export const ReferralArticle = ({user}: {user?: User}) => {
                 <Href to="https://forms.gle/U3cujeX4PjwpRh2B7"> нашата гугл форма</Href>,
                 Вие получавате една точка.
             </ArticleText>
-            <ArticleButton isBordered={true} isFilled={true} onClick={copyReferralLink} >
+            <ArticleButton $isBordered={true} $isFilled={true} onClick={copyReferralLink} >
                 <BaseText>Копирай линк за покана</BaseText>
             </ArticleButton>
             <ArticleButton
-                isBordered={true}
+                $isBordered={true}
                 style={{marginTop: "-1vh"}}
                 onClick={()=>window.open("https://forms.gle/U3cujeX4PjwpRh2B7", "_blank")}
             >
@@ -102,8 +102,8 @@ export const ReferralArticle = ({user}: {user?: User}) => {
             </ArticleText>
             <FormCompletionStatus>
                 <ArticleButton
-                    isBordered={true}
-                    isFilled={true}
+                    $isBordered={true}
+                    $isFilled={true}
                     onClick={
                     () => {
                         if(user) checkFormCompletion()
@@ -130,7 +130,7 @@ export const ReferralArticle = ({user}: {user?: User}) => {
                 Наградите, които предлагат безплатни сеансове могат да бъдат получени във брой, но само на половината
                 от своята стойност.
             </ArticleText>
-            <ArticleButton isBordered={true}  isFilled={true} onClick={()=>navigate("/users/@me/refereed")}>
+            <ArticleButton $isBordered={true} $isFilled={true} onClick={()=>navigate("/users/@me/refereed")}>
                 <BaseText>Виж всички поканени</BaseText>
             </ArticleButton>
         </ArticleContent>

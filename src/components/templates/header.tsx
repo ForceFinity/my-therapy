@@ -2,14 +2,12 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import Burger from "@assets/burger.svg";
-import ArrowDownSvg from "@assets/chevron.svg"
 import { Button } from "../molecules/button";
 
 import { useMedia } from "@core/utils/mediaQueries";
 import { Href } from "../atoms/href";
 import { User } from "@core/schemas/user";
-import { ErrorText, BaseText } from "@components/atoms/texts";
-import { useState } from "react";
+import { BaseText } from "@components/atoms/texts";
 import { Dropdown } from "@components/organisms/dropdown";
 
 const HeaderStyled = styled.header`
@@ -27,18 +25,6 @@ const HeaderStyled = styled.header`
         align-items: center;
         margin-top: 4vh;
     }`
-
-const Profile = styled.div`
-    display: flex;
-    gap: 2rem;
-    width: 20%;
-    
-    img {
-        height: 40%;
-        filter: brightness(0) saturate(100%);
-        rotate: -90deg; 
-    }
-`
 
 const Signs = styled.div`
     display: flex;
@@ -70,10 +56,6 @@ const Logo = styled(Href)`
     width: 12rem;
 `
 
-const Select = styled.select``
-
-const Option = styled.option``
-
 const HeaderDropdown = ({user, logout}: {user: User, logout?: () => void}) => (
     <Dropdown>
         <Dropdown.Button>
@@ -104,6 +86,7 @@ interface HeaderProps {
 export const Header = ({ className, disableSigns, isLogged, user, loading, logout }: HeaderProps) => {
     const media = useMedia()
     const navigate = useNavigate()
+    isLogged = isLogged ? isLogged : !!user
 
     // noinspection TypeScriptValidateTypes
     return (

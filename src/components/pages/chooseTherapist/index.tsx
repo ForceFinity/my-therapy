@@ -1,11 +1,17 @@
 import { Wrapper } from "@components/atoms";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import { SidePanel } from "./sidePanel";
 import { TherapistPanel } from "./therapistPanel";
 import { Footer } from "@components/templates/footer";
 import { Header } from "@components/templates";
 import { useAuth } from "@core/hooks/useAuth";
+import { getAllTherapists, getTherapistInfoFull } from "@core/api/therapists";
+import { getPFP } from "@core/api/users";
+import { User } from "@core/schemas/user";
+import { TherapistFull } from "@core/schemas/therapist";
+import processRequest from "@core/utils/processRequest";
+import { BaseText } from "@components/atoms/texts";
 
 const ChooseTherapistWrapper = styled(Wrapper)`
     display: flex;
@@ -22,73 +28,61 @@ const Content = styled.div`
     }
 `
 
-export interface Therapist {
-    id: string
-    name: string
-    pfpURL: string
-    // ISO string of the day to working hours
-    workDays: { [key: string]: string[] }
-}
+const getTherapistFullInfos = async (token: string): Promise<{ [key: number]: TherapistFull } | null> => {
+    const therapistsResp = await getAllTherapists(token)
+    let fullInfo: { [key: number]: TherapistFull } = {}
 
-const getTherapistsMagically = (): { [key: number]: Therapist } => ({
-    0: {
-        id: "1",
-        name: "Кити Китиус",
-        pfpURL: "https://i.ibb.co/yVm8tBn/Group-9.png",
-        workDays: {
-            "2024-02-26": ["14:00", "16:00"],
-            "2024-02-27": ["14:00", "16:00", "18:00"],
-            "2024-02-28": ["12:00", "18:00"]
-        }
-    },
-    1: {
-        id: "2",
-        name: "Гас Фифзи",
-        pfpURL: "https://i.ibb.co/j5Vw7pN/photo-2021-12-20-16-03-59.jpg",
-        workDays: {
-            "2024-02-26": ["14:00", "16:00"],
-            "2024-02-27": ["16:00"],
-            "2024-02-28": ["12:00", "18:00"]
-        }
-    },
-    2: {
-        id: "3",
-        name: "Лоли Попс",
-        pfpURL: "https://i.ibb.co/ft9ksD2/2024-02-22-001832616.png",
-        workDays: {
-            "2024-02-25": ["10:00"],
-            "2024-02-26": ["14:00", "16:00"],
-            "2024-02-28": ["12:00", "18:00"]
-        }
-    },
-    3: {
-        id: "4",
-        name: "Литтл Пав",
-        pfpURL: "https://i.ibb.co/f9Y1gMW/kitten.png",
-        workDays: {
-            "2024-02-25": ["10:00"],
-            "2024-02-26": ["14:00", "16:00"],
-            "2024-02-27": ["14:00", "18:00"],
-            "2024-02-28": ["12:00"]
+    if(!therapistsResp.status.startsWith("2")) return null
+
+    for(const [i, val] of therapistsResp.data!.entries()) {
+        const currInfo = (await getTherapistInfoFull(token, val.id)).data as TherapistFull
+
+        fullInfo = {
+            ...fullInfo,
+            [i]: {
+                ...currInfo
+            }
         }
     }
-})
+
+    return fullInfo
+}
 
 export const ChooseTherapist = () => {
     const { user, logout } = useAuth()
-    let therapists: { [key: number]: Therapist } = getTherapistsMagically()
-    const [currTherapist, setCurrTherapist] = useState(1)
+    const [error, setError] = useState("")
+    const [therapists, setTherapists] = useState<{ [key: number]: TherapistFull }>()
+    const [currTherapist, setCurrTherapist] = useState(0)
 
-    // useEffect(() => {
-    //     therapists = getTherapistsMagically()
-    // });
+    useEffect(() => {
+        if(user) {
+            getTherapistFullInfos(user.token)
+                .then(res =>
+                    {
+                        setTherapists(res ? res : {})
+                    }
+                )
+                .catch(reason => {
+                    console.log("Whoopsie...", reason)
+                    setError(reason)
+                })
+        }
+    }, [user]);
+
+    if(!therapists || !user) {
+        return <BaseText>Зарежда се...</BaseText>
+    }
+
+    if(Object.keys(therapists).length === 0) {
+        return <BaseText>Няма намерени специалисти</BaseText>
+    }
 
     return (
         <ChooseTherapistWrapper>
-            <Header logout={logout} />
+            <Header logout={logout} disableSigns />
             <Content>
                 <SidePanel data={therapists} curr={currTherapist} setCurr={setCurrTherapist} />
-                <TherapistPanel therapist={therapists[currTherapist]} />
+                <TherapistPanel user={user} therapist={therapists[currTherapist]} />
             </Content>
             <Footer />
         </ChooseTherapistWrapper>

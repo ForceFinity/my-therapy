@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 import { TableStyled } from "@components/atoms/table";
 import { BaseText } from "@components/atoms/texts";
 import dayjs from "dayjs";
-import { useState } from "react";
 import {
     createColumnHelper,
     flexRender,
@@ -11,6 +10,7 @@ import {
     useReactTable
 } from "@tanstack/react-table";
 import { Weekdays } from "@components/pages/users/upcoming/upcoming";
+import { useMemo } from "react";
 
 const CalendarTableStyled = styled(TableStyled)`
     border-radius: 0 .6rem .6rem 0;
@@ -38,34 +38,55 @@ const CalendarTableStyled = styled(TableStyled)`
     }
 `
 
-const CalendarTableDay = styled(BaseText)<{ isFromAnotherMonth: boolean, isChosen: boolean }>`
+const CalendarTableDay = styled(BaseText)<{ $isFromAnotherMonth: boolean, $isChosen: boolean }>`
     display: flex;
     justify-content: center;
     align-items: center;
 
-    ${props => props.isFromAnotherMonth && css`color: #B9B9B9;`}
+    ${props => props.$isFromAnotherMonth && css`color: #B9B9B9;`}
 
     width: 70%;
     aspect-ratio: 1 / 1;
     margin: auto;
 
     border-radius: .5rem;
-    ${props => !props.isFromAnotherMonth && css`
+    ${props => !props.$isFromAnotherMonth && css`
         &:hover {
             cursor: pointer;
             background-color: rgba(5, 130, 112, .5);
         }`
     }
     
-    ${props => props.isChosen && css`background-color: rgba(5, 130, 112, .5);`}`
+    ${props => props.$isChosen && css`background-color: rgba(5, 130, 112, .5);`}`
+
+const getMonthDays = (): Weekdays[] => {
+    const current = dayjs()
+    const monthStart = current.startOf("month")
+    const firstDay = monthStart.day()
+
+    let result = []
+    let row: Weekdays = {}
+    for (let i = 0; i < 6; i++) {
+        dayjs.weekdaysShort().forEach((value, index) => {
+            row[value] = monthStart
+                .date(monthStart.date() + (i * 7 + 6) - (7 - index) - (firstDay - 1))
+                .format("D")
+        })
+        result.push(row)
+        row = {}
+    }
+
+    return result as Weekdays[]
+}
 
 interface CalendarTableProps {
-    data: Weekdays[],
     chosen: string,
     setChosen: any
 }
 
-export const CalendarTable = ({data, chosen, setChosen}: CalendarTableProps) => {
+export const CalendarTable = ({chosen, setChosen}: CalendarTableProps) => {
+    const data = useMemo(getMonthDays, [])
+
     const columnHelper = createColumnHelper<Weekdays>()
     const columns = [
         ...dayjs.weekdaysShort().map(value => (
@@ -79,8 +100,8 @@ export const CalendarTable = ({data, chosen, setChosen}: CalendarTableProps) => 
                         || (info.row.index === data.length - 1 && parseInt(value) < 7)
                     )
                     return <CalendarTableDay
-                        isFromAnotherMonth={isFromAnotherMonth}
-                        isChosen={value === chosen && !isFromAnotherMonth}
+                        $isFromAnotherMonth={isFromAnotherMonth}
+                        $isChosen={value === chosen && !isFromAnotherMonth}
                         onClick={!isFromAnotherMonth ? () => setChosen(value) : undefined}
                     >
                         {value}

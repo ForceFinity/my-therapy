@@ -1,9 +1,11 @@
 import penSvg from "@assets/pen.svg"
+import logoutSvg from "@assets/logout.svg"
+import accountSvg from "@assets/account.svg"
 import { TrueButton, Wrapper } from "@components/atoms";
-import { Header } from "@components/templates";
+import { Footer, Header } from "@components/templates";
 import { BaseText } from "@components/atoms/texts";
-import { TypeToRole, User } from "@core/schemas/user";
-import { Card, Title } from "@components/molecules";
+import { AccountType, TypeToRole, User } from "@core/schemas/user";
+import { Card } from "@components/molecules";
 import styled from "styled-components";
 import { getPFP } from "@core/api/users";
 import { useEffect, useState } from "react";
@@ -26,10 +28,11 @@ const Container = styled.div`
 `
 const PFP = styled.img`
     width: 10vw;
+    border-radius: 5vw;
 `
 const EditButton = styled(TrueButton)`
     width: 2vw;
-    margin-right: 2vw;
+    margin: 0 1vh;
     img {
         width: inherit;
     }
@@ -48,6 +51,9 @@ const Cards = styled.div`
     gap: 5vh;
     margin-top: 10vh;
 `
+
+const UserActions = styled.div``
+
 export const UserPage = ({user, logout}: {user: User, logout: () => void}) => {
     const [pfpLoading, setPfpLoading] = useState(true)
     const [pfpUrl, setPfpUrl] = useState<string>()
@@ -64,40 +70,58 @@ export const UserPage = ({user, logout}: {user: User, logout: () => void}) => {
             })
     }, [user]);
 
+    // noinspection TypeScriptValidateTypes
     return (
-        <UPWrapper isThin={true}>
+        <UPWrapper $isThin={true} $alignCenter>
             <Header disableSigns={true} logout={logout} />
             <Content>
                 <Head>
                     <Container>
                         { pfpLoading ?
                             <BaseText>Зарежда се...</BaseText> :
-                            <PFP src={ pfpUrl } alt={ user.nickname } />
+                            <PFP src={ pfpUrl ? pfpUrl : accountSvg } alt={ user.nickname } />
                         }
                         <NameAndRole>
                             <Name>{user.nickname}</Name>
                             <Role>{TypeToRole[user.account_type.toString()]}</Role>
                         </NameAndRole>
                     </Container>
-                    <EditButton>
-                        <img src={ penSvg } alt="Промени"/>
-                    </EditButton>
+                    <UserActions>
+                        <EditButton disabled>
+                            <img src={ penSvg } alt="Промени"/>
+                        </EditButton>
+                        <EditButton onClick={logout}>
+                            <img src={ logoutSvg } alt="Излез"/>
+                        </EditButton>
+                    </UserActions>
                 </Head>
                 <Cards>
                     <Card
                         title="Предстоящи сесии"
                         description="Вижте своите предстоящи онлайн сесии."
                         to="/users/@me/upcoming"
+                        disabled={user.account_type != AccountType.Therapist}
                         style={{borderColor: "#00ADC5"}}
                     />
                     <Card
                         title="Безопасност"
                         description="Променете данните си за вход и други настройки."
                         to="/users/@me/settings"
+                        disabled
                         style={{borderColor: "#6228D7"}}
                     />
+                    { user.account_type === AccountType.Admin &&
+                        <Card
+                            title="Админ панел"
+                            description="Управление"
+                            to="/users/@me/settings"
+                            disabled
+                            style={{borderColor: "var(--accent)"}}
+                        />
+                    }
                 </Cards>
             </Content>
+            <Footer />
         </UPWrapper>
     )
 }

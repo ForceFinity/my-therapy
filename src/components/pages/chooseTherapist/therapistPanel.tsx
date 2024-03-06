@@ -1,16 +1,18 @@
 // noinspection TypeScriptValidateTypes
 
 import styled from "styled-components";
-import { Therapist } from "./index";
 import { TrueButton } from "@components/atoms";
 import handshakeSvg from "@assets/support.svg"
 import { ThemeCard } from "./themeCard";
 import { ExpandableBox } from "@components/organisms/expandableBox";
-import { useRef, useState } from "react";
-import dayjs from "dayjs";
+import { useMemo, useRef, useState } from "react";
+import dayjs, { Dayjs } from "dayjs";
 import { useNavigate } from "react-router-dom";
 import { Title } from "@components/molecules";
 import { BaseText } from "@components/atoms/texts";
+import { TherapistFull } from "@core/schemas/therapist";
+import { User } from "@core/schemas/user";
+import { createSession } from "@core/api/therapists";
 
 const Content = styled.div`
     margin-left: 12vw;
@@ -194,20 +196,47 @@ const BookButton = styled(TrueButton)`
     }
 `
 
-export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
+const processWorkHours = (workHours: string[]) => {
+    let result: {[date: string]: Dayjs[]} = {}
+
+    workHours.forEach( value => {
+        const as_date = dayjs(value)
+
+        result[as_date.date()] ?
+            result[as_date.date()].push(as_date) :
+            result = {...result, [as_date.date()]: [as_date]}
+    })
+
+    return result
+}
+
+export const TherapistPanel = ({user, therapist}: {user: User, therapist: TherapistFull}) => {
     const [chosenHour, setChosenHour] = useState<string>()
     const maxDescHeightRem = 6
     const bookRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
-    
+    const workHours = useMemo(() => processWorkHours(therapist.work_hours), [therapist])
+    console.log(therapist)
+    const bookSession = (iso_datetime: string) => {
+        let as_datetime = dayjs(iso_datetime)
+
+        createSession(
+            therapist.therapist_id,
+            user,
+            `${user.nickname} ${as_datetime.format("HH:mm")}`,
+            "Сесия със " + user.nickname + " на " + as_datetime.format("D MMMM, dddd"),
+            iso_datetime
+        ).then(()=>navigate("/users/@me"))
+    }
+
     return (
         <Content>
             <PanelHeader>
                 <MainContent>
-                    <PFP src={therapist.pfpURL} alt={therapist.name}/>
+                    <PFP src={therapist.pfp} alt={therapist.name}/>
                     <Description>
                         <Name>{therapist.name}</Name>
-                        <Offer>Индивидуална сесия <OfferSum className="bold">50лв</OfferSum></Offer>
+                        <Offer>Индивидуална сесия <OfferSum className="bold">{ therapist.price }лв</OfferSum></Offer>
                     </Description>
                 </MainContent>
                 <ExperienceAndBook>
@@ -216,9 +245,9 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
                         <BaseText>Опит 5 години</BaseText>
                     </ExperienceBox>
                     <BookButton
-                        isBordered={true}
+                        $isBordered={true}
                         onClick={()=>bookRef.current?.scrollIntoView({ behavior: 'smooth' })}
-                        isFilled={true}
+                        $isFilled={true}
                     >
                         <BaseText>Запази час</BaseText>
                     </BookButton>
@@ -226,37 +255,29 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
             </PanelHeader>
             <InfoBox>
                 <InfoTitle>За специалиста:</InfoTitle>
-                <ExpandableBox maxHeightRem={maxDescHeightRem}>
-                    <InfoText>Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе. Вим примис риденс делицата ет.
-                        Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе. Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе. Вим примис риденс делицата ет.
-                        Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе.</InfoText>
+                <ExpandableBox $maxHeightRem={maxDescHeightRem}>
+                    <InfoText>
+                        { therapist.about }
+                    </InfoText>
                 </ExpandableBox>
             </InfoBox>
             <InfoBox>
                 <InfoTitle>Образование:</InfoTitle>
-                <ExpandableBox maxHeightRem={maxDescHeightRem * 1.7}>
+                <ExpandableBox $maxHeightRem={maxDescHeightRem * 1.7}>
                     <EducationBox>
-                        <Education>
-                            <InfoText>2020</InfoText>
-                            <InfoText>Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе. Вим примис риденс делицата ет.
-                                Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе.</InfoText>
-                        </Education>
-                        <Education>
-                            <InfoText>2015</InfoText>
-                            <InfoText>Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе. Вим примис риденс делицата ет.
-                                Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе.</InfoText>
-                        </Education>
-                        <Education>
-                            <InfoText>2010</InfoText>
-                            <InfoText>Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе. Вим примис риденс делицата ет.
-                                Лорем ипсум долор сит амет, нам цу алияуид пхилосопхиа сигниферумяуе.</InfoText>
-                        </Education>
+                        { therapist.education.map((value, i) => (
+                            <Education key={i}>
+                                { /*Splitting to year and description*/ }
+                                <InfoText>{value.split(";")[0]}</InfoText>
+                                <InfoText>{value.split(";")[1]}</InfoText>
+                            </Education>
+                        ))}
                     </EducationBox>
                 </ExpandableBox>
             </InfoBox>
             <InfoBox>
                 <InfoTitle>Работи с вашите теми:</InfoTitle>
-                <ExpandableBox maxHeightRem={maxDescHeightRem}>
+                <ExpandableBox $maxHeightRem={maxDescHeightRem}>
                     <ThemeCards>
                         <ThemeCard type={1} text="Кариерна мотивация" />
                         <ThemeCard type={2} text="Семейство" />
@@ -267,37 +288,45 @@ export const TherapistPanel = ({therapist}: {therapist: Therapist}) => {
             </InfoBox>
             <InfoBox ref={bookRef}>
                 <InfoTitle>Запази час</InfoTitle>
-                <ExpandableBox maxHeightRem={maxDescHeightRem * 2.2}>
+                <ExpandableBox $maxHeightRem={maxDescHeightRem * 2.2}>
                     {
-                        Object.keys(therapist.workDays).map((keyName, i) => (
-                            <WorkDay key={i}>
-                                <BaseText className="bold">{
-                                    dayjs(keyName, "YYYY-MM-DD").format("D MMMM, dddd")
-                                }</BaseText>
-                                <Hours>
-                                    {
-                                        therapist.workDays[keyName].map((hour, j) => (
-                                            <Hour
-                                                isBordered={true}
-                                                isFilled={ chosenHour === therapist.id + j + keyName}
-                                                onClick={() => setChosenHour(therapist.id + j + keyName)}
-                                                key={therapist.id + j + keyName}
-                                            >
-                                                <BaseText>{hour}</BaseText>
-                                            </Hour>
-                                        ))
-                                    }
-                                </Hours>
-                            </WorkDay>
+                        Object.keys(workHours).map((date, i) => (
+                                <WorkDay>
+                                    <BaseText className="bold">
+                                        {dayjs(workHours[date][0]).format("D MMMM, dddd")}
+                                    </BaseText>
+
+                                    <Hours>
+                                        {
+                                            workHours[date].map((hour, j) => (
+                                                <Hour
+                                                    $isBordered
+                                                    $isFilled={
+                                                        chosenHour == `${therapist.therapist_id.toString()};${hour.toISOString()}`
+                                                    }
+                                                    onClick={
+                                                        ()=>setChosenHour(
+                                                            `${therapist.therapist_id.toString()};${hour.toISOString()}`
+                                                        )
+                                                    }
+                                                >
+                                                    <BaseText>{hour.format("HH:mm")}</BaseText>
+                                                </Hour>
+                                            ))
+                                        }
+                                    </Hours>
+                                </WorkDay>
                         ))
                     }
                 </ExpandableBox>
             </InfoBox>
             <BookButton
-                isBordered={true}
-                disabled={!(chosenHour && chosenHour.startsWith(therapist.id.toString()))}
-                isFilled={true}
-                onClick={()=>navigate("/video-call")}
+                $isBordered
+                disabled={!(chosenHour && chosenHour.startsWith(therapist.therapist_id.toString()))}
+                $isFilled
+                onClick={()=>{
+                    bookSession(chosenHour!.split(";")[1])
+                }}
             >
                 <BaseText>Запази час</BaseText>
             </BookButton>

@@ -101,7 +101,7 @@ export const Articles = () => {
     }
 
     return (
-        <ArticleWrapper isThin={true}>
+        <ArticleWrapper $isThin={true}>
             <ArticleHeader isLogged={!!user} user={user} logout={logout} />
             { name && articles[name] }
             <Footer />

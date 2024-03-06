@@ -129,10 +129,7 @@ const Alternatives = styled.div`
     margin-top: 1rem;
 `
 
-const GoogleSignIn = styled.a.attrs({
-    href: "#",
-    className: "border"
-})`
+const GoogleSignIn = styled(TrueButton)`
     display: flex;
     justify-content: center;
     align-items: center;
@@ -140,6 +137,9 @@ const GoogleSignIn = styled.a.attrs({
     height: 2.5rem;
     width: 2.5rem;
     
+    &:hover {
+        cursor: not-allowed;
+    }
 `
 
 const LoginSubmitButton = styled(SubmitButton)`
@@ -291,7 +291,7 @@ export const Login = () => {
                             </RememberMe>
                         </FormInput>
                         <Alternatives>
-                            <GoogleSignIn>
+                            <GoogleSignIn type="button" onClick={()=>alert("В разработка...")}>
                                 <LoginIcon src={ googleSvg } alt="Google Sign-In" />
                             </GoogleSignIn>
                         </Alternatives>
@@ -313,7 +313,7 @@ export const Login = () => {
                     }
                     {
                         media.isLaptop &&
-                        <RegisterButton isBordered={true} onClick={() => navigate("/questionnaire")}>
+                        <RegisterButton $isBordered={true} onClick={() => navigate("/questionnaire")}>
                             <BaseText>Регистрация</BaseText>
                         </RegisterButton>
                     }

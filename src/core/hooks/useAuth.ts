@@ -5,7 +5,6 @@ import { API_BASE, fetchLogged } from "@core/api/http";
 import { User } from "@core/schemas/user";
 import { Session } from "@core/schemas/auth";
 import { Simulate } from "react-dom/test-utils";
-import load = Simulate.load;
 
 export const useAuth = (
     isStrict: boolean = true,

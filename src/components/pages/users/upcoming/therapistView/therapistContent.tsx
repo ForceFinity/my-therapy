@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { UpcomingEvents } from "@components/pages/users/upcoming/upcomingEvents";
+import { UpcomingEvents } from "@components/pages/users/upcoming/therapistView/upcomingEvents";
 import dayjs from "dayjs";
-import { CalendarTable } from "@components/pages/users/upcoming/calendarTable";
+import { CalendarTable } from "@components/pages/users/upcoming/therapistView/calendarTable";
 import { useEffect, useMemo, useState } from "react";
 import processRequest from "@core/utils/processRequest";
 import { Event } from "@core/schemas/therapist";
-import { getTherapistEvents } from "@core/api/therapists";
-import getMonthDays from "@components/pages/users/upcoming/getMonthDays";
-import processEvents from "@components/pages/users/upcoming/getEvents";
+import { getEvents } from "@core/api/therapists";
+import processEvents from "@components/pages/users/upcoming/therapistView/getEvents";
 import { User } from "@core/schemas/user";
 import { BaseText, ErrorText } from "@components/atoms/texts";
 
@@ -52,15 +51,16 @@ export const TherapistContent = ({therapist, setError}: {therapist: User, setErr
 
     const [events, setEvents] = useState<Event[]>([])
     const [chosen, setChosen] = useState<string>("")
-    const calendarDays = useMemo(() => getMonthDays(), [])
     const upcomingData = useMemo(() => processEvents(events), [events])
 
     useEffect(() => {
         therapist && processRequest<Event[]>(
-            getTherapistEvents(therapist.token),
+            getEvents(therapist.token),
             setEvents,
-            setError,
-            setLoading
+            {
+                errStoreFn: setError,
+                loadingStoreFn: setLoading
+            }
         )
     }, []);
 
@@ -74,7 +74,7 @@ export const TherapistContent = ({therapist, setError}: {therapist: User, setErr
                     loading={loading}
                 />
             </UpcomingData>
-            <CalendarTable data={calendarDays} chosen={chosen} setChosen={setChosen} />
+            <CalendarTable chosen={chosen} setChosen={setChosen} />
         </Wrap>
     )
 }

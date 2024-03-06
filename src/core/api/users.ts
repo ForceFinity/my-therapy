@@ -39,3 +39,9 @@ export const getPFP = async (token: string) => {
 
     return await fetchLogged<string>(url, token)
 }
+
+export const getUserById = async (token: string, id: number) => {
+    const url = "http://localhost:8000/api" + "/users?id=" + id
+
+    return await fetchLogged<User>(url, token)
+}

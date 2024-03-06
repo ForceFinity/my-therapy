@@ -2,30 +2,49 @@
 
 import styled from "styled-components";
 import { useEffect, useMemo, useRef, useState } from "react";
-import { doc, collection, onSnapshot, updateDoc, addDoc, setDoc, getDoc } from "firebase/firestore";
+import { addDoc, collection, doc, getDoc, onSnapshot, setDoc, updateDoc } from "firebase/firestore";
 import { firestore } from "./firebase";
 
 import hangUpSvg from "@assets/phone-xmark.svg"
 import { useMedia } from "@core/utils/mediaQueries";
-import { Input, TrueButton, Wrapper } from "@components/atoms";
-import { ErrorText, BaseText } from "@components/atoms/texts";
-import { Header } from "@components/templates";
+import { TrueButton } from "@components/atoms";
+import { BaseText, ErrorText } from "@components/atoms/texts";
+import clockSvg from "@assets/clock.svg"
+import { AccountType, User } from "@core/schemas/user";
+import { TherapistControls } from "@components/pages/sessions/therapistControls";
 
-const VideoCallWrapper = styled(Wrapper)<{isPortrait: boolean}>`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: ${({ isPortrait }) => isPortrait ? "0" : {}};
-`
-
-const VideoBox = styled.div<{isPortrait: boolean}>`
-    margin-top: ${props => props.isPortrait ? 0 : "5vh"};
+const VideoBox = styled.div<{$isPortrait: boolean, $isWaiting: boolean}>`
     position: relative;
-    width: ${props => props.isPortrait ? "100%" : "80%"};
+    
+    border-radius: 1rem;
+    ${props => props.$isWaiting && "background: linear-gradient(115deg, #058270, #01e8c5);"}
+    
+    margin-top: ${props => props.$isPortrait ? 0 : "5vh"};
+    margin-bottom: 4vh;
     
     video {
-        aspect-ratio: ${props => props.isPortrait ? "9 / 16" : "16 / 9"};
+        aspect-ratio: ${props => props.$isPortrait ? "9 / 16" : "16 / 9"};
         object-fit: cover;
+    }
+`
+
+const Placeholder = styled.div<{$isVisible: boolean}>`
+    position: absolute;
+    display: ${props => props.$isVisible ? "flex" : "none"};
+    flex-direction: column;
+    align-items: center;
+    gap: 1vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    img {
+        width: 4vw;
+        filter: brightness(0) invert(1);
+    }
+    
+    span {
+        color: white;
     }
 `
 
@@ -38,9 +57,9 @@ const TherapistVideo = styled.video`
     }
 `
 
-const ClientVideo = styled.video<{isPortrait: boolean}>`
+const ClientVideo = styled.video<{$isPortrait: boolean}>`
     position: absolute;
-    ${props => props.isPortrait ? "top: 1rem" : "bottom: 1rem"};
+    ${props => props.$isPortrait ? "top: 1rem" : "bottom: 1rem"};
     right: 1.5rem;
     border-radius: .6rem;
     width: 30%;
@@ -56,14 +75,15 @@ const ControlsBox = styled.div`
 
 const CloseCallButton = styled(TrueButton)`
     position: absolute;
-    bottom: -4rem;
+    bottom: 1rem;
     border-color: #FF0000;
     border-radius: 7.5vw;
-    background-color: white;
-    
-    right: 31vw;
+    background-color: rgba(255, 255, 255, 0.8);
     width: 4vw;
     height: 4vw;
+
+    left: 50%;
+    transform: translateX(-50%);
 
     img {
         margin-top: .3rem;
@@ -85,7 +105,7 @@ const CloseCallButton = styled(TrueButton)`
     }
 `
 
-export const VideoCall = () => {
+export const VideoCall = ({user, className}: {user: User, className?: string}) => {
     const webcamRef = useRef<HTMLVideoElement>(null)
     const remoteRef = useRef<HTMLVideoElement>(null)
     const callBtnRef = useRef<HTMLButtonElement>(null)
@@ -94,6 +114,7 @@ export const VideoCall = () => {
     const remoteStream = useMemo(() => new MediaStream(), [])
     const media = useMedia()
     const [error, setError] = useState<string>()
+    const [isCallConnected, setIsCallConnected] = useState(false)
 
     const servers = {
         iceServers: [
@@ -132,14 +153,12 @@ export const VideoCall = () => {
     }, [webcamRef]);
 
     pc.ontrack = event => {
-        console.log(event)
         event.streams[0].getTracks().forEach(track => {
             console.log("Remote track", track)
             remoteStream.addTrack(track)
         })
 
         if(remoteRef.current){
-            console.log("Remote stream: " + remoteStream)
             remoteRef.current.srcObject = remoteStream;}
     }
 
@@ -167,8 +186,8 @@ export const VideoCall = () => {
         // Listen for remote answer
         onSnapshot(callDoc, (snapshot) => {
             const data = snapshot.data();
-            console.log(data)
             if (!pc.currentRemoteDescription && data?.answer) {
+                setIsCallConnected(true)
                 pc.setRemoteDescription(new RTCSessionDescription(data.answer));
             }
         });
@@ -239,30 +258,35 @@ export const VideoCall = () => {
     }
 
     return (
-        <VideoCallWrapper isPortrait={media.isMobile}>
+        <div className={className}>
             {/*{ media.isLaptop && <Header /> }*/}
-            <VideoBox isPortrait={media.isMobile}>
+            <VideoBox $isPortrait={media.isMobile} $isWaiting={!isCallConnected}>
+                <Placeholder $isVisible={!isCallConnected}>
+                    <img src={ clockSvg } alt="Чакаме..." />
+                    <BaseText>Чакаме събеседник...</BaseText>
+                </Placeholder>
                 <TherapistVideo ref={remoteRef} autoPlay ></TherapistVideo>
-                <ClientVideo isPortrait={media.isMobile} ref={webcamRef} autoPlay ></ClientVideo>
-                <CloseCallButton isBordered={true} onClick={ () => {
+                <ClientVideo $isPortrait={media.isMobile} ref={webcamRef} autoPlay ></ClientVideo>
+                <CloseCallButton onClick={ () => {
                     remoteRef.current!.srcObject = null
                     webcamRef.current!.srcObject = null
                     pc.close()
+                    setIsCallConnected(false)
                 } }>
                     <img src={ hangUpSvg } alt="Затвори"/>
                 </CloseCallButton>
             </VideoBox>
 
-            <ControlsBox>
-                <TrueButton ref={callBtnRef} onClick={handleCreateCall}>
-                    <BaseText>Create call</BaseText>
-                </TrueButton>
-                <Input value={callID} onChange={(e) => setCallId(e.target.value)} />
-                <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
-                    <BaseText>Answer call</BaseText>
-                </TrueButton>
-            </ControlsBox>
+            {/*<ControlsBox>*/}
+            {/*    <TrueButton ref={callBtnRef} onClick={handleCreateCall}>*/}
+            {/*        <BaseText>Create call</BaseText>*/}
+            {/*    </TrueButton>*/}
+            {/*    <Input value={callID} onChange={(e) => setCallId(e.target.value)} />*/}
+            {/*    <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>*/}
+            {/*        <BaseText>Answer call</BaseText>*/}
+            {/*    </TrueButton>*/}
+            {/*</ControlsBox>*/}
             <ErrorText>{ error }</ErrorText>
-        </VideoCallWrapper>
+        </div>
     )
 }

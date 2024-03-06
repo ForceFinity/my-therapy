@@ -4,7 +4,7 @@ import { BaseText } from "@components/atoms/texts";
 import { useNavigate } from "react-router-dom";
 import { MouseEvent } from "react";
 
-const Placeholder = styled(BaseText)`
+export const Placeholder = styled(BaseText)`
     position: absolute;
     top: 50%;
     left: 50%;

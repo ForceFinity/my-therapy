@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 export enum EventType {
     Session = 1,
     Supervision,
@@ -9,7 +11,17 @@ export interface Event {
     client_id: number
     title: string
     description: string
-    iso_date: string
+    event_datetime: string
     eventType: EventType
 }
-// export type Event = { [key: string]:  EventProps}
+
+export type TherapistFull = {
+    therapist_id: number
+    name: string
+    pfp: string
+    price: number
+    about: string
+    education: string[]
+    // ISO strings
+    work_hours: string[]
+}

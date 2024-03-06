@@ -37,16 +37,17 @@ interface CardProps {
     description: string
     to: string
     style?: any
+    disabled?: boolean
 }
 
-export const Card = ({title, description, to, style}: CardProps) => {
+export const Card = ({title, description, to, style, disabled}: CardProps) => {
     return (
         <CardWrap style={style}>
             <Content>
                 <CardTitle>{title}</CardTitle>
                 <CardDesc>{description}</CardDesc>
             </Content>
-            <CardButton isBordered isFilled to={to}>
+            <CardButton disabled={disabled} isBordered isFilled to={to}>
                 <BaseText>Виж</BaseText>
             </CardButton>
         </CardWrap>

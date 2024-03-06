@@ -19,15 +19,15 @@ const Expand = styled.div`
     }
 `
 
-const Content = styled.div<{ isFolded: boolean; maxHeightRem: number }>`
-    max-height: ${props => props.isFolded ? props.maxHeightRem + "rem" : "100%"};
+const Content = styled.div<{ $isFolded: boolean; $maxHeightRem: number }>`
+    max-height: ${props => props.$isFolded ? props.$maxHeightRem + "rem" : "100%"};
     position: relative;
     overflow: hidden;
     
     &::after {
         content: "";
         position: absolute;
-        z-index: ${props => props.isFolded ? 0 : -1};
+        z-index: ${props => props.$isFolded ? 0 : -1};
         bottom: 0;
         left: 0;
         pointer-events: none;
@@ -39,22 +39,22 @@ const Content = styled.div<{ isFolded: boolean; maxHeightRem: number }>`
 
 interface ExpandableTextProps {
     children: any,
-    maxHeightRem: number
+    $maxHeightRem: number
 }
 
-export const ExpandableBox = ({children, maxHeightRem}: ExpandableTextProps) => {
+export const ExpandableBox = ({children, $maxHeightRem}: ExpandableTextProps) => {
     let contentRef = useRef<HTMLDivElement>(null)
     const [isFolded, setIsFolded] = useState(true)
 
     // noinspection TypeScriptValidateTypes
     return (
         <EBWrapper>
-            <Content isFolded={isFolded} maxHeightRem={maxHeightRem} ref={contentRef}>
+            <Content $isFolded={isFolded} $maxHeightRem={$maxHeightRem} ref={contentRef}>
                 { children }
             </Content>
 
             <Expand onClick={() => setIsFolded(!isFolded)} >
-                <Href to={"javascript:;"}><BaseText>
+                <Href to=""><BaseText>
                     { isFolded ? "Разтвори" : "Затвори" }
                 </BaseText></Href>
                 <img src={ ChevronGreenSvg } style={ !isFolded ? {rotate: "180deg"} : {} } alt="Разтвори"/>

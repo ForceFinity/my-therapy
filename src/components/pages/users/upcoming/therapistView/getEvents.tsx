@@ -5,7 +5,7 @@ export default function processEvents(events: Event[]): Event[][] {
     const processed = new Array<Event[]>(31)
 
     events.forEach(value => {
-        let date = dayjs(value.iso_date).date()
+        let date = dayjs(value.event_datetime).date()
 
         processed[date-1] = (processed[date-1] || []).concat(value);
     })

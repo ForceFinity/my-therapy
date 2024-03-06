@@ -286,7 +286,7 @@ export const Questionnaire = () => {
                     { step }
                     <Navigation>
                         <PrevButton
-                            isBordered={true}
+                            $isBordered={true}
                             style={
                                 isFirstStep ? { opacity: 0.6 } : undefined
                             }
@@ -300,11 +300,11 @@ export const Questionnaire = () => {
 
                         {
                             currentStepIndex < steps.length - 1 ?
-                                <NextButton isBordered={true} isFilled={true}>
+                                <NextButton $isBordered={true} $isFilled={true}>
                                     <BaseText>Напред</BaseText>
                                     <img src={ Chevron } alt="Go Next"/>
                                 </NextButton> :
-                                <NextButton isBordered={true} isFilled={true}>
+                                <NextButton $isBordered={true} $isFilled={true}>
                                     <BaseText style={{margin: 0}}>Готово</BaseText>
                                 </NextButton>
                         }

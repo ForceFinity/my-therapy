@@ -21,6 +21,7 @@ const DropdownContext = createContext<DropdownContextProps>({
 const DropdownWrapper = styled.div`
     position: relative;
 `
+
 export const Dropdown = ({children}: DropdownProps) => {
     const [isOpen, setIsOpen] = useState(false);
 

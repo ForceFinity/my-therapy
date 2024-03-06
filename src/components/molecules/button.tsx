@@ -1,9 +1,9 @@
 import { Href } from "../atoms/href";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { BaseText } from "@components/atoms/texts";
 import { border, fill } from "@components/atoms/primitives";
 
-const StyledHref = styled(Href)<{isBordered?: boolean, isFilled?: boolean}>`
+const StyledHref = styled(Href)<{$isBordered?: boolean, $isFilled?: boolean, $disabled?: boolean}>`
     all: unset;
     
     display: flex;
@@ -11,16 +11,21 @@ const StyledHref = styled(Href)<{isBordered?: boolean, isFilled?: boolean}>`
     align-items: center;
     text-align: center;
     
-    ${props => props.isBordered ? border : ""};
-    ${props => props.isFilled ? fill : ""};
+    ${props => props.$isBordered ? border : ""};
+    ${props => props.$isFilled ? fill : ""};
+    ${props => props.$disabled ? "opacity: 0.5" : ""};
 
     padding: .6rem 2rem;
 
     transition: opacity .2s ease-out;
 
-    &:hover {
-        opacity: .65;
-        cursor: pointer;
+    ${ props => props.$disabled ? "pointer-events: none;" :
+        css`
+            &:hover {
+                opacity: .65;
+                cursor: pointer;
+            }
+        `
     }
 
     &:disabled {
@@ -34,11 +39,12 @@ interface ButtonProps {
     children: any
     isBordered?: boolean
     isFilled?: boolean
+    disabled?: boolean
 }
 
-export const Button = ({to, children, isBordered, isFilled}: ButtonProps) => {
+export const Button = ({to, children, isBordered, isFilled, disabled}: ButtonProps) => {
     return (
-        <StyledHref to={to} isBordered={isBordered} isFilled={isFilled}>
+        <StyledHref to={to} $disabled={disabled} $isBordered={isBordered} $isFilled={isFilled}>
             <BaseText>{children}</BaseText>
         </StyledHref>
     )

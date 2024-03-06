@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Therapist } from "./index";
+import { TherapistFull } from "@core/schemas/therapist";
 
 const Content = styled.div`
     display: flex;
@@ -26,7 +26,7 @@ const PFP = styled.img`
 `
 
 interface SidePanelProps {
-    data: {[key: number]: Therapist}
+    data: {[key: number]: TherapistFull}
     curr: number
     setCurr: (arg0: any) => void
 }
@@ -37,7 +37,7 @@ export const SidePanel = ({data, curr, setCurr}: SidePanelProps) => {
             {
                 Object.keys(data).map((_, i) => {
                     return <PFP
-                        src={ data[i].pfpURL }
+                        src={ data[i].pfp }
                         alt={ data[i].name }
                         style={i === curr ? {borderColor: "#02D8B9"} : {}}
                         onClick={() => setCurr(i)}
