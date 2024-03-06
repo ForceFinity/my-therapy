@@ -4,14 +4,25 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+import Modal from 'react-modal';
+import * as dayjs from "dayjs";
+import localeData from 'dayjs/plugin/localeData';
+import "dayjs/locale/bg"
 
-import { Landing, Login, Logout, Questionnaire } from './pages';
+import {
+    Articles,
+    ChooseTherapist,
+    Landing,
+    Login,
+    Questionnaire,
+    Refereed,
+    Users,
+    Sessions
+} from '@components/pages';
+
 import "./index.css"
-import { Refereed } from "./pages/refereed";
-import { Articles } from "./pages/articles";
-import { ChooseTherapist } from "./pages/chooseTherapist";
-import { VideoCall } from "./pages/videoCall";
-// import { SocketProvider } from "./pages/videoCall/socket";
+import { Upcoming } from "@components/pages/users/upcoming/upcoming";
+
 
 const router = createBrowserRouter([
     {
@@ -21,10 +32,6 @@ const router = createBrowserRouter([
     {
         path: "/sign-in",
         element: <Login />,
-    },
-    {
-        path: "/logout",
-        element: <Logout />,
     },
     {
         path: "/questionnaire",
@@ -39,15 +46,29 @@ const router = createBrowserRouter([
         element: <Articles />
     },
     {
-        path: "/user/me/refereed",
+        path: "/users/:id",
+        element: <Users />
+    },
+    {
+        path: "/users/:id/refereed",
         element: <Refereed />
     },
     {
-        path: "/video-call",
-        // element: <SocketProvider><VideoCall /></SocketProvider>
-        element: <VideoCall />
+        path: "/users/:id/upcoming",
+        element: <Upcoming />
+    },
+    {
+        path: "/sessions/:id",
+        element: <Sessions />
     }
 ]);
+
+dayjs.extend(localeData)
+dayjs.localeData()
+dayjs.locale('bg')
+dayjs.weekdays()
+
+Modal.setAppElement("#root")
 
 ReactDOM.createRoot((document.getElementById("root")) as HTMLElement).render(
     <React.StrictMode>

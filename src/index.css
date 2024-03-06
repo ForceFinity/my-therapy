@@ -3,6 +3,7 @@
 :root {
     --accent: #058270;
     --errorColor: #FF3737;
+    --red: var(--errorColor);
     --highlight: #F9EF00;
 }
 
@@ -11,28 +12,3 @@
 }
 
 html, body { max-width: 100%; }
-
-span {
-    color: inherit;
-    font-family: "Inter", sans-serif;
-    font-size: 1.2rem;
-}
-
-mark {
-    background-color: var(--highlight);
-}
-
-.bold {
-    font-weight: 500;
-}
-
-.border {
-    border: var(--accent) solid !important;
-    border-radius: .6rem !important;
-    border-width: .1rem !important;
-}
-
-.fill {
-    background-color: var(--accent) !important;
-    color: #fff !important;
-}
