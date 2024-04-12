@@ -7,7 +7,7 @@ import { firestore } from "./firebase";
 
 import hangUpSvg from "@assets/phone-xmark.svg"
 import { useMedia } from "@core/utils/mediaQueries";
-import { TrueButton } from "@components/atoms";
+import { Input, TrueButton } from "@components/atoms";
 import { BaseText, ErrorText } from "@components/atoms/texts";
 import clockSvg from "@assets/clock.svg"
 import { AccountType, User } from "@core/schemas/user";
@@ -16,7 +16,8 @@ import { TherapistControls } from "@components/pages/sessions/therapistControls"
 const VideoBox = styled.div<{$isPortrait: boolean, $isWaiting: boolean}>`
     position: relative;
     
-    border-radius: 1rem;
+    width: ${props => props.$isPortrait ? "100vw" : "60vw"};
+    border-radius: ${props => props.$isPortrait ? 0 : "1rem"};
     ${props => props.$isWaiting && "background: linear-gradient(115deg, #058270, #01e8c5);"}
     
     margin-top: ${props => props.$isPortrait ? 0 : "5vh"};
@@ -105,7 +106,7 @@ const CloseCallButton = styled(TrueButton)`
     }
 `
 
-export const VideoCall = ({user, className}: {user: User, className?: string}) => {
+export const VideoCall = ({user, className}: {user?: User, className?: string}) => {
     const webcamRef = useRef<HTMLVideoElement>(null)
     const remoteRef = useRef<HTMLVideoElement>(null)
     const callBtnRef = useRef<HTMLButtonElement>(null)
@@ -277,15 +278,15 @@ export const VideoCall = ({user, className}: {user: User, className?: string}) =
                 </CloseCallButton>
             </VideoBox>
 
-            {/*<ControlsBox>*/}
-            {/*    <TrueButton ref={callBtnRef} onClick={handleCreateCall}>*/}
-            {/*        <BaseText>Create call</BaseText>*/}
-            {/*    </TrueButton>*/}
-            {/*    <Input value={callID} onChange={(e) => setCallId(e.target.value)} />*/}
-            {/*    <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>*/}
-            {/*        <BaseText>Answer call</BaseText>*/}
-            {/*    </TrueButton>*/}
-            {/*</ControlsBox>*/}
+            <ControlsBox>
+                <TrueButton ref={callBtnRef} onClick={handleCreateCall}>
+                    <BaseText>Create call</BaseText>
+                </TrueButton>
+                <Input value={callID} onChange={(e) => setCallId(e.target.value)} />
+                <TrueButton ref={answerBtnRef} onClick={handleAnswerCall}>
+                    <BaseText>Answer call</BaseText>
+                </TrueButton>
+            </ControlsBox>
             <ErrorText>{ error }</ErrorText>
         </div>
     )
