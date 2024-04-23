@@ -20,8 +20,8 @@ export const post = async <T>(url: string, formData?: FormData, config?: AxiosRe
     // _.mapKeys(response.data, (v: any, k: any) => _.camelCase(k)) as T
     // console.log(response.data)
   } catch (e: any) {
-    status = e.response ? e.response.status.toString() : "400"
-    statusText = e.response ? e.response.statusText : "Nothing"
+    status = typeof e
+    statusText = e
   }
 
   return {data, status, statusText}
