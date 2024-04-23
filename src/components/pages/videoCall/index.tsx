@@ -97,7 +97,7 @@ export function VideoCall() {
                 <TrueButton
                     $isBordered
                     onClick={()=>navigator.clipboard.writeText(
-                        `my-therapy-git-mt-18-video-call-forcefinty.vercel.app/videocall?id=${call?.id}`
+                        `my-therapy-git-mt-42-rewrite-videocall-forcefinty.vercel.app/videocall?id=${call?.id}`
                     )}
                 >
                     Share call
