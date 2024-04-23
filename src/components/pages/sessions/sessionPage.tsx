@@ -122,7 +122,7 @@ export const SessionPage = ({user, logout}: {user: User, logout: any}) => {
     return (
         <Wrapper $alignCenter>
             <Header user={user} logout={logout} />
-            <StyledVideoCall user={user} />
+            <StyledVideoCall />
             { user && user.account_type == AccountType.Therapist ?
                 <Controls>
                         {/*<OtherSessions therapist={user} />*/}
