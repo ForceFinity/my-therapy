@@ -220,6 +220,7 @@ export const Login = () => {
     const [password, setPass] = useState<string>("")
     const [doRemember, setDoRemember] = useState<boolean>(false)
     const [toggleBadCreds, setToggleBadCreds] = useState(false)
+    const [error, setError] = useState("")
     const media = useMedia()
     const navigate = useNavigate()
     const [, setCookie] = useCookies()
@@ -236,6 +237,7 @@ export const Login = () => {
         getToken(email, password)
             .then((resp) => {
                 if(resp.status !== "200" || resp.data === undefined) {
+                    setError(`${resp.status} ` + `${resp.data}`)
                     setToggleBadCreds(true)
                 } else {
                     setToggleBadCreds(false)
@@ -296,7 +298,7 @@ export const Login = () => {
                             </GoogleSignIn>
                         </Alternatives>
                         <LoginSubmitButton type="submit" value="Влез" />
-                        { toggleBadCreds && <ErrorText>Грешен имейл или парола</ErrorText> }
+                        { toggleBadCreds && <ErrorText>Грешен имейл или парола { error }</ErrorText> }
                     </form>
                 </SignIn>
                 <Sep />

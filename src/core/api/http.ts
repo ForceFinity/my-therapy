@@ -5,11 +5,13 @@ export const API_BASE = "http://localhost:8000/api"
 export interface ResponseData<T> {
   data?: T;
   status: string;
+  statusText?: string;
 }
 
 export const post = async <T>(url: string, formData?: FormData, config?: AxiosRequestConfig): Promise<ResponseData<T>> => {
   let data = undefined
   let status = "200"
+  let statusText = undefined
 
   try {
     const response = await axios.post(url, formData, config)
@@ -19,9 +21,10 @@ export const post = async <T>(url: string, formData?: FormData, config?: AxiosRe
     // console.log(response.data)
   } catch (e: any) {
     status = e.response ? e.response.status.toString() : "400"
+    statusText = e.response ? e.response.statusText : "Nothing"
   }
 
-  return {data, status}
+  return {data, status, statusText}
 }
 
 export const fetchLogged = async <T>(url: string, token: string): Promise<ResponseData<T>> => {
