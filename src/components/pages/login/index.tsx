@@ -237,7 +237,7 @@ export const Login = () => {
         getToken(email, password)
             .then((resp) => {
                 if(resp.status !== "200" || resp.data === undefined) {
-                    setError(`${resp.status} ` + `${resp.data}`)
+                    setError(`${resp.status} ` + `${resp.data} ` + resp.statusText)
                     setToggleBadCreds(true)
                 } else {
                     setToggleBadCreds(false)
