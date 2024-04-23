@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 export const API_BASE = "http://localhost:8000/api"
 
@@ -20,8 +20,8 @@ export const post = async <T>(url: string, formData?: FormData, config?: AxiosRe
     // _.mapKeys(response.data, (v: any, k: any) => _.camelCase(k)) as T
     // console.log(response.data)
   } catch (e: any) {
-    status = typeof e
-    statusText = e
+    status = e.response ? e.response.status.toString() : "400"
+    statusText = e.config?.url + e.code
   }
 
   return {data, status, statusText}
