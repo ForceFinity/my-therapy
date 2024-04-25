@@ -38,13 +38,15 @@ export const CreateCallBtn = styled(TrueButton)`
     color: white;
 `
 
-export const LocalCam = styled.div`
+export const LocalCam = styled.div<{$isPortrait?: boolean}>`
     position: absolute;
     
     bottom: 1vh;
     left: 1vw;
     
     video {
+        aspect-ratio: 16 / 9;
+
         width: 30%;
         border-radius: .2rem;
     }
@@ -52,8 +54,10 @@ export const LocalCam = styled.div`
 
 export const RemoteCam = styled.div`
     video {
+        aspect-ratio: 16 / 9;
         width: 100%;
         height: 100%;
+        max-height: 80vh;
         border-radius: 1rem;
     }
 `
