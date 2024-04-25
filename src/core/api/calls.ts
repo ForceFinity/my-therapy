@@ -16,6 +16,7 @@ export const createCall = async (
 
     const formData = new FormData()
     formData.append("therapist_id", payload.therapist_id.toString())
+    formData.append("event_id", payload.event_id.toString())
     formData.append("participants", payload.participants.join(";"))
     formData.append("datetime", payload.datetime.toISOString())
 

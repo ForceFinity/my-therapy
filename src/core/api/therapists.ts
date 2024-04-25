@@ -11,13 +11,19 @@ export const getEvents = async (token: string, type?: number) => {
     return await fetchLogged<Event[]>(url, token);
 }
 
-export const createSession = async (
+export const getClientEvents = async (token: string) => {
+    const url = API_BASE + "/users/therapistData/clientEvents"
+
+    return await fetchLogged<Event[]>(url, token);
+}
+
+export const createEvent = async (
     therapistId: number,
     user: User,
     title: string,
     description: string,
     iso_datetime: string
-) => {
+): Promise<ResponseData<Event>> => {
     const url = API_BASE + "/users/therapistData/events" +
         "?therapist_id=" + therapistId
 
@@ -27,7 +33,7 @@ export const createSession = async (
     formData.append("event_datetime", iso_datetime)
     formData.append("client_id", user.id.toString())
 
-    return await post(url, formData, {headers: { Authorization: `${user.token}` }})
+    return await post<Event>(url, formData, {headers: { Authorization: `${user.token}` }})
 }
 
 export const getNoteContent = async (token: string, clientId: number) => {

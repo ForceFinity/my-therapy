@@ -12,7 +12,7 @@ import {
 import { useAuth } from "@core/hooks/useAuth";
 import {
     CallControls,
-    CallLayoutWrap,
+    CallLayoutWrap, CloseCallButton,
     Container, CreateCallBtn, LocalCam,
     ParticipantBox,
     ParticipantListWrap, RemoteCam
@@ -25,6 +25,8 @@ import { BaseText } from "@components/atoms/texts";
 import { useMedia } from "@core/utils";
 import { Placeholder } from "@components/pages/sessions/videocall/placeholder";
 import clockSvg from "@assets/clock.svg"
+import hangUpSvg from "@assets/phone-xmark.svg"
+import { useNavigate } from "react-router-dom";
 
 // noinspection SpellCheckingInspection
 const apiKey = 'smnxrdsz8gw2';
@@ -33,7 +35,7 @@ const apiKey = 'smnxrdsz8gw2';
 
 export function VideoCall({ id }: {id?: string}) {
     const { user } = useAuth()
-
+    const navigate = useNavigate()
     const [pfp, setPfp] = useState<string>()
     const [callUser, setCallUser] = useState<CallUser>()
     const [callToken, setCallToken] = useState<string>()
@@ -72,7 +74,10 @@ export function VideoCall({ id }: {id?: string}) {
         }
     }, [client]);
 
-    if(!user || !client) return <div>В пизду</div>;
+    if(!id)
+        navigate("/users/@me")
+
+    if(!user || !client) return <div>Зарежда се...</div>;
 
     if(!isCallCreated && id) {
         client.connectUser({id: callUser!.id!}, callToken).then()
@@ -85,59 +90,11 @@ export function VideoCall({ id }: {id?: string}) {
         <StreamVideo client={client}>
             <StreamCall call={call}>
                 <Container>
-                    {!isCallCreated || !call ?
-                        <Placeholder>
-                            <CreateCallBtn
-                                $isBordered
-                                onClick={() => {
-                                    client!.connectUser({id: callUser!.id!}, callToken).then()
-
-                                    createCall({therapist_id: 2, participants: [1, 3], datetime: new Date()}, user!.token)
-                                        .then(resp => {
-                                            if (resp.data) setCall(client!.call('default', resp.data.id))
-                                        })
-                                    setIsCallCreated(true)
-                                }}
-                            >
-                                <BaseText>Започни срещата</BaseText>
-                            </CreateCallBtn>
-                        </Placeholder> :
-                        <CallLayout setIsCallCreated={setIsCallCreated} />
-                    }
+                    <CallLayout setIsCallCreated={setIsCallCreated} />
                 </Container>
             </StreamCall>
         </StreamVideo>
     );
-}
-
-const ParticipantList = ({participants}: {participants: StreamVideoParticipant[]}) => {
-    const filterOnlyUnique = (participants: StreamVideoParticipant[]) => {
-        const map: {[key: string]: boolean} = {}
-        const result: StreamVideoParticipant[] = []
-
-        participants.forEach(item => {
-            if (!map[item.sessionId]) {
-                map[item.sessionId] = true
-                result.push(item)
-            }
-        })
-
-        return result
-    }
-
-    return (
-        <ParticipantListWrap>
-            {filterOnlyUnique(participants).map(participant => (
-                <ParticipantBox>
-                    <ParticipantView
-                        muteAudio
-                        participant={participant}
-                        key={participant.sessionId}
-                    />
-                </ParticipantBox>
-            ))}
-        </ParticipantListWrap>
-    )
 }
 
 export const CallLayout = ({setIsCallCreated}: {setIsCallCreated: (arg: any) => void}) => {
@@ -156,10 +113,6 @@ export const CallLayout = ({setIsCallCreated}: {setIsCallCreated: (arg: any) => 
     if (callingState !== CallingState.JOINED) {
         return (
             <Placeholder>
-                { pCount > 0 ?
-                    <BaseText style={{color: "white"}}>Клиентът чака.</BaseText> :
-                    <BaseText style={{color: "white"}}>Клиентът още не е влязъл.</BaseText>
-                }
                 <CreateCallBtn
                     // style={ {display: "none"}}
                     $isBordered
@@ -190,6 +143,12 @@ export const CallLayout = ({setIsCallCreated}: {setIsCallCreated: (arg: any) => 
                     ParticipantViewUI={<DefaultParticipantViewUI showMenuButton={false} />}
                     participant={local!}/>
             </LocalCam>
+            <CloseCallButton onClick={()=>{
+                call!.leave().then()
+                setIsCallCreated(false)
+            }}>
+                <img src={hangUpSvg} alt="Затвори"/>
+            </CloseCallButton>
             <CallControls>
                 <CreateCallBtn
                     $isBordered

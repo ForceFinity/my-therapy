@@ -12,7 +12,7 @@ export interface Event {
     title: string
     description: string
     event_datetime: string
-    eventType: EventType
+    type: EventType
 }
 
 export type TherapistFull = {
