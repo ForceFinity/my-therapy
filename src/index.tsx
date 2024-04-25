@@ -62,8 +62,8 @@ const router = createBrowserRouter([
         element: <Sessions />
     },
     {
-        path: "/videocall",
-        element: <VideoCall />
+        path: "/sessions",
+        element: <Sessions />
     }
 ]);
 

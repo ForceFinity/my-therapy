@@ -8,5 +8,5 @@ export const Sessions = () => {
     const { id } = useParams()
     const { user, loading, logout } = useAuth()
 
-    return user ? <SessionPage user={user} logout={logout} /> : <BaseText>Зарежда се...</BaseText>
+    return user ? <SessionPage user={user} logout={logout} id={id} /> : <BaseText>Зарежда се...</BaseText>
 }
