@@ -68,6 +68,8 @@ export function VideoCall() {
     }
 
     if(!isActive || !call) {
+        client.connectUser({id: callUser!.id!}, callToken)
+
         return (
             <TrueButton
                 $isBordered
