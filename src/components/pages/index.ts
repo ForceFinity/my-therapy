@@ -4,6 +4,6 @@ export { Questionnaire } from "./questionnaire"
 export { Refereed } from "@components/pages/refereed";
 export { Articles } from "@components/pages/articles";
 export { ChooseTherapist } from "@components/pages/chooseTherapist";
-export { VideoCall } from "@components/pages/videoCall";
+export { VideoCall } from "@components/pages/sessions/videocall/videocall";
 export { Sessions } from "@components/pages/sessions"
 export { Users } from "@components/pages/users"

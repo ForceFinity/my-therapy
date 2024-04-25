@@ -12,7 +12,8 @@ import { Title } from "@components/molecules";
 import { BaseText } from "@components/atoms/texts";
 import { TherapistFull } from "@core/schemas/therapist";
 import { User } from "@core/schemas/user";
-import { createSession } from "@core/api/therapists";
+import { createEvent } from "@core/api/therapists";
+import { createCall } from "@core/api/calls";
 
 const Content = styled.div`
     margin-left: 12vw;
@@ -216,17 +217,29 @@ export const TherapistPanel = ({user, therapist}: {user: User, therapist: Therap
     const bookRef = useRef<HTMLDivElement>(null)
     const navigate = useNavigate()
     const workHours = useMemo(() => processWorkHours(therapist.work_hours), [therapist])
-    console.log(therapist)
+
     const bookSession = (iso_datetime: string) => {
         let as_datetime = dayjs(iso_datetime)
 
-        createSession(
+        createEvent(
             therapist.therapist_id,
             user,
             `${user.nickname} ${as_datetime.format("HH:mm")}`,
             "Сесия със " + user.nickname + " на " + as_datetime.format("D MMMM, dddd"),
             iso_datetime
-        ).then(()=>navigate("/users/@me"))
+        ).then((resp)=>{
+            if(resp.data) {
+                createCall(
+                    {
+                        therapist_id: therapist.therapist_id,
+                        event_id: resp.data.id,
+                        participants: [user.id],
+                        datetime: as_datetime.toDate(),
+                    },
+                    user.token
+                ).then(()=>navigate("/users/@me"))
+            }
+        })
     }
 
     return (

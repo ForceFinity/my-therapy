@@ -18,8 +18,6 @@ const Content = styled.div`
 `
 
 const StyledVideoCall = styled(VideoCall)`
-    width: 60vw;
-    height: fit-content;
 `
 
 const Controls = styled.div`
@@ -118,11 +116,11 @@ const getAllAssociatedUsers = (token: string, sessions: Event[]) => {
 //     )
 // }
 
-export const SessionPage = ({user, logout}: {user: User, logout: any}) => {
+export const SessionPage = ({user, logout, id}: {user: User, logout: any, id?: string}) => {
     return (
         <Wrapper $alignCenter>
             <Header user={user} logout={logout} />
-            <StyledVideoCall user={user} />
+            <StyledVideoCall id={id} />
             { user && user.account_type == AccountType.Therapist ?
                 <Controls>
                         {/*<OtherSessions therapist={user} />*/}

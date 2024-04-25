@@ -21,7 +21,8 @@ export const Upcoming = () => {
             <Header isLogged={!!user} user={user} logout={logout} />
             { user?.account_type == AccountType.Therapist ?
                 <TherapistContent therapist={user!} setError={setError} /> :
-                <ClientContent></ClientContent>
+                <TherapistContent therapist={user!} setError={setError} />
+
             }
             {/*<EventModal modalIsOpen={modalIsOpen} onCloseModal={() => setModalOpen(false)} />*/}
         </Wrapper>

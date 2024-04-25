@@ -17,7 +17,7 @@ const CalendarTableStyled = styled(TableStyled)`
     box-shadow: 0 0 0 .05rem rgba(5, 130, 112, 1);
     
     tr {
-        height: 4rem;
+        height: 4.7rem;
     }
 
     thead > tr {
@@ -59,7 +59,7 @@ const CalendarTableDay = styled(BaseText)<{ $isFromAnotherMonth: boolean, $isCho
     
     ${props => props.$isChosen && css`background-color: rgba(5, 130, 112, .5);`}`
 
-const getMonthDays = (): Weekdays[] => {
+const getMonthDays = (): {result: Weekdays[], daysInMonth: number} => {
     const current = dayjs()
     const monthStart = current.startOf("month")
     const firstDay = monthStart.day()
@@ -76,7 +76,10 @@ const getMonthDays = (): Weekdays[] => {
         row = {}
     }
 
-    return result as Weekdays[]
+    return {
+        result: result as Weekdays[],
+        daysInMonth: current.daysInMonth()
+    }
 }
 
 interface CalendarTableProps {
@@ -95,9 +98,13 @@ export const CalendarTable = ({chosen, setChosen}: CalendarTableProps) => {
                 header: value[0].toUpperCase() + value.slice(1),
                 cell: info => {
                     const value = info.getValue()
+                    const weekNumber = info.row.index
+                    const currentDay = parseInt(value)
+
                     const isFromAnotherMonth = (
-                        (info.row.index === 0 && parseInt(value) > 7)
-                        || (info.row.index === data.length - 1 && parseInt(value) < 7)
+                        (weekNumber == 0 && currentDay > 7) ||
+                        (weekNumber == 4 && currentDay < data.daysInMonth - 7) ||
+                        (weekNumber != 0 && weekNumber != 4 && ((weekNumber * 7) + currentDay % 7) >= data.daysInMonth)
                     )
                     return <CalendarTableDay
                         $isFromAnotherMonth={isFromAnotherMonth}
@@ -113,7 +120,7 @@ export const CalendarTable = ({chosen, setChosen}: CalendarTableProps) => {
     ]
 
     const table = useReactTable({
-        data,
+        data: data.result,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel()

@@ -5,10 +5,10 @@ import { CalendarTable } from "@components/pages/users/upcoming/therapistView/ca
 import { useEffect, useMemo, useState } from "react";
 import processRequest from "@core/utils/processRequest";
 import { Event } from "@core/schemas/therapist";
-import { getEvents } from "@core/api/therapists";
 import processEvents from "@components/pages/users/upcoming/therapistView/getEvents";
-import { User } from "@core/schemas/user";
-import { BaseText, ErrorText } from "@components/atoms/texts";
+import { AccountType, User } from "@core/schemas/user";
+import { BaseText } from "@components/atoms/texts";
+import { getClientEvents, getEvents } from "@core/api/therapists";
 
 const Wrap = styled.div`
     display: flex;
@@ -27,7 +27,6 @@ const UpcomingData = styled.div`
     gap: 3vh;
     
     width: 28%;
-    height: 100%;
     margin-right: .05rem;
 
     padding: 6.5vh 2vw;
@@ -55,14 +54,14 @@ export const TherapistContent = ({therapist, setError}: {therapist: User, setErr
 
     useEffect(() => {
         therapist && processRequest<Event[]>(
-            getEvents(therapist.token),
+            therapist.account_type == AccountType.Therapist ? getEvents(therapist.token) : getClientEvents(therapist.token),
             setEvents,
             {
                 errStoreFn: setError,
                 loadingStoreFn: setLoading
             }
         )
-    }, []);
+    }, [therapist]);
 
     return (
         <Wrap>

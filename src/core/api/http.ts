@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 
-export const API_BASE = "https://my-therapy-aaoikglfla-ez.a.run.app/api"
+export const API_BASE = "https://sample-diwxcfil3a-uc.a.run.app/api"
 
 export interface ResponseData<T> {
   data?: T;

@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components"
 
 export const Wrapper = styled.div<{$isThin?: boolean, $alignCenter?: boolean}>`
-    height: 92.5vh;
+    min-height: 92.5vh;
     margin: 0 ${props => props.$isThin ? "25vw" : "9vw"};
     ${props => props.$alignCenter && css`
         display: flex;

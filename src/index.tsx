@@ -17,7 +17,7 @@ import {
     Questionnaire,
     Refereed,
     Users,
-    Sessions
+    Sessions, VideoCall
 } from '@components/pages';
 
 import "./index.css"
@@ -59,6 +59,10 @@ const router = createBrowserRouter([
     },
     {
         path: "/sessions/:id",
+        element: <Sessions />
+    },
+    {
+        path: "/sessions",
         element: <Sessions />
     }
 ]);

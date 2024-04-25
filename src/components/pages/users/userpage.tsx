@@ -100,7 +100,7 @@ export const UserPage = ({user, logout}: {user: User, logout: () => void}) => {
                         title="Предстоящи сесии"
                         description="Вижте своите предстоящи онлайн сесии."
                         to="/users/@me/upcoming"
-                        disabled={user.account_type != AccountType.Therapist}
+                        // disabled={user.account_type != AccountType.Therapist}
                         style={{borderColor: "#00ADC5"}}
                     />
                     <Card
