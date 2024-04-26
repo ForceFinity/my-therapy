@@ -18,7 +18,7 @@ export const signUp = async (
     by_user_id?: string,
 ): Promise<ResponseData<Token>> => {
 
-    const url = `http://localhost:8000/api/oauth2/sign-up/?by_user_id=${by_user_id}&is_by_google=${isByGoogle}`
+    const url =  API_BASE + `/oauth2/sign-up/?by_user_id=${by_user_id}&is_by_google=${isByGoogle}`
 
     const formData = new FormData()
     formData.append("nickname", payload.nickname)
