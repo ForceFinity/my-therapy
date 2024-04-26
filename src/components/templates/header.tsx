@@ -57,26 +57,36 @@ const Logo = styled(Href)`
     width: 12rem;
 `
 
-const HeaderDropdown = ({user, logout}: {user: User, logout?: () => void}) => (
-    <Dropdown>
-        <Dropdown.Button>
-            <BaseText>{user?.nickname}</BaseText>
-        </Dropdown.Button>
-        <Dropdown.Content>
-            <Dropdown.List>
-                <Dropdown.Item to="/users/@me">
-                    <BaseText>Профил</BaseText>
-                </Dropdown.Item>
-                <Dropdown.Item to="#">
-                    <BaseText style={{color: "#FF3737"}} onClick={()=>{
-                        logout && logout()
-                        googleLogout()
-                    }}>Излез</BaseText>
-                </Dropdown.Item>
-            </Dropdown.List>
-        </Dropdown.Content>
-    </Dropdown>
-)
+const HeaderDropdown = ({user, logout}: {user: User, logout?: () => void}) => {
+    const media = useMedia()
+
+    return (
+        <Dropdown>
+            <Dropdown.Button showChevron={media.isLaptop}>
+                {
+                    media.isLaptop ?
+                        <BaseText>{user?.nickname}</BaseText> :
+                        <Signs>
+                            <img src={Burger} alt="Меню"></img>
+                        </Signs>
+                }
+            </Dropdown.Button>
+            <Dropdown.Content>
+                <Dropdown.List>
+                    <Dropdown.Item to="/users/@me">
+                        <BaseText>Профил</BaseText>
+                    </Dropdown.Item>
+                    <Dropdown.Item to="#">
+                        <BaseText style={{color: "#FF3737"}} onClick={()=>{
+                            logout && logout()
+                            googleLogout()
+                        }}>Излез</BaseText>
+                    </Dropdown.Item>
+                </Dropdown.List>
+            </Dropdown.Content>
+        </Dropdown>
+    )
+}
 
 interface HeaderProps {
     className?: string
@@ -128,22 +138,22 @@ export const Header = ({ className, disableSigns, isLogged, user, loading, logou
                 {
                     disableSigns ?
                         null :
-                        media.isLaptop ?
+                        !loading && !isLogged ?
                             (
-                                !loading && !isLogged ?
-                                <Signs>
-                                    <SignUpButton isBordered to="/questionnaire">
-                                        Регистрация
-                                    </SignUpButton>
-                                    <Button to="/sign-in">Вход</Button>
-                                </Signs> :
-                                loading ?
-                                    <BaseText>Зарежда се...</BaseText> :
-                                    <HeaderDropdown user={user as User} logout={logout} />
+                                media.isLaptop ?
+                                    <Signs>
+                                        <SignUpButton isBordered to="/questionnaire">
+                                            Регистрация
+                                        </SignUpButton>
+                                        <Button to="/sign-in">Вход</Button>
+                                    </Signs> :
+                                    <Signs>
+                                        <img src={Burger} alt="Меню" onClick={()=>navigate("/sign-in")}></img>
+                                    </Signs>
                             ) :
-                            <Signs>
-                                <img src={Burger} alt="Меню" onClick={()=>navigate("/sign-in")}></img>
-                            </Signs>
+                            loading ?
+                                <BaseText>Зарежда се...</BaseText> :
+                                <HeaderDropdown user={user as User} logout={logout} />
                 }
             </div>
         </HeaderStyled>

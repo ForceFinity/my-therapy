@@ -37,7 +37,7 @@ const DropdownButtonStyled = styled(TrueButton)`
     gap: 1vw;
     align-items: center;
 `
-const DropdownButton = ({ children }: { children: any }) => {
+const DropdownButton = ({ children, showChevron = true }: { children: any, showChevron?: boolean }) => {
     const { isOpen, setIsOpen } = useContext(DropdownContext); // get the context
 
     return (
@@ -45,16 +45,18 @@ const DropdownButton = ({ children }: { children: any }) => {
             onClick={() => setIsOpen(!isOpen)}
         >
             { children }
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                width={15} height={15}
-                strokeWidth={4}
-                stroke="currentColor"
-                style={ isOpen ? {rotate: "180deg"} : {}}>
-                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
-            </svg>
+            {showChevron &&
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    width={15} height={15}
+                    strokeWidth={4}
+                    stroke="currentColor"
+                    style={isOpen ? {rotate: "180deg"} : {}}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5"/>
+                </svg>
+            }
         </DropdownButtonStyled>
     )
 }
@@ -63,15 +65,20 @@ const ContentWrap = styled.div`
     position: absolute;
     overflow: hidden;
     overflow-y: auto;
+    background: white;
+    
+    padding: .8rem;
+    
+    right: -1rem;
     
     z-index: 500;
 `
-const DropdownContent = ({ children }: { children: any }) => {
-    const { isOpen } = useContext(DropdownContext); // get the context
+const DropdownContent = ({children}: { children: any }) => {
+    const {isOpen} = useContext(DropdownContext); // get the context
 
     return (
         <ContentWrap hidden={!isOpen}>
-            { children }
+            {children}
         </ContentWrap>
     );
 }
@@ -83,7 +90,7 @@ const List = styled.ul`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 1vh;
+    gap: 1.5vh;
 `
 const DropdownList = ({ children, props }: { children: any, props?: any }) => {
     const { setIsOpen } = useContext(DropdownContext); // get the context
