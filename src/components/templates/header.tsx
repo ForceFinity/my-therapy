@@ -9,6 +9,7 @@ import { Href } from "../atoms/href";
 import { User } from "@core/schemas/user";
 import { BaseText } from "@components/atoms/texts";
 import { Dropdown } from "@components/organisms/dropdown";
+import { googleLogout } from "@react-oauth/google";
 
 const HeaderStyled = styled.header`
     display: flex;
@@ -67,7 +68,10 @@ const HeaderDropdown = ({user, logout}: {user: User, logout?: () => void}) => (
                     <BaseText>Профил</BaseText>
                 </Dropdown.Item>
                 <Dropdown.Item to="#">
-                    <BaseText style={{color: "#FF3737"}} onClick={logout}>Излез</BaseText>
+                    <BaseText style={{color: "#FF3737"}} onClick={()=>{
+                        logout && logout()
+                        googleLogout()
+                    }}>Излез</BaseText>
                 </Dropdown.Item>
             </Dropdown.List>
         </Dropdown.Content>

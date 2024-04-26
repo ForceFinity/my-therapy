@@ -1,4 +1,4 @@
-import { css } from "styled-components";
+import styled, { css } from "styled-components";
 
 export const border = css`
     border: .1rem var(--accent) solid !important;
@@ -12,4 +12,9 @@ export const fill = css`
     span {
         color: #fff !important;
     }
+`
+
+export const LoginIcon = styled.img`
+    width: 90%;
+    height: 60%;
 `

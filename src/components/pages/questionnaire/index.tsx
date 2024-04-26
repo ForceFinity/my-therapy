@@ -8,7 +8,7 @@ import { ErrorText, BaseText } from "@components/atoms/texts";
 import { Form, FormInput } from "@components/atoms/form";
 import { useMultiStepForm } from "./useMultiStepForm";
 import { validateForm } from "./datepicker/validation";
-import { signUp } from "@core/api/users";
+import { setPfp, signUp } from "@core/api/users";
 import { useCookies } from "react-cookie";
 import { setAuthCookie } from "@core/utils/setAuthCookie";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -19,6 +19,8 @@ import { useAuth } from "@core/hooks/useAuth";
 import { Header } from "@components/templates";
 import { Title } from "@components/molecules";
 import { AccountType } from "@core/schemas/user";
+import { TokenResponse } from "@react-oauth/google";
+import { getGoogleProfile } from "@core/api/google";
 
 const QuizHeader = styled(Header)`
 `
@@ -50,7 +52,7 @@ const Navigation = styled.div`
     display: flex;
     justify-content: center;
     gap: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
     width: 40%;
 
     @media (min-width: 1025px) and (max-width: 1440px) {
@@ -77,7 +79,7 @@ const NextButton = styled(TrueButton)`
     display: flex;
     align-items: center;
     justify-content: space-evenly;
-    width: 40%;
+    width: 22%;
     
     span {
         color: white;
@@ -102,7 +104,7 @@ const PrevButton = styled(TrueButton)`
 `
 
 export const FormWrap = styled.div`
-    width: 45vw;
+    //width: 45vw;
     gap: .8vh;
     
     @media (min-width: 1025px) and (max-width: 1440px) {
@@ -183,10 +185,13 @@ export const Questionnaire = () => {
     const [toggleHelp, setToggleHelp] = useState(false)
     const [doEmailSent, setDoEmailSent] = useState(false)
     const [searchParams,] = useSearchParams();
+    const [userGoogleToken, setUserGoogleToken] = useState<TokenResponse>()
+    const [googleEmailVerified, setGoogleEmailVerified] = useState<boolean>(false)
+    const [googlePfp, setGooglePfp] = useState("")
     const [cookies, setCookie] = useCookies()
     const navigate = useNavigate()
     const { steps, currentStepIndex, step, isLastStep, isFirstStep, back, next, setCurrentStepIndex} = useMultiStepForm([
-        <Acquaintance {...data} updateFields={updateFields} />,
+        <Acquaintance {...data} updateFields={updateFields} setUserGoogleToken={setUserGoogleToken} />,
         <Credentials {...data} updateFields={updateFields} />,
         <ConfirmEmail {...data} updateFields={updateFields} />
     ])
@@ -220,14 +225,39 @@ export const Questionnaire = () => {
                         navigate("/")
                 }
                 else {
-                    navigate("/")
+                    navigate("/users/@me")
                 }
             })
     }
 
     useEffect(() => {
+        if(userGoogleToken){
+            getGoogleProfile(userGoogleToken.access_token)
+                .then(resp => {
+                    const data = resp.data
+                    if(!data) return
+
+                    setData({
+                        nickname: `${data.given_name} ${data.family_name || ""}`,
+                        birth_date: new Date(),
+                        account_type: AccountType.Client,
+                        email: data.email,
+                        password: data.id,
+                        emailOTP: "",
+                        phoneOTP: ""
+                    })
+
+                    setGoogleEmailVerified(data.verified_email)
+                    setGooglePfp(data.picture)
+                    setCurrentStepIndex(2)
+                })
+            return
+        }
+    }, [userGoogleToken]);
+
+    useEffect(() => {
         if(user) {
-            if(user.is_confirmed) navigate("/choose-therapist")
+            if(user.is_confirmed) navigate("/users/@me")
             setCurrentStepIndex(2)
         }
 
@@ -251,13 +281,13 @@ export const Questionnaire = () => {
         }
 
         const details = validateForm<FormData>(data)
-        if(details) {
+        if(details && !userGoogleToken) {
             setError(details.message)
             setCurrentStepIndex(currentStepIndex-1)
             return
         }
 
-        signUp(data, by_user_id != null ? by_user_id : "")
+        signUp(data, !!userGoogleToken, by_user_id != null ? by_user_id : "")
             .then((resp) => {
                 if(resp.status[0] === "4" || resp.data === undefined) {
                     setData(INITIAL_DATA)
@@ -269,8 +299,12 @@ export const Questionnaire = () => {
                     return
                 }
                 else {
+                    console.log(resp.data)
+                    if(googlePfp)
+                        setPfp(googlePfp, "Bearer " + resp.data.access_token).then()
+
                     setAuthCookie(resp.data.access_token, setCookie)
-                    setDoEmailSent(true)
+                    setDoEmailSent(!googleEmailVerified)
                 }
             })
     }, [currentStepIndex]);
@@ -288,6 +322,9 @@ export const Questionnaire = () => {
                 })
         }
     }, [doEmailSent])
+
+    if(currentStepIndex == 2 && userGoogleToken)
+        return <Wrapper $alignCenter><BaseText>Зарежда се...</BaseText></Wrapper>
 
         // noinspection TypeScriptValidateTypes
     return (

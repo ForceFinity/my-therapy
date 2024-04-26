@@ -22,6 +22,7 @@ import {
 
 import "./index.css"
 import { Upcoming } from "@components/pages/users/upcoming/upcoming";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
 const router = createBrowserRouter([
@@ -75,8 +76,10 @@ dayjs.weekdays()
 Modal.setAppElement("#root")
 
 ReactDOM.createRoot((document.getElementById("root")) as HTMLElement).render(
-    <React.StrictMode>
-        <RouterProvider router={router} />
-    </React.StrictMode>
+    <GoogleOAuthProvider clientId="987452452329-fl4ss02ritmi89hhl8b772hr0ip4vof7.apps.googleusercontent.com">
+        <React.StrictMode>
+            <RouterProvider router={router} />
+        </React.StrictMode>
+    </GoogleOAuthProvider>
 );
 
