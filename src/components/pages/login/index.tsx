@@ -11,11 +11,16 @@ import { Title } from "@components/molecules";
 import { Input, TrueButton, Wrapper } from "@components/atoms";
 import { SubmitButton, FormInput } from "@components/atoms/form";
 import { ErrorText, BaseText } from "@components/atoms/texts";
+import { TokenResponse, useGoogleLogin } from "@react-oauth/google";
+import { GoogleSignIn } from "@components/atoms/trueButton";
+import { LoginIcon } from "@components/atoms/primitives";
+import { getGoogleProfile } from "@core/api/google";
+import { AccountType } from "@core/schemas/user";
 
 
 const LoginWrapper = styled(Wrapper)`
     @media (min-width: 1025px) {
-        margin: 0 10vw;
+        margin: 0 15vw;
     }`
 
 const LoginHeader = styled(Header)`
@@ -24,7 +29,7 @@ const LoginHeader = styled(Header)`
 
 const Content = styled.div`
     display: flex;
-    margin-top: 3rem;
+    margin-top: 5rem;
     height: 80%;
 
     @media (max-width: 480px) {
@@ -120,32 +125,15 @@ const RememberMe = styled.div`
     }
 `
 
-const LoginIcon = styled.img`
-    width: 60%;
-    height: 60%;
-`
-
 const Alternatives = styled.div`
     margin-top: 1rem;
-`
-
-const GoogleSignIn = styled(TrueButton)`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-width: .05rem !important;
-    height: 2.5rem;
-    width: 2.5rem;
-    
-    &:hover {
-        cursor: not-allowed;
-    }
 `
 
 const LoginSubmitButton = styled(SubmitButton)`
     margin-top: 1.5rem;
     margin-bottom: 1rem;
     width: 38%;
+    height: 3.2vh;
     
     &:hover {
         cursor: pointer;
@@ -160,7 +148,6 @@ const LoginSubmitButton = styled(SubmitButton)`
 const Sep = styled.hr`
     margin-left: 5%;
     border: .05rem solid var(--accent);
-    height: 80%;
 
     @media (max-width: 480px) {
         height: 0;
@@ -175,7 +162,6 @@ const SignUp = styled.div`
     flex-direction: column;
     margin-left: 10%;
     width: 45%;
-    height: 80%;
 
     @media (max-width: 480px) {
         margin: 0;
@@ -216,6 +202,7 @@ const RegisterButton = styled(TrueButton)`
 `
 
 export const Login = () => {
+    const [userGoogleToken, setUserGoogleToken] = useState<TokenResponse>()
     const [email, setEmail] = useState<string>("")
     const [password, setPass] = useState<string>("")
     const [doRemember, setDoRemember] = useState<boolean>(false)
@@ -226,13 +213,12 @@ export const Login = () => {
 
     const { user } = useAuth(false)
 
-    useEffect(() => {
-        if(user) navigate("/")
-    })
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => setUserGoogleToken(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
 
-    const handleSubmit = (e: any) => {
-        e.preventDefault()
-
+    const auth = (email: string, password: string) => {
         getToken(email, password)
             .then((resp) => {
                 if(resp.status !== "200" || resp.data === undefined) {
@@ -242,10 +228,33 @@ export const Login = () => {
 
                     setAuthCookie(resp.data.access_token, setCookie, doRemember)
 
-                    navigate("/")
+                    navigate("/users/@me")
                 }
                 return
             })
+    }
+
+    useEffect(() => {
+        if(userGoogleToken){
+            getGoogleProfile(userGoogleToken.access_token)
+                .then(resp => {
+                    const data = resp.data
+                    if(!data) return
+
+                    auth(data.email, data.id)
+                })
+            return
+        }
+    }, [userGoogleToken]);
+
+    useEffect(() => {
+        if(user) navigate("/")
+    })
+
+    const handleSubmit = (e: any) => {
+        e.preventDefault()
+
+        auth(email, password)
     }
 
     // noinspection TypeScriptValidateTypes
@@ -280,18 +289,18 @@ export const Login = () => {
                                 placeholder="qwerty1234"
                                 onChange={(e) => setPass(e.target.value)}
                             />
-                            <RememberMe>
-                                <input
-                                    type="checkbox"
-                                    defaultChecked={ doRemember }
-                                    onChange={() => setDoRemember(s => !s)}
-                                />
-                                <div className="checkmark"></div>
-                                <BaseText>Запомни ме</BaseText>
-                            </RememberMe>
+                            {/*<RememberMe>*/}
+                            {/*    <input*/}
+                            {/*        type="checkbox"*/}
+                            {/*        defaultChecked={ doRemember }*/}
+                            {/*        onChange={() => setDoRemember(s => !s)}*/}
+                            {/*    />*/}
+                            {/*    <div className="checkmark"></div>*/}
+                            {/*    <BaseText>Запомни ме</BaseText>*/}
+                            {/*</RememberMe>*/}
                         </FormInput>
                         <Alternatives>
-                            <GoogleSignIn type="button" onClick={()=>alert("В разработка...")}>
+                            <GoogleSignIn $isBordered type="button" onClick={()=>login()}>
                                 <LoginIcon src={ googleSvg } alt="Google Sign-In" />
                             </GoogleSignIn>
                         </Alternatives>

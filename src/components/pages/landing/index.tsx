@@ -95,7 +95,12 @@ export const Landing = () => {
                     </BaseText>
                     </div>
                     <ChooseTherapistButton
-                        $isBordered={true} $isFilled={true} onClick={() => navigate("/questionnaire")} >
+                        $isBordered={true}
+                        $isFilled={true}
+                        onClick={() => {
+                            if(!user || !user.is_confirmed) navigate("/questionnaire")
+                            else navigate("/choose-therapist")
+                        }} >
                         <BaseText>Намери специалист!</BaseText>
                     </ChooseTherapistButton>
                 </Container>

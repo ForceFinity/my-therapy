@@ -20,3 +20,16 @@ export const TypeToRole: { [key: string]: string } = {
     "2": "Терапевт",
     "3": "Администратор"
 }
+
+export type GoogleUserResponse = {
+    id: string
+    email: string
+    name: string
+    given_name: string
+    family_name?: string
+    link?: string
+    picture: string
+    gender?: string
+    locale?: string
+    verified_email: boolean
+}

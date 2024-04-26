@@ -7,8 +7,9 @@ import { BaseText } from "@components/atoms/texts";
 import { AccountType, TypeToRole, User } from "@core/schemas/user";
 import { Card } from "@components/molecules";
 import styled from "styled-components";
-import { getPFP } from "@core/api/users";
+import { getPfp } from "@core/api/users";
 import { useEffect, useState } from "react";
+import { UserPfp } from "@components/organisms/userPfp";
 
 const UPWrapper = styled(Wrapper)``
 const Content = styled.div`
@@ -26,8 +27,8 @@ const Container = styled.div`
     align-items: center;
     gap: 3vw;
 `
-const PFP = styled.img`
-    width: 10vw;
+const StyledUserPfp = styled(UserPfp)`
+    width: 8vw;
     border-radius: 5vw;
 `
 const EditButton = styled(TrueButton)`
@@ -54,14 +55,14 @@ const Cards = styled.div`
 
 const UserActions = styled.div``
 
-export const UserPage = ({user, logout}: {user: User, logout: () => void}) => {
+export const UserPage = ({user, logout}: {user: User, logout: any}) => {
     const [pfpLoading, setPfpLoading] = useState(true)
     const [pfpUrl, setPfpUrl] = useState<string>()
 
     useEffect(() => {
         if(!user.is_confirmed) return
 
-        getPFP(user.token as string)
+        getPfp(user.token as string)
             .then(resp => {
                 setPfpUrl(resp.data)
             })
@@ -79,7 +80,7 @@ export const UserPage = ({user, logout}: {user: User, logout: () => void}) => {
                     <Container>
                         { pfpLoading ?
                             <BaseText>Зарежда се...</BaseText> :
-                            <PFP src={ pfpUrl ? pfpUrl : accountSvg } alt={ user.nickname } />
+                            <StyledUserPfp pfpUrl={pfpUrl!} nickname={user.nickname} />
                         }
                         <NameAndRole>
                             <Name>{user.nickname}</Name>

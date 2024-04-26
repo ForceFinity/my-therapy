@@ -19,7 +19,7 @@ import {
 } from "@components/pages/sessions/videocall/videocall.styles";
 import { TrueButton } from "@components/atoms";
 import { useEffect, useRef, useState } from "react";
-import { getPFP } from "@core/api/users";
+import { getPfp } from "@core/api/users";
 import { createCall, getCallToken } from "@core/api/calls";
 import { BaseText } from "@components/atoms/texts";
 import { useMedia } from "@core/utils";
@@ -46,7 +46,7 @@ export function VideoCall({ id }: {id?: string}) {
     useEffect(() => {
         if(!user) return;
 
-        getPFP(user!.token).then(resp => setPfp(resp.data))
+        getPfp(user!.token).then(resp => setPfp(resp.data))
 
         setCallUser({
             id: user.email,

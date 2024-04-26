@@ -22,3 +22,23 @@ export const TrueButton = styled.button<{$isBordered?: boolean, $isFilled?: bool
         cursor: default;
     }
 `
+
+export const GoogleSignIn = styled(TrueButton)`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-width: .05rem !important;
+    height: 3rem;
+    width: fit-content;
+    
+    padding: 0 .6rem;
+    gap: .6rem;
+    
+    span {
+        text-wrap: nowrap;
+    }
+    
+    //&:hover {
+    //    cursor: not-allowed;
+    //}
+`

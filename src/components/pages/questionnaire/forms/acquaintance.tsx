@@ -7,6 +7,12 @@ import { Link } from "react-router-dom";
 import { useMedia } from "@core/utils/mediaQueries";
 import { BaseText } from "@components/atoms/texts";
 
+import googleSvg from "@assets/google.svg"
+import { GoogleLogin, googleLogout, TokenResponse, useGoogleLogin } from "@react-oauth/google";
+import { GoogleSignIn } from "@components/atoms/trueButton";
+import { LoginIcon } from "@components/atoms/primitives";
+import { useState } from "react";
+
 export interface AcquaintanceData {
     nickname: string,
     birth_date: Date,
@@ -16,8 +22,15 @@ interface AcquaintanceFormProps extends AcquaintanceData {
     updateFields: (fields: Partial<AcquaintanceData>) => void
 }
 
-export const Acquaintance = ({nickname, birth_date, updateFields}: AcquaintanceFormProps) => {
+export const Acquaintance = (
+    {nickname, birth_date, updateFields, setUserGoogleToken}: AcquaintanceFormProps & {setUserGoogleToken: (x:any)=>void}
+) => {
     const media = useMedia()
+
+    const login = useGoogleLogin({
+        onSuccess: (codeResponse) => setUserGoogleToken(codeResponse),
+        onError: (error) => console.log('Login Failed:', error)
+    });
 
     return (
         <FormWrapper title="Нека се запознаем">
@@ -36,6 +49,10 @@ export const Acquaintance = ({nickname, birth_date, updateFields}: AcquaintanceF
                 <BaseText>Дата на раждане</BaseText>
                 <CustomDatePicker birthDate={birth_date} updateFields={updateFields}/>
             </FormInput>
+            <GoogleSignIn $isBordered type="button" onClick={()=>login()}>
+                <LoginIcon src={ googleSvg } alt="Google Sign-In" />
+                <BaseText>Вход с гугъл</BaseText>
+            </GoogleSignIn>
             <BaseText style={{
                 fontSize: media.isLaptop ? ".7rem" : ".9rem",
                 textAlign: "center",
